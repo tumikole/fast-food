@@ -10,8 +10,8 @@ const LandingPage = () => {
     <div>
       <Navbar />
       <HeroSection />
-      <HowItWorks />
-      <About />
+      {/* <HowItWorks />
+      <About /> */}
     </div>
   );
 };

@@ -1,10 +1,10 @@
 import React from "react";
-// import "./Navbar.css";
+import "./Navbar.scss";
 
 const Navbar = () => {
   return (
     <nav className="menu">
-      <input type="checkbox" id="check" />
+      <input type="checkbox" style={{display: "none"}} id="check" />
       <label htmlFor="check" className="checkbtn">
         <ion-icon name="grid-outline"></ion-icon>
       </label>
