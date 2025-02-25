@@ -4,9 +4,10 @@ import "./Navbar.scss";
 const Navbar = () => {
   return (
     <nav className="menu">
-      <input type="checkbox" style={{display: "none"}} id="check" />
+      <input type="checkbox" style={{ display: "none" }} id="check" />
+
       <label htmlFor="check" className="checkbtn">
-        <ion-icon name="grid-outline"></ion-icon>
+        {/* <box-icon name='menu' color='#ffffff' ></box-icon> */}
       </label>
       <label className="logo">Olieven Kota & Grills</label>
       <ul>
@@ -14,8 +15,10 @@ const Navbar = () => {
         <li><a href="#about">About</a></li>
         <li><a href="#menu">Menu</a></li>
         <li><a href="#testimonial">Reviews</a></li>
-        {/* <li><a href="#app">Download App</a></li> */}
       </ul>
+      <label htmlFor="check" className="closebtn">
+        <box-icon name='menu' animation='burst' color='#ffffff' ></box-icon>
+      </label>
     </nav>
   );
 };
