@@ -1,11 +1,9 @@
 .about {
-    // padding: 50px 0;
     background-color: #f9f9f9;
   
-    .container {
+    .about-container {
       max-width: 1200px;
-      margin: 0 auto;
-      padding: 20px;
+      margin: 0;
     }
   
     .flex {
@@ -91,10 +89,7 @@
   
   /* Tablets & Small Laptops */
   @media (max-width: 1024px) {
-    .about .container {
-      padding: 15px;
-    }
-  
+ 
     .about .flex {
       flex-direction: column;
       text-align: center;
@@ -152,9 +147,6 @@
   
   /* Mobile Devices */
   @media (max-width: 480px) {
-    .about {
-      padding: 20px 0;
-    }
   
     .about .text h2.primary {
       font-size: 1.6rem;

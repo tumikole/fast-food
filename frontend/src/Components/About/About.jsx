@@ -6,7 +6,7 @@ const About = () => {
   return (
     <section className="about" id="about">
       <Navbar />
-      <div className="container flex">
+      <div className="about-container flex">
 
         <div className="text">
           <h2 className="primary">About Our Restaurant</h2>
