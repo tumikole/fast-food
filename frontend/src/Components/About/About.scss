@@ -1,0 +1,180 @@
+.about {
+    // padding: 50px 0;
+    background-color: #f9f9f9;
+  
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+  
+    .flex {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+    }
+  
+    .text {
+      flex: 1;
+      padding: 20px;
+  
+      h2.primary {
+        font-size: 2.5rem;
+        font-weight: bold;
+        color: #333;
+        margin-bottom: 20px;
+      }
+  
+      .visual {
+        display: flex;
+        justify-content: center;
+        margin-bottom: 20px;
+  
+        img {
+          width: 100%;
+          max-width: 400px;
+          border-radius: 10px;
+        }
+      }
+  
+      .visual-paragraphs {
+        font-size: 1.2rem;
+        line-height: 1.6;
+        color: #555;
+        margin-bottom: 20px;
+      }
+  
+      .about-sub-header {
+        font-size: 2rem;
+        color: #444;
+        margin-top: 30px;
+      }
+  
+      .paragraphs {
+        font-size: 1.1rem;
+        line-height: 1.7;
+        color: #666;
+        margin-bottom: 15px;
+      }
+  
+      .Why-choose-us-list-containser,
+      .visit-us-today-list-containser {
+        list-style: none;
+        padding-left: 0;
+  
+        li {
+          font-size: 1.1rem;
+          line-height: 1.6;
+          margin-bottom: 10px;
+        }
+      }
+  
+      .btn {
+        display: inline-block;
+        background: #ff6600;
+        color: #fff;
+        padding: 12px 25px;
+        font-size: 1.2rem;
+        border-radius: 5px;
+        text-decoration: none;
+        margin-top: 20px;
+        transition: 0.3s ease-in-out;
+  
+        &:hover {
+          background: #e65c00;
+        }
+      }
+    }
+  }
+  
+  /* Responsive Design */
+  
+  /* Tablets & Small Laptops */
+  @media (max-width: 1024px) {
+    .about .container {
+      padding: 15px;
+    }
+  
+    .about .flex {
+      flex-direction: column;
+      text-align: center;
+    }
+  
+    .about .text h2.primary {
+      font-size: 2rem;
+    }
+  
+    .about .text .about-sub-header {
+      font-size: 1.8rem;
+    }
+  
+    .about .text .paragraphs {
+      font-size: 1rem;
+    }
+  
+    .about .text .btn {
+      font-size: 1rem;
+      padding: 10px 20px;
+    }
+  }
+  
+  /* Tablets in Portrait & Large Phones */
+  @media (max-width: 768px) and (min-width: 480px) {
+    .about {
+      padding: 30px 0;
+    }
+  
+    .about .text {
+      padding: 10px;
+    }
+  
+    .about .text h2.primary {
+      font-size: 1.8rem;
+    }
+  
+    .about .text .about-sub-header {
+      font-size: 1.6rem;
+    }
+  
+    .about .text .paragraphs {
+      font-size: 0.95rem;
+    }
+  
+    .about .text .btn {
+      font-size: 0.95rem;
+      padding: 8px 18px;
+    }
+  
+    .about .visual img {
+      max-width: 300px;
+    }
+  }
+  
+  /* Mobile Devices */
+  @media (max-width: 480px) {
+    .about {
+      padding: 20px 0;
+    }
+  
+    .about .text h2.primary {
+      font-size: 1.6rem;
+    }
+  
+    .about .text .about-sub-header {
+      font-size: 1.4rem;
+    }
+  
+    .about .text .paragraphs {
+      font-size: 0.9rem;
+    }
+  
+    .about .text .btn {
+      font-size: 0.85rem;
+      padding: 7px 15px;
+    }
+  
+    .about .visual img {
+      max-width: 250px;
+    }
+  }
+  

@@ -29,11 +29,13 @@
         margin: 0;
         padding: 0;
         align-items: center;
+        gap: 2rem;
 
-        li {
-            margin-left: 3rem;
+        a {
+            text-decoration: none;
 
-            a {
+            li {
+                // margin-left: 3rem;
                 color: #ecf0f1;
                 text-decoration: none;
                 font-size: 1.1rem;
@@ -85,6 +87,8 @@
             font-size: 1.6rem;
         }
 
+      
+
         .checkbtn {
             display: block;
             background-color: transparent;
@@ -92,7 +96,7 @@
             cursor: pointer;
             position: absolute;
             top: .8rem;
-            right: .8rem;
+            right: 1.8rem;
 
             ion-icon {
                 font-size: 1.5rem;
@@ -131,6 +135,8 @@
 
             li {
                 margin: 1.5rem 0;
+                width: 100% !important;
+
 
                 a {
                     font-size: 1.3rem;
@@ -150,27 +156,42 @@
 
         ul {
             display: flex;
-            justify-content: flex-start;
-            align-items: center;
+
             margin-left: 0;
         }
 
-        ul li {
+        ul a {
             margin-left: 2rem;
+
+            width: 100% !important;
+
+            li {
+                margin-left: 2rem;
+            }
         }
     }
 
     @media (max-width: 480px) {
+
+        .menu ul {
+            justify-content:flex-start !important;
+        }
         .logo {
             font-size: 1rem;
         }
 
         ul li {
             margin-left: 0;
+            width: 100% !important;
         }
 
-        ul li {
-            margin: 1rem 0;
+        ul a {
+            width: 100% !important;
+
+            li {
+                margin: .5rem;
+            }
+
         }
 
         .checkbtn {
@@ -180,7 +201,7 @@
             cursor: pointer;
             position: absolute;
             top: .8rem;
-            right: .8rem;
+            right: 1.8rem;
 
             ion-icon {
                 font-size: 1.5rem;
