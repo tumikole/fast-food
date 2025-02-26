@@ -1,5 +1,6 @@
 import React from "react";
 import Navbar from "../Navbar/Navbar";
+import { Link } from "react-router-dom";
 import "./About.scss";
 
 const About = () => {
@@ -59,7 +60,7 @@ const About = () => {
           </ul>
           <p className="paragraphs">At Olieven Kota & Grills, we don’t just serve food—we serve memories, culture, and passion on a plate. See you soon!</p>
 
-          <a href="#menu" className="btn">Explore Menu</a>
+          <Link to="/menu" className="btn">Explore Menu</Link>
         </div>
       </div>
     </section>

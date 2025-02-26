@@ -6,7 +6,7 @@ const HeroSection = () => {
     return (
         <section className="hero-section">
             <div className="text">
-                <h1 className="primary">Olieven’s Best Kotas & <br /> It's an <span>Flame-Grilled Goodness!</span></h1>
+                <h1 className="primary">Olieven’s Best Kotas & It's an <span>Flame-Grilled Goodness!</span></h1>
                 <p className="tertiary">Satisfy Your Kasi Cravings!</p>
                 <Link to="/menu" className="btn">Explore Menu</Link>
             </div>

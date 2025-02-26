@@ -26,7 +26,7 @@ const Navbar = () => {
               style={{ display: "flex", gap: "1rem" }}
             >
               <div>
-                <box-icon name={item.icon} color="#ffffff"></box-icon>
+                <box-icon name={item.icon} color="#ffcc00"></box-icon>
               </div>
               <div>{item.name}</div>
             </li>
@@ -34,7 +34,7 @@ const Navbar = () => {
         ))}
       </ul>
       <label htmlFor="check" className="closebtn">
-        <box-icon name="menu" animation="burst" color="#ffffff"></box-icon>
+        <box-icon name="menu" animation="burst" color="#ffcc00"></box-icon>
       </label>
     </nav>
   );

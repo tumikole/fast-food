@@ -72,7 +72,7 @@
       .btn {
         display: inline-block;
         background: #ffcc00;
-        color: #fff;
+        color: black;
         padding: 12px 25px;
         font-size: 1.2rem;
         border-radius: 5px;
@@ -81,7 +81,7 @@
         transition: 0.3s ease-in-out;
   
         &:hover {
-          background: #e65c00;
+          background: #ffcc00d4;
         }
       }
     }

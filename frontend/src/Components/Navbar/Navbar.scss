@@ -12,7 +12,7 @@
     .logo {
         font-size: 1.8rem;
         font-weight: 700;
-        color: #ecf0f1;
+        color: #ffcc00;
         text-transform: uppercase;
         cursor: pointer;
         letter-spacing: 2px;
@@ -36,7 +36,7 @@
 
             li {
                 // margin-left: 3rem;
-                color: #ecf0f1;
+                color: #ffcc00;
                 text-decoration: none;
                 font-size: 1.1rem;
                 font-weight: 500;
@@ -44,11 +44,11 @@
                 transition: color 0.3s ease;
 
                 &:hover {
-                    color: #e74c3c;
+                    color: #ffcc00;
                 }
 
                 &.active {
-                    color: #e74c3c;
+                    color: #ffcc00;
                 }
 
                 &::after {
@@ -58,7 +58,7 @@
                     left: 0;
                     width: 100%;
                     height: 2px;
-                    background-color: #e74c3c;
+                    background-color: #ffcc00;
                     transform: scaleX(0);
                     transform-origin: bottom right;
                     transition: transform 0.3s ease-out;
