@@ -12,11 +12,13 @@ const Navbar = () => {
       <ul>
         {[
           { path: "/", name: "Home", icon: "home-alt-2" },
-          { path: "/about", name: "About", icon: "info-circle" },
           { path: "/how_it_works", name: "How it works", icon: "briefcase" },
           { path: "/menu", name: "Menu", icon: "food-menu" },
           { path: "/cart", name: "Cart", icon: "cart" },
           { path: "/review", name: "Reviews", icon: "low-vision" },
+          { path: "/about", name: "About", icon: "info-circle" },
+          { path: "/faq", name: "FAQ's", icon: "info-circle" },
+
         ].map((item, index) => (
           <Link key={index} to={item.path}
             onClick={() => setActiveTab(item.name)}

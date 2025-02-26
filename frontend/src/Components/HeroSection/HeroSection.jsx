@@ -8,7 +8,7 @@ const HeroSection = () => {
             <div className="text">
                 <h1 className="primary">Olieven’s Best Kotas & It's an <span>Flame-Grilled Goodness!</span></h1>
                 <p className="tertiary">Satisfy Your Kasi Cravings!</p>
-                <Link to="/menu" className="btn">Explore Menu</Link>
+                <Link to="/menu" className="btn">Explore Menu 🍽️</Link>
             </div>
             <div className="visual">
                 <img src={HeroImage} alt="Food Banner" />

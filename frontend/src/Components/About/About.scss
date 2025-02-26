@@ -1,172 +1,191 @@
 .about {
-  
-    .about-container {
-      margin: 0;
-      color: #ffcc00
-    }
-  
-    .flex {
-      display: flex;
-      align-items: center;
-      gap: 20px;
-    }
-  
-    .text {
-      flex: 1;
-      padding: 20px;
-      color: #ffcc00;
 
-  
-      h2.primary {
-        font-size: 2.5rem;
-        font-weight: bold;
-        margin-bottom: 20px;
-        color: #ffcc00;
-      }
-  
-      .visual {
+    .about-container {
+        margin: 0;
+        color: #ffcc00
+    }
+
+    .flex {
         display: flex;
-        justify-content: center;
-        margin-bottom: 20px;
-        color: #ffcc00;
-  
-        img {
-          width: 100%;
-          max-width: 400px;
-          border-radius: 10px;
-        }
-      }
-  
-      .visual-paragraphs {
-        font-size: 1.2rem;
-        line-height: 1.6;
-        color: #ffcc00;
-        margin-bottom: 20px;
-      }
-  
-      .about-sub-header {
-        font-size: 2rem;
-        color: #ffcc00;
-        margin-top: 30px;
-      }
-  
-      .paragraphs {
-        font-size: 1.1rem;
-        line-height: 1.7;
-        color: #ffcc00;
-        margin-bottom: 15px;
-      }
-  
-      .Why-choose-us-list-containser,
-      .visit-us-today-list-containser {
-        list-style: none;
-        padding-left: 0;
-  
-        li {
-          font-size: 1.1rem;
-          line-height: 1.6;
-          margin-bottom: 10px;
-        }
-      }
-  
-      .btn {
-        display: inline-block;
-        background: #ffcc00;
-        color: black;
-        padding: 12px 25px;
-        font-size: 1.2rem;
-        border-radius: 5px;
-        text-decoration: none;
-        margin-top: 20px;
-        transition: 0.3s ease-in-out;
-        margin-bottom: 3rem;
-  
-        &:hover {
-          background: #ffcc00d4;
-        }
-      }
+        align-items: center;
+        gap: 20px;
     }
-  }
-  
-  /* Responsive Design */
-  
-  /* Tablets & Small Laptops */
-  @media (max-width: 1024px) {
- 
+
+    .text {
+        flex: 1;
+        padding: 20px;
+        color: #ffcc00;
+
+
+        h2.primary {
+            font-size: 2.5rem;
+            font-weight: bold;
+            margin-bottom: 20px;
+            color: #ffcc00;
+            text-align: center;
+        }
+
+        .visual {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 20px;
+            color: #ffcc00;
+
+            img {
+                width: 100%;
+                border-radius: 50% !important;
+                max-width: 400px;
+                border-radius: 10px;
+                object-fit: cover;
+                border: 10px solid #ffcc00;
+            }
+        }
+
+        .visual-paragraphs {
+            font-size: 1.2rem;
+            line-height: 1.6;
+            color: #ffcc00;
+            margin-bottom: 20px;
+        }
+
+        .about-sub-header {
+            font-size: 2rem;
+            color: #ffcc00;
+            margin-top: 30px;
+        }
+
+        .paragraphs {
+            font-size: 1.1rem;
+            line-height: 1.7;
+            color: #ffcc00;
+            margin-bottom: 15px;
+        }
+
+        .Why-choose-us-list-containser,
+        .visit-us-today-list-containser {
+            list-style: none;
+            padding-left: 0;
+
+            li {
+                font-size: 1.1rem;
+                line-height: 1.6;
+                margin-bottom: 10px;
+            }
+        }
+
+        .btn {
+            background-color: #ffcc00;
+            color: #fff;
+            padding: 1rem 2rem;
+            font-size: 1rem;
+            font-weight: 600;
+            border-radius: 30px;
+            text-decoration: none;
+            transition: background-color 0.3s ease;
+            display: inline-block;
+            // display: flex;
+            // align-items: center;
+            // justify-content: center;
+            width: 15%;
+            margin: auto !important;
+
+            &:hover {
+                background-color: #c0392b;
+            }
+        }
+    }
+}
+
+/* Responsive Design */
+
+/* Tablets & Small Laptops */
+@media (max-width: 1024px) {
+
     .about .flex {
-      flex-direction: column;
-      text-align: center;
+        flex-direction: column;
+        text-align: center;
     }
-  
+
     .about .text h2.primary {
-      font-size: 2rem;
+        font-size: 2rem;
     }
-  
+
     .about .text .about-sub-header {
-      font-size: 1.8rem;
+        font-size: 1.8rem;
     }
-  
+
     .about .text .paragraphs {
-      font-size: 1rem;
+        font-size: 1rem;
     }
-  
+
     .about .text .btn {
-      font-size: 1rem;
-      padding: 10px 20px;
+        font-size: 1rem;
+        padding: 10px 20px;
     }
-  }
-  
-  /* Tablets in Portrait & Large Phones */
-  @media (max-width: 768px) and (min-width: 480px) {
-  
+}
+
+/* Tablets in Portrait & Large Phones */
+@media (max-width: 768px) and (min-width: 480px) {
+
     .about .text {
-      padding: 10px;
+        padding: 10px;
     }
-  
+
     .about .text h2.primary {
-      font-size: 1.8rem;
+        font-size: 1.8rem;
     }
-  
+
     .about .text .about-sub-header {
-      font-size: 1.6rem;
+        font-size: 1.6rem;
     }
-  
+
     .about .text .paragraphs {
-      font-size: 0.95rem;
+        font-size: 0.95rem;
     }
-  
+
     .about .text .btn {
-      font-size: 0.95rem;
-      padding: 8px 18px;
+        font-size: 0.95rem;
+        padding: 8px 18px;
     }
-  
+
     .about .visual img {
-      max-width: 300px;
+        max-width: 300px;
     }
-  }
-  
-  /* Mobile Devices */
-  @media (max-width: 480px) {
-  
+
+    .btn{
+        width: 90% !important;
+        padding: 2rem 2rem;
+
+    }
+}
+
+/* Mobile Devices */
+@media (max-width: 480px) {
+
     .about .text h2.primary {
-      font-size: 1.6rem;
+        font-size: 1.6rem;
     }
-  
+
     .about .text .about-sub-header {
-      font-size: 1.4rem;
+        font-size: 1.4rem;
     }
-  
+
     .about .text .paragraphs {
-      font-size: 0.9rem;
+        font-size: 0.9rem;
     }
-  
+
     .about .text .btn {
-      font-size: 0.85rem;
-      padding: 7px 15px;
+        font-size: 0.85rem;
+        padding: 7px 15px;
     }
-  
+
     .about .visual img {
-      max-width: 250px;
+        max-width: 250px;
     }
-  }
-  
+
+    .btn{
+        width: 90% !important;
+        padding: 2rem 2rem;
+
+    }
+}

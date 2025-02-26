@@ -8,6 +8,8 @@
     text-transform: uppercase;
     letter-spacing: 1.5px;
     margin-top: 3rem;
+    margin-left: 1rem;
+    text-align: center;
   }
 
   .how-it-works-container {
@@ -65,12 +67,15 @@
   @media (max-width: 768px) {
     .secondary {
       font-size: 2rem;
+      text-align: center;
+
     }
   }
 
   @media (max-width: 480px) {
     .secondary {
       font-size: 1.8rem;
+      text-align: center;
     }
 
     .container {
