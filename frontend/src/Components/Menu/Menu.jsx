@@ -3,7 +3,7 @@ import "./Menu.scss";
 import Navbar from "../Navbar/Navbar";
 import { Link } from "react-router-dom";
 
-const Menu = ({ addToCart, cart }) => {
+const Menu = ({ addToCart, cart, setCart }) => {
     const [activeCategory, setActiveCategory] = useState("All");
     const [selectedIngredients, setSelectedIngredients] = useState({});
     const [imageIndexes, setImageIndexes] = useState({});
@@ -28,51 +28,216 @@ const Menu = ({ addToCart, cart }) => {
             images: [
                 {
                     imageId: 1,
-                    itemName: "Kota Joe",
+                    itemName: "JOZI",
                     imageItem: "https://www.eatout.co.za/wp-content/uploads/2016/01/Kota-Joe-5-600x450.jpg",
                     ingredients: [
-                        { name: "Quarter loaf bread", itemPrice: 5.00 },
-                        { name: "Polony", itemPrice: 2.00 },
-                        { name: "Russian", itemPrice: 8.00 },
-                        { name: "French Fries", itemPrice: 10.00 }
-                    ]
+                        { name: "QUARTER OF BREAD", itemPrice: 5.00 },
+                        { name: "CHIPS", itemPrice: 5.00 },
+                        { name: "ATCHAAR", itemPrice: 3.00 },
+                        { name: "POLONY", itemPrice: 2.00 },
+                    ],
+                    totalAmount: 15.00
                 },
                 {
                     imageId: 2,
-                    itemName: "Kota Special 2",
+                    itemName: "BEE",
                     imageItem: "https://lh3.googleusercontent.com/40I6BfXs29ybMx9KBZGsBOYBXkXZYc4Y2pOo32G6AF4XShhWnD3VEkZ4W8iX65g0yXcUqIahFududEmDWGtECDpZ8zWFZRS0EjY-=s750",
                     ingredients: [
-                        { name: "Cheese", itemPrice: 3.00 },
-                        { name: "Egg", itemPrice: 3.00 },
-                        { name: "Chakalaka", itemPrice: 2.00 },
-                        { name: "Beef", itemPrice: 15.00 }
-                    ]
-                }
+                        { name: "QUARTER OF BREAD", itemPrice: 5.00 },
+                        { name: "CHIPS", itemPrice: 5.00 },
+                        { name: "ATCHAAR", itemPrice: 3.00 },
+                        { name: "POLONY", itemPrice: 2.00 },
+                        { name: "HALF VIENNA", itemPrice: 5.00 }
+                    ],
+                    totalAmount: 20.00
+                },
+                {
+                    imageId: 3,
+                    itemName: "MAMAZALA",
+                    imageItem: "https://lh3.googleusercontent.com/40I6BfXs29ybMx9KBZGsBOYBXkXZYc4Y2pOo32G6AF4XShhWnD3VEkZ4W8iX65g0yXcUqIahFududEmDWGtECDpZ8zWFZRS0EjY-=s750",
+                    ingredients: [
+                        { name: "QUARTER OF BREAD", itemPrice: 5.00 },
+                        { name: "CHIPS", itemPrice: 5.00 },
+                        { name: "ATCHAAR", itemPrice: 3.00 },
+                        { name: "POLONY", itemPrice: 2.00 },
+                        { name: "FULL VIENNA", itemPrice: 15.00 }
+                    ],
+                    totalAmount: 26.00
+                },
+                {
+                    imageId: 4,
+                    itemName: "VALUE",
+                    imageItem: "https://lh3.googleusercontent.com/40I6BfXs29ybMx9KBZGsBOYBXkXZYc4Y2pOo32G6AF4XShhWnD3VEkZ4W8iX65g0yXcUqIahFududEmDWGtECDpZ8zWFZRS0EjY-=s750",
+                    ingredients: [
+                        { name: "QUARTER OF BREAD", itemPrice: 5.00 },
+                        { name: "CHIPS", itemPrice: 5.00 },
+                        { name: "ATCHAAR", itemPrice: 3.00 },
+                        { name: "POLONY", itemPrice: 2.00 },
+                        { name: "HALF VIENNA", itemPrice: 5.00 },
+                        { name: "CHEESE", itemPrice: 15.00 }
+                    ],
+                    totalAmount: 0
+                },
+                {
+                    imageId: 5,
+                    itemName: "MINISTER",
+                    imageItem: "https://lh3.googleusercontent.com/40I6BfXs29ybMx9KBZGsBOYBXkXZYc4Y2pOo32G6AF4XShhWnD3VEkZ4W8iX65g0yXcUqIahFududEmDWGtECDpZ8zWFZRS0EjY-=s750",
+                    ingredients: [
+                        { name: "QUARTER OF BREAD", itemPrice: 5.00 },
+                        { name: "CHIPS", itemPrice: 5.00 },
+                        { name: "ATCHAAR", itemPrice: 3.00 },
+                        { name: "POLONY", itemPrice: 2.00 },
+                        { name: "HALF RUSSIAN", itemPrice: 5.00 }
+                    ],
+                    totalAmount: 0
+                },
+                {
+                    imageId: 6,
+                    itemName: "BOSS",
+                    imageItem: "https://lh3.googleusercontent.com/40I6BfXs29ybMx9KBZGsBOYBXkXZYc4Y2pOo32G6AF4XShhWnD3VEkZ4W8iX65g0yXcUqIahFududEmDWGtECDpZ8zWFZRS0EjY-=s750",
+                    ingredients: [
+                        { name: "QUARTER OF BREAD", itemPrice: 5.00 },
+                        { name: "CHIPS", itemPrice: 5.00 },
+                        { name: "ATCHAAR", itemPrice: 3.00 },
+                        { name: "POLONY", itemPrice: 2.00 },
+                        { name: "FULL RUSSIAN", itemPrice: 5.00 }
+                    ],
+                    totalAmount: 0
+                },
+                {
+                    imageId: 7,
+                    itemName: "KLASSIC",
+                    imageItem: "https://lh3.googleusercontent.com/40I6BfXs29ybMx9KBZGsBOYBXkXZYc4Y2pOo32G6AF4XShhWnD3VEkZ4W8iX65g0yXcUqIahFududEmDWGtECDpZ8zWFZRS0EjY-=s750",
+                    ingredients: [
+                        { name: "QUARTER OF BREAD", itemPrice: 5.00 },
+                        { name: "CHIPS", itemPrice: 5.00 },
+                        { name: "LETTUCE", itemPrice: 3.00 },
+                        { name: "POLONY", itemPrice: 2.00 },
+                        { name: "FULL RUSSSIAN", itemPrice: 15.00 },
+                        { name: "CHEESE", itemPrice: 15.00 }
+
+                    ],
+                    totalAmount: 35.00
+                },
+                {
+                    imageId: 9,
+                    itemName: "MASINGITA",
+                    imageItem: "https://lh3.googleusercontent.com/40I6BfXs29ybMx9KBZGsBOYBXkXZYc4Y2pOo32G6AF4XShhWnD3VEkZ4W8iX65g0yXcUqIahFududEmDWGtECDpZ8zWFZRS0EjY-=s750",
+                    ingredients: [
+                        { name: "QUARTER OF BREAD", itemPrice: 5.00 },
+                        { name: "CHIPS", itemPrice: 5.00 },
+                        { name: "LETTUCE", itemPrice: 3.00 },
+                        { name: "POLONY", itemPrice: 2.00 },
+                        { name: "FULL RUSSSIAN", itemPrice: 15.00 },
+                        { name: "CHEESE", itemPrice: 15.00 },
+                        { name: "FULL VIENNA", itemPrice: 15.00 }
+
+                    ],
+                    totalAmount: 43.00
+                },
+                {
+                    imageId: 10,
+                    itemName: "MAKHADZI",
+                    imageItem: "https://lh3.googleusercontent.com/40I6BfXs29ybMx9KBZGsBOYBXkXZYc4Y2pOo32G6AF4XShhWnD3VEkZ4W8iX65g0yXcUqIahFududEmDWGtECDpZ8zWFZRS0EjY-=s750",
+                    ingredients: [
+                        { name: "QUARTER OF BREAD", itemPrice: 5.00 },
+                        { name: "CHIPS", itemPrice: 5.00 },
+                        { name: "LETTUCE", itemPrice: 3.00 },
+                        { name: "POLONY", itemPrice: 2.00 },
+                        { name: "FULL RUSSSIAN", itemPrice: 15.00 },
+                        { name: "BURGER PATTY", itemPrice: 15.00 },
+
+                    ],
+                    totalAmount: 48.00
+                },
+                {
+                    imageId: 11,
+                    itemName: "MALEMA",
+                    imageItem: "https://lh3.googleusercontent.com/40I6BfXs29ybMx9KBZGsBOYBXkXZYc4Y2pOo32G6AF4XShhWnD3VEkZ4W8iX65g0yXcUqIahFududEmDWGtECDpZ8zWFZRS0EjY-=s750",
+                    ingredients: [
+                        { name: "QUARTER OF BREAD", itemPrice: 5.00 },
+                        { name: "CHIPS", itemPrice: 5.00 },
+                        { name: "LETTUCE", itemPrice: 3.00 },
+                        { name: "POLONY", itemPrice: 2.00 },
+                        { name: "FULL RUSSSIAN", itemPrice: 15.00 },
+                        { name: "BURGER PATTY", itemPrice: 15.00 },
+                        { name: "CHEESE", itemPrice: 15.00 },
+                        { name: "EGGS", itemPrice: 15.00 },
+
+                    ],
+                    totalAmount: 60.00
+                },
+                {
+                    imageId: 12,
+                    itemName: "RAMAPHOSA",
+                    imageItem: "https://lh3.googleusercontent.com/40I6BfXs29ybMx9KBZGsBOYBXkXZYc4Y2pOo32G6AF4XShhWnD3VEkZ4W8iX65g0yXcUqIahFududEmDWGtECDpZ8zWFZRS0EjY-=s750",
+                    ingredients: [
+                        { name: "QUARTER OF BREAD", itemPrice: 5.00 },
+                        { name: "CHIPS", itemPrice: 5.00 },
+                        { name: "LETTUCE", itemPrice: 3.00 },
+                        { name: "POLONY", itemPrice: 2.00 },
+                        { name: "FULL RUSSSIAN", itemPrice: 15.00 },
+                        { name: "BURGER PATTY", itemPrice: 15.00 },
+                        { name: "CHEESE", itemPrice: 15.00 },
+                        { name: "EGGS", itemPrice: 15.00 },
+                        { name: "FULL VIENNA", itemPrice: 15.00 }
+
+                    ],
+                    totalAmount: 65.00
+                },
             ],
             price: 25.00
         },
         {
             id: 2,
-            category: "Grilled Meat",
+            category: "EXTRA",
             images: [
                 {
                     imageId: 1,
-                    itemName: "Grilled Steak",
-                    imageItem: "https://lowcarbafrica.com/wp-content/uploads/2022/10/Nyama-Choma-IG-1.jpg",
+                    itemName: "VIENNA",
+                    imageItem: "https://viennameatfish.com/wp-content/uploads/2023/08/Beef-Frank.jpg",
                     ingredients: [
-                        { name: "Beef steak", itemPrice: 20.00 },
-                        { name: "Salt & Pepper", itemPrice: 2.00 },
-                        { name: "Garlic Butter", itemPrice: 4.00 }
+                        { name: "FULL VIENNA", itemPrice: 8.00 },
+                        { name: "HALF VIENNA", itemPrice: 6.00 },
+
                     ]
                 },
                 {
                     imageId: 2,
-                    itemName: "Grilled Meat Special",
-                    imageItem: "https://www.seriouseats.com/thmb/xBpjlTGEywUgh43aMVSFcq014lg=/1500x0/filters:no_upscale():max_bytes(150000):strip_icc()/__opt__aboutcom__coeus__resources__content_migration__serious_eats__seriouseats.com__2019__07__20190619-korean-bbq-kalbi-beef-short-ribs-vicky-wasik-21-6d69144cd74a478a81b0286b19cd79ba.jpg",
+                    itemName: "RUSSIAN",
+                    imageItem: "https://static.vecteezy.com/system/resources/previews/035/063/350/non_2x/ai-generated-grilled-sausage-free-png.png",
                     ingredients: [
-                        { name: "BBQ Sauce", itemPrice: 4.00 },
-                        { name: "Grilled Onions", itemPrice: 3.00 },
-                        { name: "Side Salad", itemPrice: 5.00 }
+                        { name: "FULL RUSSIAN", itemPrice: 15.00 },
+                        { name: "HALF RUSSIAN", itemPrice: 10.00 },
+                    ]
+                },
+                {
+                    imageId: 3,
+                    itemName: "CHEESE",
+                    imageItem: "https://static.vecteezy.com/system/resources/previews/035/063/350/non_2x/ai-generated-grilled-sausage-free-png.png",
+                    ingredients: [
+                        { name: "CHEESE", itemPrice: 4.00 },
+                       
+                    ]
+                }
+                ,
+                {
+                    imageId: 4,
+                    itemName: "EGG",
+                    imageItem: "https://static.vecteezy.com/system/resources/previews/035/063/350/non_2x/ai-generated-grilled-sausage-free-png.png",
+                    ingredients: [
+                        { name: "EGG", itemPrice: 4.00 },
+                       
+                    ]
+                }
+                ,
+                {
+                    imageId: 5,
+                    itemName: "B/PATTY",
+                    imageItem: "https://static.vecteezy.com/system/resources/previews/035/063/350/non_2x/ai-generated-grilled-sausage-free-png.png",
+                    ingredients: [
+                        { name: "PATTY", itemPrice: 15.00 },
+                       
                     ]
                 }
             ],
@@ -140,7 +305,7 @@ const Menu = ({ addToCart, cart }) => {
             images: [
                 {
                     imageId: 1,
-                    itemName: "Traditional Mageu",
+                    itemName: "Soft drinks",
                     imageItem: "https://eu-images.contentstack.com/v3/assets/blta023acee29658dfc/blta9f158c45627aa62/651dbb742365a678d7ec7f18/AdobeStock_279692163_Editorial_Use_Only-Beverage-FTR-new.jpg",
                     ingredients: [
                         { name: "Coke", itemPrice: 12.00 },
@@ -157,7 +322,7 @@ const Menu = ({ addToCart, cart }) => {
                 },
                 {
                     imageId: 2,
-                    itemName: "Umqombothi & Ginger Beer",
+                    itemName: "Beer",
                     imageItem: "https://lh3.googleusercontent.com/-1VuBtZIqhqJodQKoCS4BUSETWOT9HWEZE07loreo3xFd__MRuI5epacVfElr8kaLzS2hmiSCeqatAdRM-4K96SlWb8vW2re03CD2Lm-EbAh=s1500",
                     ingredients: [
                         { name: "Blac label", itemPrice: 20.00 },
@@ -216,6 +381,7 @@ const Menu = ({ addToCart, cart }) => {
         }));
     };
 
+
     const handleIngredientToggle = (itemId, ingredientName, ingredientPrice) => {
         setSelectedIngredients((prevSelected) => {
             const newSelection = prevSelected[itemId] || [];
@@ -223,43 +389,57 @@ const Menu = ({ addToCart, cart }) => {
                 ? newSelection.filter((i) => i !== ingredientName)
                 : [...newSelection, ingredientName];
 
-            // Recalculate the total based on ingredient selection
             setItemTotals((prevTotals) => {
                 const updatedTotal = prevTotals[itemId] || 0;
-                let newTotal = updatedTotal;
+                console.log(updatedTotal)
+                const newTotal = updatedSelection.reduce((total, ingredient) => {
+                    const ingredientPrice = menuItems.find(item => item.id === itemId)
+                        .images[imageIndexes[itemId]].ingredients.find(i => i.name === ingredient)
+                        .itemPrice;
 
-                if (updatedSelection.includes(ingredientName)) {
-                    newTotal += ingredientPrice; // Add price when selected
-                } else {
-                    newTotal -= ingredientPrice; // Subtract price when deselected
-                }
+                    return total + ingredientPrice;
+                }, 0);
+                console.log({ newTotal })
 
                 return { ...prevTotals, [itemId]: newTotal };
             });
-
+            console.log({ hggfhhf: updatedSelection })
             return { ...prevSelected, [itemId]: updatedSelection };
         });
     };
+
+
+
 
     const handleAddToCart = (item) => {
         const selectedItem = {
             category: item.category,
             itemName: item.images[imageIndexes[item.id]].itemName,
             ingredients: selectedIngredients[item.id] || [],
-            price: item.price
+            price: itemTotals
         };
 
-        addToCart(selectedItem);
+        // Check if the item is already in the cart and update accordingly
+        const itemIndex = cart.findIndex(cartItem =>
+            cartItem.itemName === selectedItem.itemName &&
+            JSON.stringify(cartItem.ingredients) === JSON.stringify(selectedItem.ingredients)
+        );
 
-        setSelectedIngredients((prev) => ({
-            ...prev,
-            [item.id]: [],
-        }));
-        setItemTotals((prev) => ({
-            ...prev,
-            [item.id]: 0,
-        }));
+        if (itemIndex === -1) {
+            // Item is not in the cart, add it
+            addToCart(selectedItem);
+        } else {
+            // Item already exists in the cart, update its quantity
+            const updatedCart = [...cart];
+            updatedCart[itemIndex].quantity = (updatedCart[itemIndex].quantity || 1) + 1;
+            setCart(updatedCart);
+        }
+
+        // setCartCount((prevCount) => prevCount + 1);
+        setSelectedIngredients((prev) => ({ ...prev, [item.id]: [] }));
+        setItemTotals((prev) => ({ ...prev, [item.id]: 0 }));
     };
+
 
 
     const filteredMenu =
@@ -322,7 +502,10 @@ const Menu = ({ addToCart, cart }) => {
                                                     src={currentImageData.imageItem}
                                                     alt={item.category}
                                                 />
-                                                <h3 className="menu-item-header-text">{item.category}</h3>
+                                                <div className="menu-item-header-text">
+                                                    <h3>{currentImageData.itemName}</h3>
+                                                    <h3>{currentImageData.totalAmount === undefined ? "" : `R ${currentImageData.totalAmount}.00`}</h3>
+                                                </div>
                                                 <div className="ingridient-change">
                                                     <div onClick={() => handlePreviousImage(item.id)}>
                                                         <box-icon color="#ffcc00" name="left-arrow-alt"></box-icon>
@@ -332,7 +515,7 @@ const Menu = ({ addToCart, cart }) => {
                                                     </div>
                                                 </div>
                                             </div>
-                                            <h4>{currentImageData.itemName}</h4>
+                                            <h4 style={{ marginLeft: "1rem" }}>{item.category}</h4>
                                             <ul className="ingredients">
                                                 {currentImageData.ingredients.map((ingredient, idx) => (
                                                     <li key={idx}>
@@ -350,10 +533,11 @@ const Menu = ({ addToCart, cart }) => {
                                                             }
                                                         />
                                                         <span>{ingredient.name}</span>
-                                                        <span>R {ingredient.itemPrice}</span>
+                                                        {/* <span>R {ingredient.itemPrice}</span> */}
                                                     </li>
                                                 ))}
                                             </ul>
+                                            {/* <figure>{currentImageData.totalAmount}</figure> */}
                                             <div className="menu-item-footer">
                                                 <div className="item-price">
                                                     <span>R {itemTotals[item.id] || 0}</span>

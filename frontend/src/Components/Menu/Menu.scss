@@ -212,6 +212,13 @@
             right: 0;
             padding: 1rem;
             color: #ffcc00;
+            display: flex;
+            justify-content: space-between; // Distributes elements evenly
+        
+            h3:last-child {
+                text-align: right;
+                margin-left: auto; // Pushes it to the right
+            }
         }
 
         .ingridient-change {
