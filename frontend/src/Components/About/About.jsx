@@ -40,11 +40,11 @@ const About = () => {
 
           <h3 className="about-sub-header">Why Choose Us?</h3>
           <ul className="Why-choose-us-list-containser">
-            <li>Authentic Kasi Flavor – Our meals capture the true essence of township street food, giving you an experience that feels like home.</li>
-            <li>Fresh, High-Quality Ingredients – We use only the finest and freshest ingredients to ensure top-tier taste and quality in every bite.</li>
-            <li>Friendly & Fast Service – Whether you're dining in or grabbing a quick bite, we prioritize excellent customer service and efficiency.</li>
-            <li>Affordable Prices – Enjoy generous portions at prices that are budget-friendly without compromising on quality.</li>
-            <li>Great Vibes & Community Spirit – More than just a restaurant, Olieven Kota & Grills is a place where friends and family come together to share great food and good memories.</li>
+            <li><b>Authentic Kasi Flavor -</b> Our meals capture the true essence of township street food, giving you an experience that feels like home.</li>
+            <li><b>Fresh, High-Quality Ingredients –</b> We use only the finest and freshest ingredients to ensure top-tier taste and quality in every bite.</li>
+            <li><b>Friendly & Fast Service –</b> Whether you're dining in or grabbing a quick bite, we prioritize excellent customer service and efficiency.</li>
+            <li><b>Affordable Prices –</b> Enjoy generous portions at prices that are budget-friendly without compromising on quality.</li>
+            <li><b>Great Vibes & Community Spirit –</b> More than just a restaurant, Olieven Kota & Grills is a place where friends and family come together to share great food and good memories.</li>
           </ul>
 
           <h3 className="about-sub-header">Visit Us Today!</h3>

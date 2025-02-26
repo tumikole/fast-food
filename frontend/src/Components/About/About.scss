@@ -1,9 +1,8 @@
 .about {
-    background-color: #f9f9f9;
   
     .about-container {
-      max-width: 1200px;
       margin: 0;
+      color: #ffcc00
     }
   
     .flex {
@@ -15,18 +14,21 @@
     .text {
       flex: 1;
       padding: 20px;
+      color: #ffcc00;
+
   
       h2.primary {
         font-size: 2.5rem;
         font-weight: bold;
-        color: #333;
         margin-bottom: 20px;
+        color: #ffcc00;
       }
   
       .visual {
         display: flex;
         justify-content: center;
         margin-bottom: 20px;
+        color: #ffcc00;
   
         img {
           width: 100%;
@@ -38,20 +40,20 @@
       .visual-paragraphs {
         font-size: 1.2rem;
         line-height: 1.6;
-        color: #555;
+        color: #ffcc00;
         margin-bottom: 20px;
       }
   
       .about-sub-header {
         font-size: 2rem;
-        color: #444;
+        color: #ffcc00;
         margin-top: 30px;
       }
   
       .paragraphs {
         font-size: 1.1rem;
         line-height: 1.7;
-        color: #666;
+        color: #ffcc00;
         margin-bottom: 15px;
       }
   
@@ -69,7 +71,7 @@
   
       .btn {
         display: inline-block;
-        background: #ff6600;
+        background: #ffcc00;
         color: #fff;
         padding: 12px 25px;
         font-size: 1.2rem;
