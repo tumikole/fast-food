@@ -190,7 +190,7 @@ const Menu = () => {
                                         <div className="price">Total: R {calculateTotal(item.id, item.ingredients)}</div>
                                         <button className="btn btn-menu">
                                             <div>
-                                                <box-icon color="#FFFFFF" name='cart-add' type='solid' animation='tada' ></box-icon>
+                                                <box-icon color="#000000" name='cart-add' type='solid' animation='tada' ></box-icon>
                                             </div>
                                             <div>Add to cart</div>
                                         </button>
