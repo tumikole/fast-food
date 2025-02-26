@@ -249,7 +249,8 @@
 
             li {
                 list-style: none !important;
-
+                display: flex;
+                gap: 1rem;
             }
         }
 
@@ -306,9 +307,10 @@
 
 // Mobile Responsiveness
 @media (max-width: 1024px) {
-    .menu-container{
+    .menu-container {
         padding: 0 !important;
     }
+
     .section-menu {
         .restaurant-menu {
             grid-template-columns: repeat(3, 1fr);
@@ -317,12 +319,13 @@
 }
 
 @media (max-width: 768px) {
-    .menu-container{
+    .menu-container {
         padding: 0 !important;
     }
+
     .section-menu {
         .restaurant-menu {
-            grid-template-columns: repeat(2, 1fr);
+            
         }
 
         .category {
