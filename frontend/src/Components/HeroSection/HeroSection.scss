@@ -1,8 +1,8 @@
 .hero-section {
     display: block;
-    align-items: center;
-    justify-content: space-between;
-    padding: 0 2rem;
+    // align-items: center;
+    // justify-content: space-between;
+    // padding: 0 2rem;
     position: relative;
 
 
@@ -12,12 +12,12 @@
 
         .primary {
             font-size: 3rem;
-            margin-top: 10rem !important;
             font-weight: 700;
             line-height: 1.2;
             color: #ffcc00;
             margin-bottom: 1rem;
             text-align: center;
+            padding-top: 8rem;
 
             span {
                 color: #e74c3c;

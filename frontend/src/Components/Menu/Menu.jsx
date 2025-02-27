@@ -432,13 +432,13 @@ const Menu = ({ addToCart, cart, setCart }) => {
                             </li>
                         ))}
                     </ul>
-                    <h3 className="active-category" style={{display: "none"}}>
+                    <h3 className="active-category" style={{ display: "none" }}>
                         {activeCategory}
                     </h3>
                     <div className="cart-info">
                         <div>
                             <button disabled className="btn btn-warning" style={{ display: "flex" }}>
-                                <div><box-icon name='cart' ></box-icon></div>
+                                <div><box-icon name='cart' color="#ffcc00" ></box-icon></div>
                                 <div>{cart.length} items</div>
                             </button>
                         </div>
@@ -503,7 +503,11 @@ const Menu = ({ addToCart, cart, setCart }) => {
                                                     </li>
                                                 ))}
                                             </ul>
-                                            {/* <figure>{currentImageData.totalAmount}</figure> */}
+                                            <div>
+                                                <div></div>
+                                                <div></div>
+                                                <div></div>
+                                            </div>
                                             <div className="menu-item-footer">
                                                 <div className="item-price">
                                                     <span>R {itemTotals[item.id] || 0}</span>

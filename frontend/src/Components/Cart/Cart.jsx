@@ -1,6 +1,7 @@
 import React from "react";
 import "./Cart.scss";
 import Navbar from "../Navbar/Navbar";
+import { Link } from "react-router-dom";
 
 const Cart = ({ cart, removeItem, totalPrice }) => {
   console.log("Cart contents:", cart);
@@ -17,6 +18,15 @@ const Cart = ({ cart, removeItem, totalPrice }) => {
     <div className="cart">
       <Navbar />
       <h2>{cart.length > 0 ? "Your Cart" : "Your cart is empty"}</h2>
+      <Link to="/menu">
+        <div className="viewMenu" style={{ display: "flex" }}>
+          <div><box-icon name='right-arrow-alt' animation='tada' color='#ffcc00' ></box-icon></div>
+          <div>
+            <h5 style={{ color: "#ffcc00" }}>View Menu</h5>
+          </div>
+          <div><box-icon name='left-arrow-alt' animation='tada' color='#ffcc00' ></box-icon></div>
+        </div>
+      </Link>
 
       {cart.length > 0 && (
         <>
