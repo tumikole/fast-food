@@ -8,6 +8,8 @@ const Menu = ({ addToCart, cart, setCart }) => {
     const [selectedIngredients, setSelectedIngredients] = useState({});
     const [imageIndexes, setImageIndexes] = useState({});
     const [itemTotals, setItemTotals] = useState({}); // Track total price per item
+    const [selectAllChecked, setSelectAllChecked] = useState(false);
+
 
     const categories = useMemo(
         () => [
@@ -306,7 +308,6 @@ const Menu = ({ addToCart, cart, setCart }) => {
             initImageIndexes[item.id] = 0; // Initial image index for each item
         });
         setImageIndexes(initImageIndexes);
-
     }, [menuItems]);
 
     const handleNextImage = (id) => {
@@ -316,6 +317,7 @@ const Menu = ({ addToCart, cart, setCart }) => {
             return { ...prevIndexes, [id]: nextIndex };
         });
         resetSelections(id);
+        setSelectAllChecked(false)
     };
 
     const handlePreviousImage = (id) => {
@@ -335,6 +337,8 @@ const Menu = ({ addToCart, cart, setCart }) => {
         });
 
         resetSelections(id);
+        setSelectAllChecked(false)
+
     };
 
     const resetSelections = (id) => {
@@ -379,7 +383,6 @@ const Menu = ({ addToCart, cart, setCart }) => {
 
 
 
-
     const handleAddToCart = (item) => {
         const selectedItem = {
             category: item.category,
@@ -410,6 +413,52 @@ const Menu = ({ addToCart, cart, setCart }) => {
     };
 
 
+    const selectAllIngredients = (itemId) => {
+        // Toggle the selectAllChecked state
+        setSelectAllChecked((prevChecked) => {
+            const newCheckedState = !prevChecked;  // Toggle the state
+            setSelectedIngredients((prevSelected) => {
+                const ingredients = menuItems.find(item => item.id === itemId)
+                    .images[imageIndexes[itemId]].ingredients;
+
+                if (newCheckedState) {
+                    // Select all ingredients
+                    const allIngredientNames = ingredients.map(ingredient => ingredient.name);
+
+                    // Set the selected ingredients to include all ingredients
+                    const updatedSelected = { ...prevSelected, [itemId]: allIngredientNames };
+
+                    // Calculate the total for the selected ingredients
+                    setItemTotals((prevTotals) => {
+                        const totalAmount = ingredients.reduce((total, ingredient) => {
+                            return total + ingredient.itemPrice; // Sum of all ingredient prices
+                        }, 0);
+
+                        return { ...prevTotals, [itemId]: totalAmount };
+                    });
+
+                    return updatedSelected;
+                } else {
+                    // Deselect all ingredients
+                    const updatedSelected = { ...prevSelected };
+                    delete updatedSelected[itemId];  // Remove the selected ingredients for this item
+
+                    // Reset the total for this item
+                    setItemTotals((prevTotals) => {
+                        const updatedTotals = { ...prevTotals };
+                        delete updatedTotals[itemId];  // Remove the total for this item
+                        return updatedTotals;
+                    });
+
+                    return updatedSelected;
+                }
+            });
+
+            return newCheckedState;  // Return the new checkbox state
+        });
+    };
+
+
 
     const filteredMenu =
         activeCategory === "All"
@@ -435,7 +484,7 @@ const Menu = ({ addToCart, cart, setCart }) => {
                             </li>
                         ))}
                     </ul>
-                    <h3 className="active-category" style={{display: "none"}}>
+                    <h3 className="active-category" style={{ display: "none" }}>
                         {activeCategory}
                     </h3>
                     <div className="cart-info">
@@ -450,7 +499,7 @@ const Menu = ({ addToCart, cart, setCart }) => {
                             <div>
                                 <Link to="/cart" style={{ listStyle: "none" }}>
                                     <button className="btn btn-warning" style={{ display: "flex" }}>
-                                        <div><box-icon name='cart-alt' type='solid' ></box-icon></div>
+                                        <div><box-icon name='cart-alt' color="#ffcc00" type='solid' ></box-icon></div>
                                         <div>Show cart</div>
                                     </button>
                                 </Link>
@@ -462,6 +511,12 @@ const Menu = ({ addToCart, cart, setCart }) => {
                         {filteredMenu.map((item) => {
                             const currentIdx = imageIndexes[item.id] || 0;
                             const currentImageData = item.images[currentIdx];
+
+                            // Ensure currentImageData exists before trying to access its properties
+                            if (!currentImageData) {
+                                return null;  // Skip rendering if currentImageData is undefined
+                            }
+
                             return (
                                 <div key={item.id} className="menu-category">
                                     <div className="restaurant-menu">
@@ -473,7 +528,11 @@ const Menu = ({ addToCart, cart, setCart }) => {
                                                 />
                                                 <div className="menu-item-header-text">
                                                     <h3>{currentImageData.itemName}</h3>
-                                                    <h3>{currentImageData.totalAmount === undefined ? "" : `R ${currentImageData.totalAmount}.00`}</h3>
+                                                    <h3>
+                                                        {currentImageData.totalAmount === undefined
+                                                            ? ""
+                                                            : `R ${currentImageData.totalAmount}.00`}
+                                                    </h3>
                                                 </div>
                                                 <div className="ingridient-change">
                                                     <div onClick={() => handlePreviousImage(item.id)}>
@@ -485,36 +544,72 @@ const Menu = ({ addToCart, cart, setCart }) => {
                                                 </div>
                                             </div>
                                             <h4 style={{ marginLeft: "1rem" }}>{item.category}</h4>
-                                            <ul className="ingredients">
-                                                {currentImageData.ingredients.map((ingredient, idx) => (
-                                                    <li key={idx}>
-                                                        <input
-                                                            type="checkbox"
-                                                            checked={
-                                                                selectedIngredients[item.id]?.includes(ingredient.name) || false
-                                                            }
-                                                            onChange={() =>
-                                                                handleIngredientToggle(
-                                                                    item.id,
-                                                                    ingredient.name,
-                                                                    ingredient.itemPrice
-                                                                )
-                                                            }
-                                                        />
-                                                        <span>{ingredient.name}</span>
-                                                        {/* <span>R {ingredient.itemPrice}</span> */}
-                                                    </li>
-                                                ))}
-                                            </ul>
-                                            <div>
-                                                <div></div>
-                                                <div></div>
-                                                <div></div>
+                                            <table class="table table-striped">
+                                                <thead>
+                                                    <tr>
+                                                        <th scope="col" style={{ display: item.id === 1 && "none" }}>Check</th>
+                                                        <th scope="col">Item</th>
+                                                        <th scope="col" style={{ display: item.id === 1 && "none" }}>Price</th>
+                                                        <th scope="col" style={{ display: item.id === 1 && "none" }}>Quantity</th>
 
-                                            </div>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    {/* <ul className="ingredients"> */}
+                                                    {currentImageData.ingredients?.map((ingredient, idx) => (
+                                                        <tr key={idx}>
+                                                            <td style={{ display: item.id === 1 && "none" }}>
+                                                                <input
+                                                                    type="checkbox"
+                                                                    checked={
+                                                                        (selectedIngredients[item.id]?.includes(ingredient.name) || false)
+                                                                    }
+                                                                    onChange={() =>
+                                                                        handleIngredientToggle(
+                                                                            item.id,
+                                                                            ingredient.name,
+                                                                            ingredient.itemPrice
+                                                                        )
+                                                                    }
+                                                                    disabled={item.id === 1}
+                                                                />
+                                                            </td>
+                                                            <td><span>{ingredient.name}</span></td>
+                                                            <td style={{ display: item.id === 1 && "none" }}>{item.id !== 1 && <span>R {ingredient.itemPrice}</span>}</td>
+                                                            <td style={{ display: item.id === 1 && "none" }}>
+                                                                <div style={{ display: "flex", gap: "1rem" }}>
+                                                                <div><box-icon name='minus' color='#ffcc00' ></box-icon></div>
+                                                                <div>1</div>
+                                                                <div><box-icon name='plus' color='#ffcc00' ></box-icon></div>
+                                                                </div>
+                                                            </td>
+                                                        </tr>
+                                                    ))}
+
+                                                    {item.id === 1 &&
+                                                        <div style={{ display: item.id === 1 && "flex" }}>
+                                                            <div><input type="checkbox"
+                                                                checked={selectAllChecked}
+                                                                onClick={() =>
+                                                                    selectAllIngredients(
+                                                                        item.id,
+                                                                    )
+                                                                } />
+                                                            </div>
+                                                            <div>
+                                                                <span>
+                                                                    {item.id === 1
+                                                                        ? <span>Select <strong>{currentImageData.itemName.charAt(0).toUpperCase() + currentImageData.itemName.slice(1).toLowerCase()}</strong> kota</span>
+                                                                        : "Select all".charAt(0).toUpperCase() + "Select all".slice(1).toLowerCase()}
+                                                                </span>
+                                                            </div>
+
+                                                        </div>}
+                                                </tbody>
+                                            </table>
                                             <div className="menu-item-footer">
                                                 <div className="item-price">
-                                                    <span>R {itemTotals[item.id] || 0}</span>
+                                                    <span>R {(itemTotals[item.id] || 0)}</span>
                                                 </div>
                                                 <button
                                                     className="btn btn-warning"
@@ -534,6 +629,7 @@ const Menu = ({ addToCart, cart, setCart }) => {
                             );
                         })}
                     </div>
+
                 </div>
             </div>
         </div>
@@ -544,283 +640,3 @@ export default Menu;
 
 
 
-// const menuItems = useMemo(() => [
-//     {
-//         id: 1,
-//         category: "Kota",
-//         images: [
-//             {
-//                 imageId: 1,
-//                 itemName: "JOZI",
-//                 imageItem: "https://tb-static.uber.com/prod/image-proc/processed_images/24fc780275e5be8892280739f5fdd70a/f0d1762b91fd823a1aa9bd0dab5c648d.jpeg",
-//                 ingredients: [
-//                     { name: "QUARTER OF BREAD", itemPrice: 5.00 },
-//                     { name: "CHIPS", itemPrice: 5.00 },
-//                     { name: "ATCHAAR", itemPrice: 3.00 },
-//                     { name: "POLONY", itemPrice: 2.00 },
-//                 ],
-//                 totalAmount: 15.00
-//             },
-//             {
-//                 imageId: 2,
-//                 itemName: "BEE",
-//                 imageItem: "https://tb-static.uber.com/prod/image-proc/processed_images/a175223c84ce9e9464b879d9ecc28014/7f4ae9ca0446cbc23e71d8d395a98428.jpeg  ",
-//                 ingredients: [
-//                     { name: "QUARTER OF BREAD", itemPrice: 5.00 },
-//                     { name: "CHIPS", itemPrice: 5.00 },
-//                     { name: "ATCHAAR", itemPrice: 3.00 },
-//                     { name: "POLONY", itemPrice: 2.00 },
-//                     { name: "HALF VIENNA", itemPrice: 5.00 }
-//                 ],
-//                 totalAmount: 20.00
-//             },
-//             {
-//                 imageId: 3,
-//                 itemName: "MAMAZALA",
-//                 imageItem: "https://tb-static.uber.com/prod/image-proc/processed_images/407a0815eb03fd396e73e756040a59f3/58f691da9eaef86b0b51f9b2c483fe63.jpeg",
-//                 ingredients: [
-//                     { name: "QUARTER OF BREAD", itemPrice: 5.00 },
-//                     { name: "CHIPS", itemPrice: 5.00 },
-//                     { name: "ATCHAAR", itemPrice: 3.00 },
-//                     { name: "POLONY", itemPrice: 2.00 },
-//                     { name: "FULL VIENNA", itemPrice: 15.00 }
-//                 ],
-//                 totalAmount: 26.00
-//             },
-//             {
-//                 imageId: 4,
-//                 itemName: "VALUE",
-//                 imageItem: "https://kotashop.co.za/images/uploaded/3/kota2.jpg",
-//                 ingredients: [
-//                     { name: "QUARTER OF BREAD", itemPrice: 5.00 },
-//                     { name: "CHIPS", itemPrice: 5.00 },
-//                     { name: "ATCHAAR", itemPrice: 3.00 },
-//                     { name: "POLONY", itemPrice: 2.00 },
-//                     { name: "HALF VIENNA", itemPrice: 5.00 },
-//                     { name: "CHEESE", itemPrice: 15.00 }
-//                 ],
-//                 totalAmount: 0
-//             },
-//             {
-//                 imageId: 5,
-//                 itemName: "MINISTER",
-//                 imageItem: "https://tb-static.uber.com/prod/image-proc/processed_images/6e33f7119e134c2fa41ba6365a3d3e25/4218ca1d09174218364162cd0b1a8cc1.jpeg",
-//                 ingredients: [
-//                     { name: "QUARTER OF BREAD", itemPrice: 5.00 },
-//                     { name: "CHIPS", itemPrice: 5.00 },
-//                     { name: "ATCHAAR", itemPrice: 3.00 },
-//                     { name: "POLONY", itemPrice: 2.00 },
-//                     { name: "HALF RUSSIAN", itemPrice: 5.00 }
-//                 ],
-//                 totalAmount: 0
-//             },
-//             {
-//                 imageId: 6,
-//                 itemName: "BOSS",
-//                 imageItem: "https://lh3.googleusercontent.com/Z8mvD571wzzUOq92HQUUaxxCUR4L3GZkAd3CMgg8gVedx6cKZQVVpFCKMNOQSQwrL1f32i5hsdOhhMZyb6yA12FLHzyf9WM",
-//                 ingredients: [
-//                     { name: "QUARTER OF BREAD", itemPrice: 5.00 },
-//                     { name: "CHIPS", itemPrice: 5.00 },
-//                     { name: "ATCHAAR", itemPrice: 3.00 },
-//                     { name: "POLONY", itemPrice: 2.00 },
-//                     { name: "FULL RUSSIAN", itemPrice: 5.00 }
-//                 ],
-//                 totalAmount: 0
-//             },
-//             {
-//                 imageId: 7,
-//                 itemName: "KLASSIC",
-//                 imageItem: "https://www.southafricanmi.com/uploads/6/9/3/7/69372701/kota-bunnychow-food-street-south-africa-google-image_1_orig.jpg",
-//                 ingredients: [
-//                     { name: "QUARTER OF BREAD", itemPrice: 5.00 },
-//                     { name: "CHIPS", itemPrice: 5.00 },
-//                     { name: "LETTUCE", itemPrice: 3.00 },
-//                     { name: "POLONY", itemPrice: 2.00 },
-//                     { name: "FULL RUSSSIAN", itemPrice: 15.00 },
-//                     { name: "CHEESE", itemPrice: 15.00 }
-
-//                 ],
-//                 totalAmount: 35.00
-//             },
-//             {
-//                 imageId: 9,
-//                 itemName: "MASINGITA",
-//                 imageItem: "https://lh3.googleusercontent.com/40I6BfXs29ybMx9KBZGsBOYBXkXZYc4Y2pOo32G6AF4XShhWnD3VEkZ4W8iX65g0yXcUqIahFududEmDWGtECDpZ8zWFZRS0EjY-=s750",
-//                 ingredients: [
-//                     { name: "QUARTER OF BREAD", itemPrice: 5.00 },
-//                     { name: "CHIPS", itemPrice: 5.00 },
-//                     { name: "LETTUCE", itemPrice: 3.00 },
-//                     { name: "POLONY", itemPrice: 2.00 },
-//                     { name: "FULL RUSSSIAN", itemPrice: 15.00 },
-//                     { name: "CHEESE", itemPrice: 15.00 },
-//                     { name: "FULL VIENNA", itemPrice: 15.00 }
-
-//                 ],
-//                 totalAmount: 43.00
-//             },
-//             {
-//                 imageId: 10,
-//                 itemName: "MAKHADZI",
-//                 imageItem: "https://joburg.co.za/wp-content/uploads/2024/09/500-by-500-26.png",
-//                 ingredients: [
-//                     { name: "QUARTER OF BREAD", itemPrice: 5.00 },
-//                     { name: "CHIPS", itemPrice: 5.00 },
-//                     { name: "LETTUCE", itemPrice: 3.00 },
-//                     { name: "POLONY", itemPrice: 2.00 },
-//                     { name: "FULL RUSSSIAN", itemPrice: 15.00 },
-//                     { name: "BURGER PATTY", itemPrice: 15.00 },
-
-//                 ],
-//                 totalAmount: 48.00
-//             },
-//             {
-//                 imageId: 11,
-//                 itemName: "MALEMA",
-//                 imageItem: "https://lh3.googleusercontent.com/40I6BfXs29ybMx9KBZGsBOYBXkXZYc4Y2pOo32G6AF4XShhWnD3VEkZ4W8iX65g0yXcUqIahFududEmDWGtECDpZ8zWFZRS0EjY-=s750",
-//                 ingredients: [
-//                     { name: "QUARTER OF BREAD", itemPrice: 5.00 },
-//                     { name: "CHIPS", itemPrice: 5.00 },
-//                     { name: "LETTUCE", itemPrice: 3.00 },
-//                     { name: "POLONY", itemPrice: 2.00 },
-//                     { name: "FULL RUSSSIAN", itemPrice: 15.00 },
-//                     { name: "BURGER PATTY", itemPrice: 15.00 },
-//                     { name: "CHEESE", itemPrice: 15.00 },
-//                     { name: "EGGS", itemPrice: 15.00 },
-
-//                 ],
-//                 totalAmount: 60.00
-//             },
-//             {
-//                 imageId: 12,
-//                 itemName: "RAMAPHOSA",
-//                 imageItem: "https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/Spatlo01.jpg/640px-Spatlo01.jpg",
-//                 ingredients: [
-//                     { name: "QUARTER OF BREAD", itemPrice: 5.00 },
-//                     { name: "CHIPS", itemPrice: 5.00 },
-//                     { name: "LETTUCE", itemPrice: 3.00 },
-//                     { name: "POLONY", itemPrice: 2.00 },
-//                     { name: "FULL RUSSSIAN", itemPrice: 15.00 },
-//                     { name: "BURGER PATTY", itemPrice: 15.00 },
-//                     { name: "CHEESE", itemPrice: 15.00 },
-//                     { name: "EGGS", itemPrice: 15.00 },
-//                     { name: "FULL VIENNA", itemPrice: 15.00 }
-
-//                 ],
-//                 totalAmount: 65.00
-//             },
-//         ],
-//         price: 25.00
-//     },
-//     {
-//         id: 2,
-//         category: "Extras",
-//         images: [
-//             {
-//                 imageId: 1,
-//                 itemName: "VIENNA",
-//                 imageItem: "https://www.shutterstock.com/image-photo/raw-pork-chicken-sausages-lie-600nw-1815242408.jpg",
-//                 ingredients: [
-//                     { name: "FULL VIENNA", itemPrice: 8.00 },
-//                     { name: "HALF VIENNA", itemPrice: 6.00 },
-
-//                 ]
-//             },
-//             {
-//                 imageId: 2,
-//                 itemName: "RUSSIAN",
-//                 imageItem: "https://static.vecteezy.com/system/resources/previews/035/063/350/non_2x/ai-generated-grilled-sausage-free-png.png",
-//                 ingredients: [
-//                     { name: "FULL RUSSIAN", itemPrice: 15.00 },
-//                     { name: "HALF RUSSIAN", itemPrice: 10.00 },
-//                 ]
-//             },
-//             {
-//                 imageId: 3,
-//                 itemName: "CHEESE",
-//                 imageItem: "https://cdn.diys.com/wp-content/uploads/2014/09/can-you-freeze-cheese-slices.jpg",
-//                 ingredients: [
-//                     { name: "CHEESE", itemPrice: 4.00 },
-
-//                 ]
-//             }
-//             ,
-//             {
-//                 imageId: 4,
-//                 itemName: "EGG",
-//                 imageItem: "https://img.freepik.com/premium-photo/top-view-photo-fried-egg-white-background_908985-53217.jpg",
-//                 ingredients: [
-//                     { name: "EGG", itemPrice: 4.00 },
-
-//                 ]
-//             }
-//             ,
-//             {
-//                 imageId: 5,
-//                 itemName: "B/PATTY",
-//                 imageItem: "https://t4.ftcdn.net/jpg/10/23/64/65/360_F_1023646511_aVjBB3EOxCfroQoyRr9q7yVtGgKs7JcR.jpg",
-//                 ingredients: [
-//                     { name: "PATTY", itemPrice: 15.00 },
-
-//                 ]
-//             }
-//         ],
-//         price: 30.00
-//     },
-//     {
-//         id: 3,
-//         category: "Chips",
-//         images: [
-//             {
-//                 imageId: 1,
-//                 itemName: "CHIPS",
-//                 imageItem: "https://lh3.googleusercontent.com/proxy/9Se4y7QfUNTZoUquCi5eUFqEYgVHsvT7ujPAVV6pBBCdlLSVHkHlBrueUjnmYhAd0ZivKr8KueY0kY3jCZcX6jbcLFnRdUVbcidAc14CxhLD4miwsQ",
-//                 ingredients: [
-//                     { name: "SMALL CHIPS", itemPrice: 20.00 },
-//                     { name: "MID CHIPS", itemPrice: 25.00 },
-//                     { name: "LARGER CHIPS	", itemPrice: 30.00 },
-//                     { name: "X LARGER CHIPS", itemPrice: 40.00 },
-//                     { name: "MED CHIPS + RUSSIAN", itemPrice: 45.00 },
-
-//                 ]
-//             }
-//         ],
-//         price: 35.00
-//     },
-//     {
-//         id: 4,
-//         category: "Beverages",
-//         images: [
-//             {
-//                 imageId: 1,
-//                 itemName: "Soft drinks",
-//                 imageItem: "https://eu-images.contentstack.com/v3/assets/blta023acee29658dfc/blta9f158c45627aa62/651dbb742365a678d7ec7f18/AdobeStock_279692163_Editorial_Use_Only-Beverage-FTR-new.jpg",
-//                 ingredients: [
-//                     { name: "Coke", itemPrice: 12.00 },
-//                     { name: "Fanta", itemPrice: 25.00 },
-//                     { name: "Pepsi", itemPrice: 10.00 },
-//                     { name: "Sprite", itemPrice: 25.00 },
-//                     { name: "Lipton", itemPrice: 25.00 },
-//                     { name: "Miranda", itemPrice: 25.00 },
-//                     { name: "Scwepes", itemPrice: 25.00 },
-
-
-
-//                 ]
-//             },
-//             {
-//                 imageId: 2,
-//                 itemName: "Beer",
-//                 imageItem: "https://lh3.googleusercontent.com/-1VuBtZIqhqJodQKoCS4BUSETWOT9HWEZE07loreo3xFd__MRuI5epacVfElr8kaLzS2hmiSCeqatAdRM-4K96SlWb8vW2re03CD2Lm-EbAh=s1500",
-//                 ingredients: [
-//                     { name: "Blac label", itemPrice: 22.00 },
-//                     { name: "Amstel", itemPrice: 22.00 },
-//                     { name: "Hansa Pilsner", itemPrice: 20.00 },
-//                     { name: "Castle Milk Stout", itemPrice: 25.00 },
-//                     { name: "Castle Lite", itemPrice: 22.00 },
-//                     { name: "Castle Larger", itemPrice: 20.00 }
-//                 ]
-//             }
-//         ],
-//         price: 20.00
-//     }
-// ], []);

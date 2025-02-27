@@ -3,7 +3,7 @@ import "./Cart.scss";
 import Navbar from "../Navbar/Navbar";
 import { Link } from "react-router-dom";
 
-const Cart = ({ cart, removeItem, totalPrice }) => {
+const Cart = ({ cart, removeItem }) => {
   console.log("Cart contents:", cart);
 
   // Calculate the total price of the cart (if not already done in the parent)
@@ -14,6 +14,7 @@ const Cart = ({ cart, removeItem, totalPrice }) => {
     }, 0);
   };
 
+  console.log({pruce: calculateTotal()})
   return (
     <div className="cart">
       <Navbar />
