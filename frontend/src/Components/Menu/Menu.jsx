@@ -12,11 +12,9 @@ const Menu = ({ addToCart, cart, setCart }) => {
     const categories = useMemo(
         () => [
             "All",
-            "Kota Special",
-            "Grilled Meat",
-            "Braaied Chicken",
-            "Street Burgers",
-            "Beverages",
+            "Kota",
+            "Extras",
+            "Chips",
         ],
         []
     );
@@ -24,12 +22,12 @@ const Menu = ({ addToCart, cart, setCart }) => {
     const menuItems = useMemo(() => [
         {
             id: 1,
-            category: "Kota Special",
+            category: "Kota",
             images: [
                 {
                     imageId: 1,
                     itemName: "JOZI",
-                    imageItem: "https://www.eatout.co.za/wp-content/uploads/2016/01/Kota-Joe-5-600x450.jpg",
+                    imageItem: "https://tb-static.uber.com/prod/image-proc/processed_images/24fc780275e5be8892280739f5fdd70a/f0d1762b91fd823a1aa9bd0dab5c648d.jpeg",
                     ingredients: [
                         { name: "QUARTER OF BREAD", itemPrice: 5.00 },
                         { name: "CHIPS", itemPrice: 5.00 },
@@ -41,7 +39,7 @@ const Menu = ({ addToCart, cart, setCart }) => {
                 {
                     imageId: 2,
                     itemName: "BEE",
-                    imageItem: "https://lh3.googleusercontent.com/40I6BfXs29ybMx9KBZGsBOYBXkXZYc4Y2pOo32G6AF4XShhWnD3VEkZ4W8iX65g0yXcUqIahFududEmDWGtECDpZ8zWFZRS0EjY-=s750",
+                    imageItem: "https://tb-static.uber.com/prod/image-proc/processed_images/a175223c84ce9e9464b879d9ecc28014/7f4ae9ca0446cbc23e71d8d395a98428.jpeg  ",
                     ingredients: [
                         { name: "QUARTER OF BREAD", itemPrice: 5.00 },
                         { name: "CHIPS", itemPrice: 5.00 },
@@ -54,7 +52,7 @@ const Menu = ({ addToCart, cart, setCart }) => {
                 {
                     imageId: 3,
                     itemName: "MAMAZALA",
-                    imageItem: "https://lh3.googleusercontent.com/40I6BfXs29ybMx9KBZGsBOYBXkXZYc4Y2pOo32G6AF4XShhWnD3VEkZ4W8iX65g0yXcUqIahFududEmDWGtECDpZ8zWFZRS0EjY-=s750",
+                    imageItem: "https://tb-static.uber.com/prod/image-proc/processed_images/407a0815eb03fd396e73e756040a59f3/58f691da9eaef86b0b51f9b2c483fe63.jpeg",
                     ingredients: [
                         { name: "QUARTER OF BREAD", itemPrice: 5.00 },
                         { name: "CHIPS", itemPrice: 5.00 },
@@ -67,7 +65,7 @@ const Menu = ({ addToCart, cart, setCart }) => {
                 {
                     imageId: 4,
                     itemName: "VALUE",
-                    imageItem: "https://lh3.googleusercontent.com/40I6BfXs29ybMx9KBZGsBOYBXkXZYc4Y2pOo32G6AF4XShhWnD3VEkZ4W8iX65g0yXcUqIahFududEmDWGtECDpZ8zWFZRS0EjY-=s750",
+                    imageItem: "https://kotashop.co.za/images/uploaded/3/kota2.jpg",
                     ingredients: [
                         { name: "QUARTER OF BREAD", itemPrice: 5.00 },
                         { name: "CHIPS", itemPrice: 5.00 },
@@ -81,7 +79,7 @@ const Menu = ({ addToCart, cart, setCart }) => {
                 {
                     imageId: 5,
                     itemName: "MINISTER",
-                    imageItem: "https://lh3.googleusercontent.com/40I6BfXs29ybMx9KBZGsBOYBXkXZYc4Y2pOo32G6AF4XShhWnD3VEkZ4W8iX65g0yXcUqIahFududEmDWGtECDpZ8zWFZRS0EjY-=s750",
+                    imageItem: "https://tb-static.uber.com/prod/image-proc/processed_images/6e33f7119e134c2fa41ba6365a3d3e25/4218ca1d09174218364162cd0b1a8cc1.jpeg",
                     ingredients: [
                         { name: "QUARTER OF BREAD", itemPrice: 5.00 },
                         { name: "CHIPS", itemPrice: 5.00 },
@@ -94,7 +92,7 @@ const Menu = ({ addToCart, cart, setCart }) => {
                 {
                     imageId: 6,
                     itemName: "BOSS",
-                    imageItem: "https://lh3.googleusercontent.com/40I6BfXs29ybMx9KBZGsBOYBXkXZYc4Y2pOo32G6AF4XShhWnD3VEkZ4W8iX65g0yXcUqIahFududEmDWGtECDpZ8zWFZRS0EjY-=s750",
+                    imageItem: "https://lh3.googleusercontent.com/Z8mvD571wzzUOq92HQUUaxxCUR4L3GZkAd3CMgg8gVedx6cKZQVVpFCKMNOQSQwrL1f32i5hsdOhhMZyb6yA12FLHzyf9WM",
                     ingredients: [
                         { name: "QUARTER OF BREAD", itemPrice: 5.00 },
                         { name: "CHIPS", itemPrice: 5.00 },
@@ -107,7 +105,7 @@ const Menu = ({ addToCart, cart, setCart }) => {
                 {
                     imageId: 7,
                     itemName: "KLASSIC",
-                    imageItem: "https://lh3.googleusercontent.com/40I6BfXs29ybMx9KBZGsBOYBXkXZYc4Y2pOo32G6AF4XShhWnD3VEkZ4W8iX65g0yXcUqIahFududEmDWGtECDpZ8zWFZRS0EjY-=s750",
+                    imageItem: "https://www.southafricanmi.com/uploads/6/9/3/7/69372701/kota-bunnychow-food-street-south-africa-google-image_1_orig.jpg",
                     ingredients: [
                         { name: "QUARTER OF BREAD", itemPrice: 5.00 },
                         { name: "CHIPS", itemPrice: 5.00 },
@@ -138,7 +136,7 @@ const Menu = ({ addToCart, cart, setCart }) => {
                 {
                     imageId: 10,
                     itemName: "MAKHADZI",
-                    imageItem: "https://lh3.googleusercontent.com/40I6BfXs29ybMx9KBZGsBOYBXkXZYc4Y2pOo32G6AF4XShhWnD3VEkZ4W8iX65g0yXcUqIahFududEmDWGtECDpZ8zWFZRS0EjY-=s750",
+                    imageItem: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTHzSFMIKBiI7k8fqVQX31gSlblPndJlzj7bQ&s",
                     ingredients: [
                         { name: "QUARTER OF BREAD", itemPrice: 5.00 },
                         { name: "CHIPS", itemPrice: 5.00 },
@@ -170,7 +168,7 @@ const Menu = ({ addToCart, cart, setCart }) => {
                 {
                     imageId: 12,
                     itemName: "RAMAPHOSA",
-                    imageItem: "https://lh3.googleusercontent.com/40I6BfXs29ybMx9KBZGsBOYBXkXZYc4Y2pOo32G6AF4XShhWnD3VEkZ4W8iX65g0yXcUqIahFududEmDWGtECDpZ8zWFZRS0EjY-=s750",
+                    imageItem: "https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/Spatlo01.jpg/640px-Spatlo01.jpg",
                     ingredients: [
                         { name: "QUARTER OF BREAD", itemPrice: 5.00 },
                         { name: "CHIPS", itemPrice: 5.00 },
@@ -190,12 +188,12 @@ const Menu = ({ addToCart, cart, setCart }) => {
         },
         {
             id: 2,
-            category: "EXTRA",
+            category: "Extras",
             images: [
                 {
                     imageId: 1,
                     itemName: "VIENNA",
-                    imageItem: "https://viennameatfish.com/wp-content/uploads/2023/08/Beef-Frank.jpg",
+                    imageItem: "https://localdeli.co.za/wp-content/uploads/2023/07/Vienna.jpg",
                     ingredients: [
                         { name: "FULL VIENNA", itemPrice: 8.00 },
                         { name: "HALF VIENNA", itemPrice: 6.00 },
@@ -214,30 +212,30 @@ const Menu = ({ addToCart, cart, setCart }) => {
                 {
                     imageId: 3,
                     itemName: "CHEESE",
-                    imageItem: "https://static.vecteezy.com/system/resources/previews/035/063/350/non_2x/ai-generated-grilled-sausage-free-png.png",
+                    imageItem: "https://www.nzmp.com/content/dam/nzmp/global/images/product-shots/product-page-master/product-images-grey-background/tile-800x600-_0038_Gouda-block-slice.png",
                     ingredients: [
                         { name: "CHEESE", itemPrice: 4.00 },
-                       
+
                     ]
                 }
                 ,
                 {
                     imageId: 4,
                     itemName: "EGG",
-                    imageItem: "https://static.vecteezy.com/system/resources/previews/035/063/350/non_2x/ai-generated-grilled-sausage-free-png.png",
+                    imageItem: "https://img.freepik.com/premium-photo/top-view-photo-fried-egg-white-background_908985-53217.jpg",
                     ingredients: [
                         { name: "EGG", itemPrice: 4.00 },
-                       
+
                     ]
                 }
                 ,
                 {
                     imageId: 5,
                     itemName: "B/PATTY",
-                    imageItem: "https://static.vecteezy.com/system/resources/previews/035/063/350/non_2x/ai-generated-grilled-sausage-free-png.png",
+                    imageItem: "https://www.shutterstock.com/image-photo/grilled-hamburger-meat-beef-patty-600nw-2452861847.jpg",
                     ingredients: [
                         { name: "PATTY", itemPrice: 15.00 },
-                       
+
                     ]
                 }
             ],
@@ -245,26 +243,19 @@ const Menu = ({ addToCart, cart, setCart }) => {
         },
         {
             id: 3,
-            category: "Braaied Chicken",
+            category: "Chips",
             images: [
                 {
                     imageId: 1,
-                    itemName: "Braai Chicken",
-                    imageItem: "https://kathradas.co.za/wp-content/uploads/2021/01/braai-3.png",
+                    itemName: "CHIPS",
+                    imageItem: "https://lh3.googleusercontent.com/proxy/9Se4y7QfUNTZoUquCi5eUFqEYgVHsvT7ujPAVV6pBBCdlLSVHkHlBrueUjnmYhAd0ZivKr8KueY0kY3jCZcX6jbcLFnRdUVbcidAc14CxhLD4miwsQ",
                     ingredients: [
-                        { name: "Chicken pieces", itemPrice: 25.00 },
-                        { name: "Marinade", itemPrice: 5.00 },
-                        { name: "Spices", itemPrice: 3.00 }
-                    ]
-                },
-                {
-                    imageId: 2,
-                    itemName: "Peri-Peri Braaied Chicken",
-                    imageItem: "https://example.com/braaied-chicken-2.jpg",
-                    ingredients: [
-                        { name: "Peri-Peri Sauce", itemPrice: 7.00 },
-                        { name: "Grilled Lemon", itemPrice: 3.00 },
-                        { name: "Herb Butter", itemPrice: 4.00 }
+                        { name: "SMALL CHIPS", itemPrice: 20.00 },
+                        { name: "MID CHIPS", itemPrice: 25.00 },
+                        { name: "LARGER CHIPS	", itemPrice: 30.00 },
+                        { name: "X LARGER CHIPS", itemPrice: 40.00 },
+                        { name: "MED CHIPS + RUSSIAN", itemPrice: 45.00 },
+
                     ]
                 }
             ],
@@ -272,35 +263,6 @@ const Menu = ({ addToCart, cart, setCart }) => {
         },
         {
             id: 4,
-            category: "Street Burgers",
-            images: [
-                {
-                    imageId: 1,
-                    itemName: "Classic Burger",
-                    imageItem: "https://streetburgers.lv/wp-content/uploads/2022/01/ghetto-burgers-street-burger-10.01.2022-121-of-342-scaled.jpg",
-                    ingredients: [
-                        { name: "Beef patty", itemPrice: 18.00 },
-                        { name: "Lettuce", itemPrice: 2.00 },
-                        { name: "Tomato", itemPrice: 2.00 },
-                        { name: "Cheese", itemPrice: 3.00 }
-                    ]
-                },
-                {
-                    imageId: 2,
-                    itemName: "Bacon Burger",
-                    imageItem: "https://media-cdn.tripadvisor.com/media/photo-s/26/cd/9b/e6/our-best-seller-bacon.jpg",
-                    ingredients: [
-                        { name: "Crispy Bacon", itemPrice: 5.00 },
-                        { name: "BBQ Sauce", itemPrice: 3.00 },
-                        { name: "Pickles", itemPrice: 2.00 },
-                        { name: "Double Cheese", itemPrice: 5.00 }
-                    ]
-                }
-            ],
-            price: 40.00
-        },
-        {
-            id: 5,
             category: "Beverages",
             images: [
                 {
@@ -325,8 +287,12 @@ const Menu = ({ addToCart, cart, setCart }) => {
                     itemName: "Beer",
                     imageItem: "https://lh3.googleusercontent.com/-1VuBtZIqhqJodQKoCS4BUSETWOT9HWEZE07loreo3xFd__MRuI5epacVfElr8kaLzS2hmiSCeqatAdRM-4K96SlWb8vW2re03CD2Lm-EbAh=s1500",
                     ingredients: [
-                        { name: "Blac label", itemPrice: 20.00 },
-                        { name: "Amstel", itemPrice: 15.00 }
+                        { name: "Blac label", itemPrice: 22.00 },
+                        { name: "Amstel", itemPrice: 22.00 },
+                        { name: "Hansa Pilsner", itemPrice: 20.00 },
+                        { name: "Castle Milk Stout", itemPrice: 25.00 },
+                        { name: "Castle Lite", itemPrice: 22.00 },
+                        { name: "Castle Larger", itemPrice: 20.00 }
                     ]
                 }
             ],
@@ -455,7 +421,7 @@ const Menu = ({ addToCart, cart, setCart }) => {
                     <h2 className="menu-header">
                         🔥 Kasi Flavors, Straight from the Streets! 🍗
                     </h2>
-                    <ul className="category">
+                    <ul className="category" style={{ display: "none" }}>
                         {categories.map((category) => (
                             <li
                                 key={category}
@@ -466,7 +432,7 @@ const Menu = ({ addToCart, cart, setCart }) => {
                             </li>
                         ))}
                     </ul>
-                    <h3 className="active-category">
+                    <h3 className="active-category" style={{display: "none"}}>
                         {activeCategory}
                     </h3>
                     <div className="cart-info">

@@ -1,7 +1,6 @@
 import React from "react";
 import './HeroSection.scss'
 import { Link } from "react-router-dom";
-import HeroImage from '../../Asserts/d8e84e0b52f14089bbfa0fc06231b71d.webp'
 const HeroSection = () => {
     return (
         <section className="hero-section">
@@ -11,7 +10,7 @@ const HeroSection = () => {
                 <Link to="/menu" className="btn">Explore Menu 🍽️</Link>
             </div>
             <div className="visual">
-                <img src={HeroImage} alt="Food Banner" />
+                <img src="https://tb-static.uber.com/prod/image-proc/processed_images/f270d72a3f1dd44c3bc07206db9176a4/c4114ef7f0cc2f8ee04dbb216969493e.jpeg" alt="Food Banner" />
             </div>
         </section>
     );
