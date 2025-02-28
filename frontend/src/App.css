@@ -2,11 +2,15 @@
   /* text-align: center; */
   background: #1a1a1a;
   min-height: 100vh;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+.App .content-view {
+  display: none;
 }
 
 @media (prefers-reduced-motion: no-preference) {
@@ -34,7 +38,141 @@
   from {
     transform: rotate(0deg);
   }
+
   to {
     transform: rotate(360deg);
+  }
+}
+
+.phone-view {
+  width: 375px;
+  /* iPhone width */
+  height: 667px;
+  /* iPhone height */
+  background-color: #ffffff;
+  /* White background */
+  border-radius: 36px;
+  /* Rounded corners */
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+  /* Depth effect */
+  position: relative;
+  overflow: hidden;
+  margin: 20px auto;
+  /* Center the phone view */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  border: 5px solid #ffcc00;
+  padding: 20px;
+  text-align: center;
+  margin-top: 8rem;
+}
+
+.phone-view::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 80px;
+  /* Notch width */
+  height: 20px;
+  /* Notch height */
+  background-color: #000;
+  /* Black notch */
+  border-radius: 10px;
+  margin-top: 1rem;
+}
+
+.phone-view h1 {
+  font-size: 24px;
+  color: #333;
+  margin-bottom: 10px;
+}
+
+.phone-view p {
+  font-size: 16px;
+  color: #666;
+  max-width: 300px;
+  margin-bottom: 20px;
+}
+
+.features {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 15px;
+}
+
+.feature {
+  background: #ffcc00;
+  padding: 10px;
+  border-radius: 12px;
+  width: 80%;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+.feature h2 {
+  font-size: 18px;
+  color: #333;
+  margin-bottom: 5px;
+}
+
+.feature p {
+  font-size: 14px;
+  color: #222;
+}
+
+.explore-btn {
+  background: #ffcc00;
+  color: #333;
+  padding: 12px 20px;
+  border: none;
+  border-radius: 20px;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  margin-top: 15px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+  transition: all 0.3s ease;
+}
+
+.explore-btn:hover {
+  background: #ffdb4d;
+  transform: translateY(-3px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.4);
+}
+
+
+@media (max-width: 1024px) {
+
+  .App .phone-view {
+    display: none;
+  }
+
+  .App .content-view {
+    display: block;
+  }
+}
+
+@media (max-width: 768px) {
+  .App .phone-view {
+    display: none;
+  }
+
+  .App .content-view {
+    display: block;
+  }
+}
+
+@media (max-width: 480px) {
+  .App .phone-view {
+    display: none;
+  }
+  
+  .App .content-view {
+    display: block;
   }
 }

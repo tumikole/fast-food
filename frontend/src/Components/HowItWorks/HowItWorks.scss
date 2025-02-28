@@ -12,13 +12,13 @@
 
     @media (max-width: 768px) {
       font-size: 2.2rem;
-      padding-top: 5rem;
+      padding-top: 6rem;
 
     }
 
     @media (max-width: 480px) {
       font-size: 1.8rem;
-      padding-top: 3rem;
+      padding-top: 6rem;
 
     }
   }
@@ -56,10 +56,22 @@
         transform: translateY(-5px);
         box-shadow: 0 6px 30px rgba(0, 0, 0, 0.2);
       }
+
+      @media (max-width: 768px) {
+        width: 90%;
+        margin: auto;
+      }
+
+      @media (max-width: 480px) {
+        width: 90%;
+        margin: auto;
+      }
     }
   }
 
   @media (max-width: 768px) {
+    margin-bottom: 5rem !important;
+
     .secondary {
       font-size: 2rem;
     }
@@ -82,6 +94,7 @@
   }
 
   @media (max-width: 480px) {
+    margin-bottom: 5rem !important;
     .secondary {
       font-size: 1.8rem;
     }
