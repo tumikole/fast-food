@@ -102,7 +102,7 @@
   .amex { background-position: 71px 0; }
   .visa { background-position: 147px 0; }
   
-  input { 
+  .number input { 
     background: $silver; 
     border: 0;
     border-radius: 4px;
@@ -119,6 +119,7 @@
     &:nth-child(4) {
       margin-right: 0;
     }
+    
   
     @media (max-width: 768px) {
       font-size: 16px;
@@ -134,6 +135,18 @@
   
   .date input {
     margin-right: $space;
+    background: $silver; 
+    border: 0;
+    border-radius: 4px;
+    font: 20px Inconsolata, sans-serif; 
+    color: #303030;
+    margin: 0 2px 3px 0;
+    padding: 8px $space/2;
+    text-align: center;
+    width: 24%; 
+    box-shadow: 1px 1px 0px 1px #0e306e;
+    position: relative;
+    z-index: 10;
   }
   
   .valid {

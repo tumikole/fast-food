@@ -296,6 +296,9 @@
 
                             input {
                                 width: 100% !important;
+                                box-shadow: none !important;
+                                background: transparent !important;
+                                padding: 0rem !important;
                             }
 
                             box-icon {
@@ -325,12 +328,16 @@
                             gap: 10px;
 
                             input[type="checkbox"] {
-                                width: 18px;
-                                height: 18px;
+                                // width: 18px;
+                                // height: 18px;
                                 accent-color: #ffcc00;
                                 cursor: pointer;
                                 position: relative;
                                 width: 100% !important;
+                                width: 100% !important;
+                                box-shadow:none !important;
+                                background: transparent !important;
+                                padding: 0rem !important;
 
 
                                 &:checked {
