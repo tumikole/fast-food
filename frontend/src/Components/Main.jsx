@@ -8,6 +8,7 @@ import Cart from './Cart/Cart';
 import Reviews from './Reviews/Reviews';
 import FAQ from './FAQ/FAQ';
 import OrderInformation from './OrderInformation/OrderInformation';
+import PlaceAnOrder from './PlaceAnOrder/PlaceAnOrder';
 
 const Main = () => {
   const [cart, setCart] = useState([]);
@@ -46,6 +47,8 @@ const Main = () => {
         <Route path="/review" element={<Reviews />} />
         <Route path="/faq" element={<FAQ />} />
         <Route path="/order-information" element={<OrderInformation cart={cart}/>} />
+        <Route path="/place_an_order" element={<PlaceAnOrder/>} />
+
 
 
         

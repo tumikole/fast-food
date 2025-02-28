@@ -17,7 +17,8 @@ const Cart = ({ cart, removeItem }) => {
       <Navbar />
       <h2>
         {
-          cart.length > 0 ? "Your Cart" : "Your cart is empty"}</h2>
+          cart.length > 0 ? "Your Cart" : "Your cart is empty"}
+          </h2>
       <Link to="/menu">
         <div className="viewMenu" style={{ display: "flex" }}>
           <div><box-icon name='right-arrow-alt' animation='tada' color='#ffcc00' ></box-icon></div>

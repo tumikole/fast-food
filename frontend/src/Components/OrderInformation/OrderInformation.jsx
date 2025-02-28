@@ -1,6 +1,7 @@
 import React from 'react';
 import './OrderInformation.scss';
 import Navbar from '../Navbar/Navbar';
+import { Link } from 'react-router-dom';
 
 const OrderInformation = ({ cart, setCart }) => {
     // Calculate total price
@@ -15,7 +16,7 @@ const OrderInformation = ({ cart, setCart }) => {
         <div className="order-information">
             <Navbar />
             <h2>Order Information</h2>
-            
+
             <div className="order-items">
                 {cart.map((item, index) => (
                     <div key={index} className="order-item">
@@ -44,7 +45,7 @@ const OrderInformation = ({ cart, setCart }) => {
                     <h3>Total Amount:</h3>
                     <p>R{calculateTotal()}</p>
                 </div>
-                
+
                 <div className="customer-info">
                     <h3>Customer Information</h3>
                     <form>
@@ -66,10 +67,11 @@ const OrderInformation = ({ cart, setCart }) => {
                         </div>
                     </form>
                 </div>
-
-                <button className="place-order-btn">
-                    Place Order
-                </button>
+                <Link to="/place_an_order">
+                    <button className="place-order-btn">
+                        Place Order
+                    </button>
+                </Link>
             </div>
         </div>
     );

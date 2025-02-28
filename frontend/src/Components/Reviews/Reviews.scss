@@ -2,7 +2,6 @@
     text-align: center;
     color: #ffcc00;
     overflow: hidden;
-    padding: 3rem 1rem;
 
     .testimonial-container {
         display: flex;
@@ -11,9 +10,6 @@
         gap: 3rem;
         margin: 0 auto;
         padding: 3rem;
-        border-radius: 10px;
-        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
-        max-width: 1200px;
 
         @media (max-width: 768px) {
             flex-direction: column;
@@ -26,6 +22,12 @@
         flex: 1;
         text-align: left;
         color: #ffcc00;
+        font-weight: 700;
+        line-height: 1.2;
+        color: #ffcc00;
+        margin-bottom: 1rem;
+        padding-top: 9.3rem;
+        padding-bottom: 2rem;
 
         @media (max-width: 768px) {
             text-align: center;
@@ -105,8 +107,13 @@
 
 // Auto-scroll animation for customer testimonials
 @keyframes autoScroll {
-    0% { transform: translateY(0); }
-    100% { transform: translateY(-100%); }
+    0% {
+        transform: translateY(0);
+    }
+
+    100% {
+        transform: translateY(-100%);
+    }
 }
 
 .auto-scroll {
@@ -114,7 +121,7 @@
 }
 
 @media (max-width: 1024px) {
-    
+
     .testimonial-container {
         gap: 2rem;
     }
@@ -137,6 +144,7 @@
     .testimonial {
         padding: 0 !important;
     }
+
     .testimonial-container {
         flex-direction: column;
         gap: 2rem;

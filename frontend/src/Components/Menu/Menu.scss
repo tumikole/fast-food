@@ -7,7 +7,6 @@
 
     .menu-container {
         margin: 0 auto;
-        max-width: 1400px;
     }
 
     .menu-header {
@@ -15,10 +14,10 @@
         font-weight: 700;
         line-height: 1.2;
         color: #ffcc00;
-        margin-bottom: 2rem;
+        margin-bottom: 1rem;
         text-align: center;
-        padding-top: 8rem;
-        transition: all 0.3s;
+        padding-top: 9.3rem;
+        padding-bottom: 2rem;
 
         @media (max-width: 768px) {
             font-size: 2.2rem;
@@ -169,14 +168,14 @@
                 left: 0;
                 right: 0;
                 padding: 15px;
-                background: linear-gradient(to top, rgba(0,0,0,0.8), transparent);
+                background: linear-gradient(to top, rgba(0, 0, 0, 0.8), transparent);
                 color: #ffcc00;
 
                 h3 {
                     font-size: 1.4rem;
                     font-weight: 600;
                     margin: 0;
-                    text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+                    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
                 }
             }
 
@@ -205,120 +204,122 @@
             }
         }
 
-        .table-container {
-            margin: 20px;
-            background-color: #333333;
-            border-radius: 12px;
-            overflow: hidden;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        .table {
+            width: 98% !important;
+            background-color: #2a2a2a !important;
+            margin: auto;
 
-            table {
-                width: 100%;
-                border-collapse: collapse;
-                background-color: #2a2a2a;
+            thead {
+                background-color: #404040;
 
-                thead {
+                th {
+                    color: #ffcc00;
+                    font-weight: 600;
+                    text-align: left;
+                    font-size: 1rem;
+                    border-bottom: 2px solid #ffcc0033;
+                    text-transform: uppercase;
+                    letter-spacing: 0.5px;
+                    background-color: #404040;
+
+                }
+            }
+
+            tbody {
+                background-color: #404040;
+
+                tr {
+                    transition: background-color 0.3s ease;
                     background-color: #404040;
                     
-                    th {
-                        padding: 15px;
-                        color: #ffcc00;
-                        font-weight: 600;
-                        text-align: left;
-                        font-size: 1rem;
-                        border-bottom: 2px solid #ffcc0033;
-                        text-transform: uppercase;
-                        letter-spacing: 0.5px;
+                    
+                    &:hover {
+                        background-color: #383838;
                     }
-                }
+                    
+                    td {
+                        color: #ffffff;
+                        font-size: 0.95rem;
+                        background-color: #404040; 
+                        border-bottom: 1px solid #ffcc00 !important;
 
-                tbody {
-                    tr {
-                        transition: background-color 0.3s ease;
+                        &:last-child {
+                            text-align: right;
 
-                        &:hover {
-                            background-color: #383838;
                         }
 
-                        td {
-                            padding: 12px 15px;
-                            color: #ffffff;
-                            border-bottom: 1px solid #404040;
-                            font-size: 0.95rem;
+                        .quantity-controls {
+                            display: flex;
+                            align-items: center;
+                            gap: 1rem;
+                            justify-content: flex-end;
+                            background-color: #404040;
 
-                            &:last-child {
-                                text-align: right;
-                            }
 
-                            .quantity-controls {
-                                display: flex;
-                                align-items: center;
-                                gap: 1rem;
-                                justify-content: flex-end;
+                            box-icon {
+                                cursor: pointer;
+                                padding: 4px;
+                                border-radius: 4px;
+                                transition: all 0.2s ease;
+                                background-color: #404040;
 
-                                box-icon {
-                                    cursor: pointer;
-                                    padding: 4px;
-                                    border-radius: 4px;
-                                    transition: all 0.2s ease;
-                                    background-color: #404040;
-
-                                    &:hover {
-                                        background-color: #ffcc0033;
-                                        transform: scale(1.1);
-                                    }
-                                }
-
-                                span {
-                                    min-width: 20px;
-                                    text-align: center;
-                                    color: #ffcc00;
-                                    font-weight: 500;
+                                &:hover {
+                                    background-color: #ffcc0033;
+                                    transform: scale(1.1);
                                 }
                             }
 
-                            .checkbox-wrapper {
-                                display: flex;
-                                align-items: center;
-                                gap: 10px;
-
-                                input[type="checkbox"] {
-                                    width: 18px;
-                                    height: 18px;
-                                    accent-color: #ffcc00;
-                                    cursor: pointer;
-                                    position: relative;
-                                    
-                                    &:checked {
-                                        &::after {
-                                            content: '';
-                                            position: absolute;
-                                            top: 50%;
-                                            left: 50%;
-                                            transform: translate(-50%, -50%);
-                                            width: 10px;
-                                            height: 10px;
-                                            background-color: #ffcc00;
-                                            border-radius: 2px;
-                                        }
-                                    }
-                                }
-
-                                label {
-                                    cursor: pointer;
-                                    user-select: none;
-                                }
-                            }
-
-                            .price {
+                            span {
+                                min-width: 20px;
+                                text-align: center;
                                 color: #ffcc00;
                                 font-weight: 500;
-                                font-size: 1rem;
                             }
+                        }
+
+                        .checkbox-wrapper {
+                            display: flex;
+                            align-items: center;
+                            gap: 10px;
+
+                            input[type="checkbox"] {
+                                width: 18px;
+                                height: 18px;
+                                accent-color: #ffcc00;
+                                cursor: pointer;
+                                position: relative;
+
+                                &:checked {
+                                    &::after {
+                                        content: '';
+                                        position: absolute;
+                                        top: 50%;
+                                        left: 50%;
+                                        transform: translate(-50%, -50%);
+                                        width: 10px;
+                                        height: 10px;
+                                        background-color: #ffcc00;
+                                        border-radius: 2px;
+                                    }
+                                }
+                            }
+
+                            label {
+                                cursor: pointer;
+                                user-select: none;
+                            }
+                        }
+
+                        .price {
+                            color: #ffcc00;
+                            font-weight: 500;
+                            font-size: 1rem;
                         }
                     }
                 }
             }
+
+            // }
         }
 
         .menu-item-footer {
@@ -380,6 +381,7 @@
         from {
             transform: translateY(100%);
         }
+
         to {
             transform: translateY(0);
         }

@@ -786,7 +786,7 @@ const Menu = ({ addToCart, cart, setCart }) => {
                                                 </div>
                                             </div>
                                             <h4 style={{ marginLeft: "1rem" }}>{item.category}</h4>
-                                            <table class="table table-striped">
+                                            <table class="table">
                                                 <thead>
                                                     <tr>
                                                         <th scope="col" style={{ display: item.id === 1 && "none" }}>Check</th>
@@ -829,8 +829,10 @@ const Menu = ({ addToCart, cart, setCart }) => {
                                                     ))}
 
                                                     {item.id === 1 &&
-                                                        <div style={{ display: item.id === 1 && "flex" }}>
-                                                            <div><input type="checkbox"
+                                                        <div style={{ display: item.id === 1 && "flex", backgroundColor: "#404040" }}>
+                                                            <div style={{ backgroundColor: "#404040" }}>
+                                                                <input type="checkbox"
+                                                            
                                                                 checked={selectAllChecked}
                                                                 onClick={() =>
                                                                     selectAllIngredients(
@@ -839,16 +841,22 @@ const Menu = ({ addToCart, cart, setCart }) => {
                                                                 } />
                                                             </div>
 
-                                                            <div>
+                                                            <div style={{
+                                                                        backgroundColor: "#404040"
+                                                                    }}>
                                                                 <span>
                                                                     {item.id === 1
                                                                         ? <span><strong>{currentImageData.itemName.charAt(0).toUpperCase() + currentImageData.itemName.slice(1).toLowerCase()}</strong> kota</span>
                                                                         : "Select all".charAt(0).toUpperCase() + "Select all".slice(1).toLowerCase()}
                                                                 </span>
                                                             </div>
-                                                            <div>
+                                                            <div style={{ backgroundColor: "#404040" }}>
                                                                 {item.id === 1 && selectAllChecked && (
-                                                                    <div style={{ display: "flex", gap: "1rem" }}>
+                                                                    <div style={{
+                                                                        display: "flex",
+                                                                        gap: "1rem",
+                                                                        backgroundColor: "#404040"
+                                                                    }}>
                                                                         <div onClick={() => updateKotaQuantityMinus(currentImageData.itemName, item.id, currentImageData.totalAmount)}>
                                                                             <box-icon name='minus' color='#ffcc00' ></box-icon>
                                                                         </div>
