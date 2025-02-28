@@ -15,10 +15,28 @@ const Cart = ({ cart, removeItem }) => {
   return (
     <div className="cart">
       <Navbar />
-      <h2>
-        {
-          cart.length > 0 ? "Your Cart" : "Your cart is empty"}
+      {cart.length > 0 &&
+        <div className="cart-header">
+
+          <box-icon name='cart' color='#ffcc00' ></box-icon>
+
+          <h2>
+            Your Cart
           </h2>
+        </div>
+      }
+
+      {cart.length === 0 &&
+        <div className="cart-header">
+          <box-icon name='cart' color='#ffcc00' ></box-icon>
+          <h2>
+            Your cart is empty
+          </h2>
+          <h3>Explore our products and add items to your cart</h3>
+        </div>
+      }
+
+
       <Link to="/menu">
         <div className="viewMenu" style={{ display: "flex" }}>
           <div><box-icon name='right-arrow-alt' animation='tada' color='#ffcc00' ></box-icon></div>

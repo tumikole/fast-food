@@ -114,21 +114,60 @@
                 margin-right: 10px;
             }
 
+
             &:hover:not(:disabled) {
                 background-color: rgba(255, 204, 0, 0.1);
                 transform: translateY(-1px);
             }
+
+            .cart-item-length {
+                background-color: #ffcc00;
+                color: black;
+                width: 30px;
+                height: 30px;
+                border-radius: 50%;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                font-size: 1rem;
+                font-weight: bold;
+                position: absolute;
+                top: -5px;
+                right: -5px;
+
+                @media (max-width: 768px) {
+                    width: 25px;
+                    height: 25px;
+                    font-size: 0.9rem;
+                }
+
+                @media (max-width: 480px) {
+                    width: 20px;
+                    height: 20px;
+                    font-size: 0.8rem;
+
+                }
+            }
+
+
         }
 
         @media (max-width: 768px) {
             padding: 12px;
             flex-wrap: wrap;
             gap: 10px;
+            top: 4.2rem;
 
             .btn {
                 padding: 10px 15px;
                 font-size: 0.9rem;
             }
+        }
+
+        @media (max-width: 480px) {
+            top: 4.2rem;
+
+
         }
     }
 

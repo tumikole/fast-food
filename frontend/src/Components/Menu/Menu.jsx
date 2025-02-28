@@ -676,8 +676,7 @@ const Menu = ({ addToCart, cart, setCart }) => {
                     <div className="cart-info">
                         <div>
                             <button disabled className="btn btn-warning" style={{ display: "flex" }}>
-                                <div><box-icon name='cart' color="#ffcc00" ></box-icon></div>
-                                <div>{cart.length} items</div>
+                                <div className="cart-item-length">{cart.length}</div>
                             </button>
                         </div>
                         {hasSelectedItems && <div
@@ -711,7 +710,7 @@ const Menu = ({ addToCart, cart, setCart }) => {
                                 <Link to="/cart" style={{ listStyle: "none" }}>
                                     <button className="btn btn-warning" style={{ display: "flex" }}>
                                         <div><box-icon name='cart-alt' color="#ffcc00" type='solid' ></box-icon></div>
-                                        <div>View cart</div>
+                                        {/* <div>View cart</div> */}
                                     </button>
                                 </Link>
                             </div>
