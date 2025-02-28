@@ -31,7 +31,7 @@
         align-items: center;
         border: 1px solid #ffcc00;
         width: 30%;
-        margin: auto    ;
+        margin: auto;
 
         .payment-options {
             display: flex;
@@ -108,13 +108,44 @@
     }
 
     // Media Queries
+    @media (max-width: 1024px) {
+        .section-title {
+            font-size: 2.2rem; // Adjusted size for medium screens
+        }
+
+        .order-form {
+            padding: 25px;
+            width: 70%;
+            margin: auto;
+
+            .payment-options {
+                .payment-option {
+                    font-size: 1.1rem; // Adjusted label size for medium screens
+                }
+            }
+
+            .card-form {
+                input {
+                    font-size: 0.95rem; // Adjusted input size for medium screens
+                }
+            }
+
+            .submit-button {
+                font-size: 1.1rem; // Adjusted button size for medium screens
+                padding: 12px 24px; // Adjusted button padding for medium screens
+            }
+        }
+    }
+
     @media (max-width: 768px) {
         .section-title {
             font-size: 2rem; // Adjusted size for smaller screens
         }
 
         .order-form {
-            padding: 20px; // Adjusted padding for smaller screens
+            padding: 20px;
+            width: 90%;
+            margin: auto;
 
             .payment-options {
                 .payment-option {
@@ -141,6 +172,9 @@
         }
 
         .order-form {
+            width: 95%;
+            margin: auto;
+
             .card-form {
                 input {
                     font-size: 0.8rem; // Further adjusted input size for mobile
