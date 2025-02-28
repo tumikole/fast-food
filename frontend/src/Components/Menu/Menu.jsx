@@ -776,10 +776,10 @@ const Menu = ({ addToCart, cart, setCart }) => {
                                                     {item.images.length > 1 && (
                                                         <>
                                                             <div onClick={() => handlePreviousImage(item.id)}>
-                                                                <box-icon color="#ffcc00" name="left-arrow-alt"></box-icon>
+                                                                <box-icon size="30px" color="#ffcc00" name="left-arrow-alt"></box-icon>
                                                             </div>
                                                             <div onClick={() => handleNextImage(item.id)}>
-                                                                <box-icon color="#ffcc00" name="right-arrow-alt"></box-icon>
+                                                                <box-icon size="30px" color="#ffcc00" name="right-arrow-alt"></box-icon>
                                                             </div>
                                                         </>
                                                     )}

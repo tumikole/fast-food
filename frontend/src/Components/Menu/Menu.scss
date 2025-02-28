@@ -231,16 +231,16 @@
                 tr {
                     transition: background-color 0.3s ease;
                     background-color: #404040;
-                    
-                    
+
+
                     &:hover {
                         background-color: #383838;
                     }
-                    
+
                     td {
                         color: #ffffff;
                         font-size: 0.95rem;
-                        background-color: #404040; 
+                        background-color: #404040;
                         border-bottom: 1px solid #ffcc00 !important;
 
                         &:last-child {
@@ -255,6 +255,9 @@
                             justify-content: flex-end;
                             background-color: #404040;
 
+                            input {
+                                width: 100% !important;
+                            }
 
                             box-icon {
                                 cursor: pointer;
@@ -288,6 +291,8 @@
                                 accent-color: #ffcc00;
                                 cursor: pointer;
                                 position: relative;
+                                width: 100% !important;
+
 
                                 &:checked {
                                     &::after {
@@ -300,6 +305,8 @@
                                         height: 10px;
                                         background-color: #ffcc00;
                                         border-radius: 2px;
+                                        width: 100% !important;
+
                                     }
                                 }
                             }

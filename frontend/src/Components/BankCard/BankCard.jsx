@@ -5,7 +5,7 @@ export default function BankCard() {
     return (
         <div class="cc">
 
-            <h2>Bank of CodePen</h2>
+            <h2>Bank card</h2>
 
             <span class="provider mastercard">MasterCard</span>
             <span class="provider amex">American Express</span>

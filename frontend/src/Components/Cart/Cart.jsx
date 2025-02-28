@@ -52,9 +52,9 @@ const Cart = ({ cart, removeItem }) => {
             <h3>Grand Total: R{calculateTotal()}</h3>
             <Link to="/order-information">
               <button className="checkout-button" style={{ display: "flex", justifyContent: "center", gap: "1rem" }}>
-                <div><box-icon name='check-circle' color="#ffcc00"></box-icon></div>
+                <div><box-icon color="#ffcc00"></box-icon></div>
                 <div>Proceed to Checkout</div>
-                <div><box-icon name='check-circle' color="#ffcc00"></box-icon></div>
+                <div><box-icon name='check-circle'></box-icon></div>
               </button>
             </Link>
           </div>
