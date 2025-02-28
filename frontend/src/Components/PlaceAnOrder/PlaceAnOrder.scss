@@ -30,7 +30,7 @@
         flex-direction: column;
         align-items: center;
         border: 1px solid #ffcc00;
-        width: 30%;
+        // width: 30%;
         margin: auto;
 
         .payment-options {
@@ -92,7 +92,7 @@
 
         .submit-button {
             background-color: #ffcc00; // Button color
-            color: #ffffff; // Button text color
+            color: black; // Button text color
             border: none;
             border-radius: 25px; // Rounded corners
             padding: 15px 30px; // Button padding
@@ -148,6 +148,10 @@
             margin: auto;
 
             .payment-options {
+                display: grid !important;
+                grid-template-columns: repeat(1, 1fr);
+                width: 100%x;
+
                 .payment-option {
                     font-size: 1rem; // Adjusted label size for smaller screens
                 }
@@ -171,19 +175,24 @@
             font-size: 1.5rem; // Further adjusted size for mobile
         }
 
-        .order-form {
-            width: 95%;
-            margin: auto;
+        .payment-options {
+            display: grid !important;
+            width: 100%;
 
-            .card-form {
-                input {
-                    font-size: 0.8rem; // Further adjusted input size for mobile
+            .order-form {
+                width: 95%;
+                margin: auto;
+
+                .card-form {
+                    input {
+                        font-size: 0.8rem; // Further adjusted input size for mobile
+                    }
                 }
-            }
 
-            .submit-button {
-                font-size: 0.9rem; // Further adjusted button size for mobile
-                padding: 8px 16px; // Further adjusted button padding for mobile
+                .submit-button {
+                    font-size: 0.9rem; // Further adjusted button size for mobile
+                    padding: 8px 16px; // Further adjusted button padding for mobile
+                }
             }
         }
     }

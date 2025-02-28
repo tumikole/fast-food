@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import './PlaceAnOrder.scss';
 import Navbar from '../Navbar/Navbar';
+import BankCard from '../BankCard/BankCard';
 
 const PlaceAnOrder = () => {
     const [paymentMethod, setPaymentMethod] = useState('online');
@@ -65,40 +66,9 @@ const PlaceAnOrder = () => {
                 </div>
 
                 {paymentMethod === 'online' && (
-                    <div className="card-form">
+                    <div>
                         <h3>Card Details</h3>
-                        <input
-                            type="text"
-                            name="cardNumber"
-                            placeholder="Card Number"
-                            value={cardDetails.cardNumber}
-                            onChange={handleCardChange}
-                            required
-                        />
-                        <input
-                            type="text"
-                            name="cardHolder"
-                            placeholder="Card Holder Name"
-                            value={cardDetails.cardHolder}
-                            onChange={handleCardChange}
-                            required
-                        />
-                        <input
-                            type="text"
-                            name="expiryDate"
-                            placeholder="MM/YY"
-                            value={cardDetails.expiryDate}
-                            onChange={handleCardChange}
-                            required
-                        />
-                        <input
-                            type="text"
-                            name="cvv"
-                            placeholder="CVV"
-                            value={cardDetails.cvv}
-                            onChange={handleCardChange}
-                            required
-                        />
+                        <BankCard />
                     </div>
                 )}
 
