@@ -699,7 +699,7 @@ const Menu = ({ addToCart, cart, setCart }) => {
                         >
                             <div>
                                 <div><box-icon name='cart-download' animation='tada' color='red' ></box-icon></div>
-                                <div>You have item needs to be added to your cart</div>
+                                <div>You have pending items...</div>
                             </div>
 
 
