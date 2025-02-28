@@ -5,23 +5,10 @@ import BankCard from '../BankCard/BankCard';
 
 const PlaceAnOrder = () => {
     const [paymentMethod, setPaymentMethod] = useState('online');
-    const [cardDetails, setCardDetails] = useState({
-        cardNumber: '',
-        cardHolder: '',
-        expiryDate: '',
-        cvv: '',
-    });
+
 
     const handlePaymentChange = (event) => {
         setPaymentMethod(event.target.value);
-    };
-
-    const handleCardChange = (event) => {
-        const { name, value } = event.target;
-        setCardDetails((prevDetails) => ({
-            ...prevDetails,
-            [name]: value,
-        }));
     };
 
     const handleSubmit = (event) => {
@@ -65,12 +52,14 @@ const PlaceAnOrder = () => {
                     </label>
                 </div>
 
-                {paymentMethod === 'online' && (
-                    <div>
+                {paymentMethod === 'online' &&
+
+                    <div className="card-form">
                         <h3>Card Details</h3>
                         <BankCard />
                     </div>
-                )}
+
+                }
 
                 <button type="submit" className="submit-button">Confirm Order</button>
             </form>
