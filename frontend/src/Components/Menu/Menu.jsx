@@ -12,6 +12,9 @@ const Menu = ({ addToCart, cart, setCart }) => {
     const [quantities, setQuantities] = useState({});
     const [imageLoading, setImageLoading] = useState({});
 
+    // Add this at the top of your component to track if there are selected items
+    const hasSelectedItems = Object.values(selectedIngredients).some(items => items.length > 0);
+
     const categories = useMemo(
         () => [
             "All",
@@ -677,6 +680,31 @@ const Menu = ({ addToCart, cart, setCart }) => {
                                 <div>{cart.length} items</div>
                             </button>
                         </div>
+                        {hasSelectedItems && <div
+                            style={{
+                                position: 'fixed',
+                                bottom: '0',
+                                left: '2rem',
+                                right: '2rem',
+                                backgroundColor: '#34495e',
+                                border: '1px solid #b8daff',
+                                color: 'red',
+                                padding: '5px',
+                                textAlign: 'center',
+                                boxShadow: '0 2px 10px rgba(0,0,0,0.1)',
+                                zIndex: 1000,
+                                animation: 'fadeIn 0.3s ease-in',
+
+                            }}
+                        >
+                            <div>
+                                <div><box-icon name='cart-download' animation='tada' color='red' ></box-icon></div>
+                                <div>You have item needs to be added to your cart</div>
+                            </div>
+
+
+                        </div>
+                        }
                         {
                             cart.length > 0 &&
                             <div>
@@ -857,9 +885,9 @@ const Menu = ({ addToCart, cart, setCart }) => {
                             );
                         })}
                     </div>
-
                 </div>
             </div>
+
         </div>
     );
 };
