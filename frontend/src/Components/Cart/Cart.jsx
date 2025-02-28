@@ -4,8 +4,6 @@ import Navbar from "../Navbar/Navbar";
 import { Link } from "react-router-dom";
 
 const Cart = ({ cart, removeItem }) => {
-  console.log("Cart contents:", cart);
-
   // Calculate the total price of the cart (if not already done in the parent)
   const calculateTotal = () => {
     return cart.reduce((total, item) => {
@@ -14,7 +12,6 @@ const Cart = ({ cart, removeItem }) => {
     }, 0);
   };
 
-  console.log({pruce: calculateTotal()})
   return (
     <div className="cart">
       <Navbar />
@@ -38,8 +35,11 @@ const Cart = ({ cart, removeItem }) => {
                   <h4>{item.itemName}</h4>
                   <p>Category: {item.category}</p>
                   <p>Ingredients: {item.ingredients.join(", ")}</p>
+                  <p>Quantity: {item.quantity}</p>
                   <p>Price: R{Object.values(item.price)[0]}</p>
-                  <button onClick={() => removeItem(index)}>Remove</button>
+                  <div onClick={() => removeItem(index)} style={{ position: "absolute", bottom: 0, right: "1rem" }}>
+                    <box-icon name='trash' size="2rem" animation='flashing' color='#ff0000' ></box-icon>
+                  </div>
                 </div>
               </div>
             ))}

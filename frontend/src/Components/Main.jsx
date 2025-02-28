@@ -14,7 +14,7 @@ const Main = () => {
 
   // Update this to allow adding the same item multiple times to the cart
   const addToCart = (item) => {
-    setCart((prevCart) => [...prevCart, { ...item, quantity: 1 }]);
+    setCart((prevCart) => [...prevCart, { ...item }]);
   };
 
   // Handle item removal by index

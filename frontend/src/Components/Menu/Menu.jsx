@@ -9,7 +9,8 @@ const Menu = ({ addToCart, cart, setCart }) => {
     const [imageIndexes, setImageIndexes] = useState({});
     const [itemTotals, setItemTotals] = useState({}); // Track total price per item
     const [selectAllChecked, setSelectAllChecked] = useState(false);
-
+    const [quantities, setQuantities] = useState({});
+    const [imageLoading, setImageLoading] = useState({});
 
     const categories = useMemo(
         () => [
@@ -36,7 +37,8 @@ const Menu = ({ addToCart, cart, setCart }) => {
                         { name: "ATCHAAR", itemPrice: 3.00 },
                         { name: "POLONY", itemPrice: 2.00 },
                     ],
-                    totalAmount: 15.00
+                    totalAmount: 15.00,
+                    quantity: 1
                 },
                 {
                     imageId: 2,
@@ -49,7 +51,8 @@ const Menu = ({ addToCart, cart, setCart }) => {
                         { name: "POLONY", itemPrice: 2.00 },
                         { name: "HALF VIENNA", itemPrice: 5.00 }
                     ],
-                    totalAmount: 20.00
+                    totalAmount: 20.00,
+                    quantity: 1
                 },
                 {
                     imageId: 3,
@@ -62,7 +65,8 @@ const Menu = ({ addToCart, cart, setCart }) => {
                         { name: "POLONY", itemPrice: 2.00 },
                         { name: "FULL VIENNA", itemPrice: 15.00 }
                     ],
-                    totalAmount: 26.00
+                    totalAmount: 26.00,
+                    quantity: 1
                 },
                 {
                     imageId: 4,
@@ -76,7 +80,8 @@ const Menu = ({ addToCart, cart, setCart }) => {
                         { name: "HALF VIENNA", itemPrice: 5.00 },
                         { name: "CHEESE", itemPrice: 15.00 }
                     ],
-                    totalAmount: 0
+                    totalAmount: 0,
+                    quantity: 1
                 },
                 {
                     imageId: 5,
@@ -89,7 +94,8 @@ const Menu = ({ addToCart, cart, setCart }) => {
                         { name: "POLONY", itemPrice: 2.00 },
                         { name: "HALF RUSSIAN", itemPrice: 5.00 }
                     ],
-                    totalAmount: 0
+                    totalAmount: 0,
+                    quantity: 1
                 },
                 {
                     imageId: 6,
@@ -102,7 +108,8 @@ const Menu = ({ addToCart, cart, setCart }) => {
                         { name: "POLONY", itemPrice: 2.00 },
                         { name: "FULL RUSSIAN", itemPrice: 5.00 }
                     ],
-                    totalAmount: 0
+                    totalAmount: 0,
+                    quantity: 1
                 },
                 {
                     imageId: 7,
@@ -117,7 +124,8 @@ const Menu = ({ addToCart, cart, setCart }) => {
                         { name: "CHEESE", itemPrice: 15.00 }
 
                     ],
-                    totalAmount: 35.00
+                    totalAmount: 35.00,
+                    quantity: 1
                 },
                 {
                     imageId: 9,
@@ -133,7 +141,8 @@ const Menu = ({ addToCart, cart, setCart }) => {
                         { name: "FULL VIENNA", itemPrice: 15.00 }
 
                     ],
-                    totalAmount: 43.00
+                    totalAmount: 43.00,
+                    quantity: 1
                 },
                 {
                     imageId: 10,
@@ -148,7 +157,8 @@ const Menu = ({ addToCart, cart, setCart }) => {
                         { name: "BURGER PATTY", itemPrice: 15.00 },
 
                     ],
-                    totalAmount: 48.00
+                    totalAmount: 48.00,
+                    quantity: 1
                 },
                 {
                     imageId: 11,
@@ -165,7 +175,8 @@ const Menu = ({ addToCart, cart, setCart }) => {
                         { name: "EGGS", itemPrice: 15.00 },
 
                     ],
-                    totalAmount: 60.00
+                    totalAmount: 60.00,
+                    quantity: 1
                 },
                 {
                     imageId: 12,
@@ -183,7 +194,8 @@ const Menu = ({ addToCart, cart, setCart }) => {
                         { name: "FULL VIENNA", itemPrice: 15.00 }
 
                     ],
-                    totalAmount: 65.00
+                    totalAmount: 65.00,
+                    quantity: 1
                 },
             ],
             price: 25.00
@@ -199,7 +211,6 @@ const Menu = ({ addToCart, cart, setCart }) => {
                     ingredients: [
                         { name: "FULL VIENNA", itemPrice: 8.00 },
                         { name: "HALF VIENNA", itemPrice: 6.00 },
-
                     ]
                 },
                 {
@@ -216,7 +227,7 @@ const Menu = ({ addToCart, cart, setCart }) => {
                     itemName: "CHEESE",
                     imageItem: "https://cdn.diys.com/wp-content/uploads/2014/09/can-you-freeze-cheese-slices.jpg",
                     ingredients: [
-                        { name: "CHEESE", itemPrice: 4.00 },
+                        { name: "CHEESE", itemPrice: 4.00, quantity: 1 },
 
                     ]
                 }
@@ -226,7 +237,7 @@ const Menu = ({ addToCart, cart, setCart }) => {
                     itemName: "EGG",
                     imageItem: "https://img.freepik.com/premium-photo/top-view-photo-fried-egg-white-background_908985-53217.jpg",
                     ingredients: [
-                        { name: "EGG", itemPrice: 4.00 },
+                        { name: "EGG", itemPrice: 4.00, quantity: 1 },
 
                     ]
                 }
@@ -236,7 +247,7 @@ const Menu = ({ addToCart, cart, setCart }) => {
                     itemName: "B/PATTY",
                     imageItem: "https://t4.ftcdn.net/jpg/10/23/64/65/360_F_1023646511_aVjBB3EOxCfroQoyRr9q7yVtGgKs7JcR.jpg",
                     ingredients: [
-                        { name: "PATTY", itemPrice: 15.00 },
+                        { name: "PATTY", itemPrice: 15.00, quantity: 1 },
 
                     ]
                 }
@@ -250,13 +261,13 @@ const Menu = ({ addToCart, cart, setCart }) => {
                 {
                     imageId: 1,
                     itemName: "CHIPS",
-                    imageItem: "https://lh3.googleusercontent.com/proxy/9Se4y7QfUNTZoUquCi5eUFqEYgVHsvT7ujPAVV6pBBCdlLSVHkHlBrueUjnmYhAd0ZivKr8KueY0kY3jCZcX6jbcLFnRdUVbcidAc14CxhLD4miwsQ",
+                    imageItem: "https://cdn.britannica.com/34/206334-050-7637EB66/French-fries.jpg",
                     ingredients: [
-                        { name: "SMALL CHIPS", itemPrice: 20.00 },
-                        { name: "MID CHIPS", itemPrice: 25.00 },
-                        { name: "LARGER CHIPS	", itemPrice: 30.00 },
+                        { name: "SMALL CHIPS", itemPrice: 20.00, quantity: 1 },
+                        { name: "MID CHIPS", itemPrice: 25.00, quantity: 1 },
+                        { name: "LARGER CHIPS	", itemPrice: 30.00, quantity: 1 },
                         { name: "X LARGER CHIPS", itemPrice: 40.00 },
-                        { name: "MED CHIPS + RUSSIAN", itemPrice: 45.00 },
+                        { name: "MED CHIPS + RUSSIAN", itemPrice: 45.00, quantity: 1 },
 
                     ]
                 }
@@ -272,13 +283,13 @@ const Menu = ({ addToCart, cart, setCart }) => {
                     itemName: "Soft drinks",
                     imageItem: "https://eu-images.contentstack.com/v3/assets/blta023acee29658dfc/blta9f158c45627aa62/651dbb742365a678d7ec7f18/AdobeStock_279692163_Editorial_Use_Only-Beverage-FTR-new.jpg",
                     ingredients: [
-                        { name: "Coke", itemPrice: 12.00 },
-                        { name: "Fanta", itemPrice: 25.00 },
-                        { name: "Pepsi", itemPrice: 10.00 },
-                        { name: "Sprite", itemPrice: 25.00 },
-                        { name: "Lipton", itemPrice: 25.00 },
-                        { name: "Miranda", itemPrice: 25.00 },
-                        { name: "Scwepes", itemPrice: 25.00 },
+                        { name: "Coke", itemPrice: 12.00, quantity: 1 },
+                        { name: "Fanta", itemPrice: 25.00, quantity: 1 },
+                        { name: "Pepsi", itemPrice: 10.00, quantity: 1 },
+                        { name: "Sprite", itemPrice: 25.00, quantity: 1 },
+                        { name: "Lipton", itemPrice: 25.00, quantity: 1 },
+                        { name: "Miranda", itemPrice: 25.00, quantity: 1 },
+                        { name: "Scwepes", itemPrice: 25.00, quantity: 1 },
 
 
 
@@ -289,18 +300,20 @@ const Menu = ({ addToCart, cart, setCart }) => {
                     itemName: "Beer",
                     imageItem: "https://lh3.googleusercontent.com/-1VuBtZIqhqJodQKoCS4BUSETWOT9HWEZE07loreo3xFd__MRuI5epacVfElr8kaLzS2hmiSCeqatAdRM-4K96SlWb8vW2re03CD2Lm-EbAh=s1500",
                     ingredients: [
-                        { name: "Blac label", itemPrice: 22.00 },
-                        { name: "Amstel", itemPrice: 22.00 },
-                        { name: "Hansa Pilsner", itemPrice: 20.00 },
-                        { name: "Castle Milk Stout", itemPrice: 25.00 },
-                        { name: "Castle Lite", itemPrice: 22.00 },
-                        { name: "Castle Larger", itemPrice: 20.00 }
+                        { name: "Blac label", itemPrice: 22.00, quantity: 1 },
+                        { name: "Amstel", itemPrice: 22.00, quantity: 1 },
+                        { name: "Hansa Pilsner", itemPrice: 20.00, quantity: 1 },
+                        { name: "Castle Milk Stout", itemPrice: 25.00, quantity: 1 },
+                        { name: "Castle Lite", itemPrice: 22.00, quantity: 1 },
+                        { name: "Castle Larger", itemPrice: 20.00, quantity: 1 }
                     ]
                 }
             ],
             price: 20.00
         }
     ], []);
+
+
 
     useEffect(() => {
         const initImageIndexes = {};
@@ -309,6 +322,7 @@ const Menu = ({ addToCart, cart, setCart }) => {
         });
         setImageIndexes(initImageIndexes);
     }, [menuItems]);
+
 
     const handleNextImage = (id) => {
         setImageIndexes((prevIndexes) => {
@@ -342,74 +356,158 @@ const Menu = ({ addToCart, cart, setCart }) => {
     };
 
     const resetSelections = (id) => {
+        // Get the current item and image data
+        const item = menuItems.find(item => item.id === id);
+        const currentImageData = item.images[imageIndexes[id]];
+
         setSelectedIngredients((prevState) => ({
             ...prevState,
             [id]: [],
         }));
+
         setItemTotals((prevTotals) => ({
             ...prevTotals,
             [id]: 0,
         }));
-    };
 
-
-    const handleIngredientToggle = (itemId, ingredientName, ingredientPrice) => {
-        setSelectedIngredients((prevSelected) => {
-            const newSelection = prevSelected[itemId] || [];
-            const updatedSelection = newSelection.includes(ingredientName)
-                ? newSelection.filter((i) => i !== ingredientName)
-                : [...newSelection, ingredientName];
-
-            setItemTotals((prevTotals) => {
-                const updatedTotal = prevTotals[itemId] || 0;
-                console.log(updatedTotal)
-                const newTotal = updatedSelection.reduce((total, ingredient) => {
-                    const ingredientPrice = menuItems.find(item => item.id === itemId)
-                        .images[imageIndexes[itemId]].ingredients.find(i => i.name === ingredient)
-                        .itemPrice;
-
-                    return total + ingredientPrice;
-                }, 0);
-                console.log({ newTotal })
-
-                return { ...prevTotals, [itemId]: newTotal };
-            });
-            console.log({ hggfhhf: updatedSelection })
-            return { ...prevSelected, [itemId]: updatedSelection };
+        // Reset quantities for the current item
+        setQuantities((prevQuantities) => {
+            const newQuantities = { ...prevQuantities };
+            // Remove quantity for the current item
+            if (currentImageData) {
+                delete newQuantities[currentImageData.itemName];
+            }
+            setItemTotals({})
+            return newQuantities;
         });
     };
 
 
+    const handleIngredientToggle = (itemId, ingredientName, itemPrice) => {
+        // Get current state values
+        const selectedItems = selectedIngredients[itemId] || [];
+        const isChecked = selectedItems.includes(ingredientName);
+        const currentQuantity = quantities[ingredientName] || 1;
 
+        // Update selected ingredients
+        const updatedSelectedItems = isChecked
+            ? selectedItems.filter((name) => name !== ingredientName)
+            : [...selectedItems, ingredientName];
+
+        // Update all states in parallel
+        setSelectedIngredients(prev => ({
+            ...prev,
+            [itemId]: updatedSelectedItems
+        }));
+
+        // Reset quantity if unchecking
+        setQuantities(prevQuantities => {
+            if (isChecked) {
+                const { [ingredientName]: removed, ...rest } = prevQuantities;
+                return rest;
+            }
+            return {
+                ...prevQuantities,
+                [ingredientName]: 1
+            };
+        });
+
+        // Update total price considering quantity
+        setItemTotals(prevTotals => {
+            const currentTotal = prevTotals[itemId] || 0;
+            const priceAdjustment = isChecked
+                ? -(itemPrice * currentQuantity) // Subtract total price (price * quantity)
+                : itemPrice; // Add base price when checking
+
+            return {
+                ...prevTotals,
+                [itemId]: Math.max(currentTotal + priceAdjustment, 0)
+            };
+        });
+    };
 
 
     const handleAddToCart = (item) => {
-        const selectedItem = {
-            category: item.category,
-            itemName: item.images[imageIndexes[item.id]].itemName,
-            ingredients: selectedIngredients[item.id] || [],
-            price: itemTotals
-        };
+        const currentImageData = item.images[imageIndexes[item.id]];
 
-        // Check if the item is already in the cart and update accordingly
-        const itemIndex = cart.findIndex(cartItem =>
-            cartItem.itemName === selectedItem.itemName &&
-            JSON.stringify(cartItem.ingredients) === JSON.stringify(selectedItem.ingredients)
-        );
+        // For items with multiple selections, create separate cart items
+        if (selectedIngredients[item.id]?.length > 0 && item.id !== 1) {  // Not Kota
+            selectedIngredients[item.id].forEach(ingredientName => {
+                const ingredientPrice = currentImageData.ingredients.find(
+                    ing => ing.name === ingredientName
+                )?.itemPrice || 0;
 
-        if (itemIndex === -1) {
-            // Item is not in the cart, add it
-            addToCart(selectedItem);
+                const singleItem = {
+                    category: item.category,
+                    itemName: ingredientName,
+                    ingredients: [ingredientName],
+                    price: { [item.id]: ingredientPrice * (quantities[ingredientName] || 1) },
+                    quantity: quantities[ingredientName] || 1
+                };
+
+                // Check if this specific ingredient is already in cart
+                const itemIndex = cart.findIndex(cartItem =>
+                    cartItem.itemName === ingredientName &&
+                    JSON.stringify(cartItem.ingredients) === JSON.stringify([ingredientName])
+                );
+
+                if (itemIndex === -1) {
+                    // Add new item
+                    addToCart(singleItem);
+                } else {
+                    // Update existing item
+                    const updatedCart = [...cart];
+                    updatedCart[itemIndex] = {
+                        ...singleItem,
+                        quantity: quantities[ingredientName] || 1
+                    };
+                    setCart(updatedCart);
+                }
+            });
         } else {
-            // Item already exists in the cart, update its quantity
-            const updatedCart = [...cart];
-            updatedCart[itemIndex].quantity = (updatedCart[itemIndex].quantity || 1) + 1;
-            setCart(updatedCart);
+            // Handle Kota items (item.id === 1) or single selections
+            const currentQuantity = quantities[currentImageData.itemName] || 1;
+            const currentTotal = itemTotals[item.id] || 0;
+
+            const selectedItem = {
+                category: `${item.category} 🍞🥖🧈🧀🍟`,
+                itemName: currentImageData.itemName,
+                ingredients: selectedIngredients[item.id] || [],
+                price: { [item.id]: currentTotal },
+                quantity: currentQuantity
+            };
+
+            const itemIndex = cart.findIndex(cartItem =>
+                cartItem.itemName === selectedItem.itemName &&
+                JSON.stringify(cartItem.ingredients) === JSON.stringify(selectedItem.ingredients)
+            );
+
+            if (itemIndex === -1) {
+                addToCart(selectedItem);
+            } else {
+                const updatedCart = [...cart];
+                updatedCart[itemIndex] = {
+                    ...selectedItem,
+                    quantity: currentQuantity
+                };
+                setCart(updatedCart);
+            }
         }
 
-        // setCartCount((prevCount) => prevCount + 1);
+        // Reset states after adding to cart
         setSelectedIngredients((prev) => ({ ...prev, [item.id]: [] }));
         setItemTotals((prev) => ({ ...prev, [item.id]: 0 }));
+        setQuantities(prev => {
+            const newQuantities = { ...prev };
+            if (item.id !== 1) {  // Not Kota
+                selectedIngredients[item.id]?.forEach(ingredientName => {
+                    delete newQuantities[ingredientName];
+                });
+            }
+            delete newQuantities[currentImageData.itemName];
+            return newQuantities;
+        });
+        setSelectAllChecked(false);
     };
 
 
@@ -458,7 +556,92 @@ const Menu = ({ addToCart, cart, setCart }) => {
         });
     };
 
+    const updateQuantityPlus = (ingredientName, itemId, itemPrice) => {
+        // Don't update if ingredient isn't selected
+        if (!selectedIngredients[itemId]?.includes(ingredientName)) return;
 
+        // Update quantities
+        setQuantities(prev => {
+            const currentQuantity = prev[ingredientName] || 1;
+            return {
+                ...prev,
+                [ingredientName]: currentQuantity + 1
+            };
+        });
+
+        // Update total price
+        setItemTotals(totals => ({
+            ...totals,
+            [itemId]: Math.max((totals[itemId] || 0) + itemPrice, 0)
+        }));
+    };
+
+    const updateQuantityMinus = (ingredientName, itemId, itemPrice) => {
+        // Get current quantity
+        const currentQuantity = quantities[ingredientName] || 1;
+
+        // Don't update if quantity would go below 1
+        if (currentQuantity <= 1) {
+            return;
+        }
+
+        // Update quantities
+        setQuantities(prev => ({
+            ...prev,
+            [ingredientName]: currentQuantity - 1
+        }));
+
+        // Update total price
+        setItemTotals(totals => ({
+            ...totals,
+            [itemId]: Math.max((totals[itemId] || 0) - itemPrice, 0)
+        }));
+    };
+
+    // Separate Kota quantity handlers
+    const updateKotaQuantityPlus = (itemName, itemId, totalAmount) => {
+        const currentQuantity = quantities[itemName] || 1;
+        const newQuantity = currentQuantity + 1;
+
+        setQuantities(prev => ({
+            ...prev,
+            [itemName]: newQuantity
+        }));
+
+        setItemTotals(prev => ({
+            ...prev,
+            [itemId]: totalAmount * newQuantity
+        }));
+    };
+
+    const updateKotaQuantityMinus = (itemName, itemId, totalAmount) => {
+        const currentQuantity = quantities[itemName] || 1;
+        if (currentQuantity <= 1) {
+            // Reset all states for this Kota item
+            setQuantities(prev => {
+                const { [itemName]: removed, ...rest } = prev;
+                return rest;
+            });
+            setItemTotals(prev => ({
+                ...prev,
+                [itemId]: 0
+            }));
+            setSelectAllChecked(false);
+            return;
+        }
+
+        const newQuantity = currentQuantity - 1;
+
+        setQuantities(prev => ({
+            ...prev,
+            [itemName]: newQuantity
+        }));
+
+        setItemTotals(prev => ({
+            ...prev,
+            [itemId]: totalAmount * newQuantity
+        }));
+    };
 
     const filteredMenu =
         activeCategory === "All"
@@ -522,10 +705,37 @@ const Menu = ({ addToCart, cart, setCart }) => {
                                     <div className="restaurant-menu">
                                         <div className="menu-item">
                                             <div className="menu-item-header">
-                                                <img
-                                                    src={currentImageData.imageItem}
-                                                    alt={item.category}
-                                                />
+                                                <div style={{ position: 'relative', width: '100%', height: '200px' }}> {/* Adjust height as needed */}
+                                                    {(!imageLoading[currentImageData.imageItem]) && (
+                                                        <div style={{
+                                                            position: 'absolute',
+                                                            top: 0,
+                                                            left: 0,
+                                                            right: 0,
+                                                            bottom: 0,
+                                                            display: 'flex',
+                                                            justifyContent: 'center',
+                                                            alignItems: 'center',
+                                                            backgroundColor: '#f5f5f5'
+                                                        }}>
+                                                            <box-icon name='loader-alt' animation='spin' color='#ffcc00'></box-icon>
+                                                        </div>
+                                                    )}
+                                                    <img
+                                                        src={currentImageData.imageItem}
+                                                        alt={item.category}
+                                                        style={{
+                                                            width: '100%',
+                                                            height: '100%',
+                                                            objectFit: 'cover',
+                                                            display: imageLoading[currentImageData.imageItem] ? 'block' : 'none'
+                                                        }}
+                                                        onLoad={() => setImageLoading(prev => ({
+                                                            ...prev,
+                                                            [currentImageData.imageItem]: true
+                                                        }))}
+                                                    />
+                                                </div>
                                                 <div className="menu-item-header-text">
                                                     <h3>{currentImageData.itemName}</h3>
                                                     <h3>
@@ -535,12 +745,16 @@ const Menu = ({ addToCart, cart, setCart }) => {
                                                     </h3>
                                                 </div>
                                                 <div className="ingridient-change">
-                                                    <div onClick={() => handlePreviousImage(item.id)}>
-                                                        <box-icon color="#ffcc00" name="left-arrow-alt"></box-icon>
-                                                    </div>
-                                                    <div onClick={() => handleNextImage(item.id)}>
-                                                        <box-icon color="#ffcc00" name="right-arrow-alt"></box-icon>
-                                                    </div>
+                                                    {item.images.length > 1 && (
+                                                        <>
+                                                            <div onClick={() => handlePreviousImage(item.id)}>
+                                                                <box-icon color="#ffcc00" name="left-arrow-alt"></box-icon>
+                                                            </div>
+                                                            <div onClick={() => handleNextImage(item.id)}>
+                                                                <box-icon color="#ffcc00" name="right-arrow-alt"></box-icon>
+                                                            </div>
+                                                        </>
+                                                    )}
                                                 </div>
                                             </div>
                                             <h4 style={{ marginLeft: "1rem" }}>{item.category}</h4>
@@ -561,27 +775,27 @@ const Menu = ({ addToCart, cart, setCart }) => {
                                                             <td style={{ display: item.id === 1 && "none" }}>
                                                                 <input
                                                                     type="checkbox"
-                                                                    checked={
-                                                                        (selectedIngredients[item.id]?.includes(ingredient.name) || false)
-                                                                    }
-                                                                    onChange={() =>
-                                                                        handleIngredientToggle(
-                                                                            item.id,
-                                                                            ingredient.name,
-                                                                            ingredient.itemPrice
-                                                                        )
-                                                                    }
+                                                                    checked={!!selectedIngredients[item.id]?.includes(ingredient.name)} // Ensures a boolean
+                                                                    onChange={() => handleIngredientToggle(item.id, ingredient.name, ingredient.itemPrice)}
                                                                     disabled={item.id === 1}
                                                                 />
                                                             </td>
                                                             <td><span>{ingredient.name}</span></td>
-                                                            <td style={{ display: item.id === 1 && "none" }}>{item.id !== 1 && <span>R {ingredient.itemPrice}</span>}</td>
                                                             <td style={{ display: item.id === 1 && "none" }}>
-                                                                <div style={{ display: "flex", gap: "1rem" }}>
-                                                                <div><box-icon name='minus' color='#ffcc00' ></box-icon></div>
-                                                                <div>1</div>
-                                                                <div><box-icon name='plus' color='#ffcc00' ></box-icon></div>
-                                                                </div>
+                                                                {item.id !== 1 && <span>R {ingredient.itemPrice}</span>}
+                                                            </td>
+                                                            <td style={{ display: item.id === 1 && "none" }}>
+                                                                {selectedIngredients[item.id]?.includes(ingredient.name) && (
+                                                                    <div style={{ display: "flex", gap: "1rem" }}>
+                                                                        <div onClick={() => updateQuantityMinus(ingredient.name, item.id, ingredient.itemPrice)}>
+                                                                            <box-icon name='minus' color='#ffcc00' ></box-icon>
+                                                                        </div>
+                                                                        <div>{quantities[ingredient.name] || 1}</div>
+                                                                        <div onClick={() => updateQuantityPlus(ingredient.name, item.id, ingredient.itemPrice)}>
+                                                                            <box-icon name='plus' color='#ffcc00' ></box-icon>
+                                                                        </div>
+                                                                    </div>
+                                                                )}
                                                             </td>
                                                         </tr>
                                                     ))}
@@ -596,15 +810,29 @@ const Menu = ({ addToCart, cart, setCart }) => {
                                                                     )
                                                                 } />
                                                             </div>
+
                                                             <div>
                                                                 <span>
                                                                     {item.id === 1
-                                                                        ? <span>Select <strong>{currentImageData.itemName.charAt(0).toUpperCase() + currentImageData.itemName.slice(1).toLowerCase()}</strong> kota</span>
+                                                                        ? <span><strong>{currentImageData.itemName.charAt(0).toUpperCase() + currentImageData.itemName.slice(1).toLowerCase()}</strong> kota</span>
                                                                         : "Select all".charAt(0).toUpperCase() + "Select all".slice(1).toLowerCase()}
                                                                 </span>
                                                             </div>
-
-                                                        </div>}
+                                                            <div>
+                                                                {item.id === 1 && selectAllChecked && (
+                                                                    <div style={{ display: "flex", gap: "1rem" }}>
+                                                                        <div onClick={() => updateKotaQuantityMinus(currentImageData.itemName, item.id, currentImageData.totalAmount)}>
+                                                                            <box-icon name='minus' color='#ffcc00' ></box-icon>
+                                                                        </div>
+                                                                        <div>{quantities[currentImageData.itemName] || 1}</div>
+                                                                        <div onClick={() => updateKotaQuantityPlus(currentImageData.itemName, item.id, currentImageData.totalAmount)}>
+                                                                            <box-icon name='plus' color='#ffcc00' ></box-icon>
+                                                                        </div>
+                                                                    </div>
+                                                                )}
+                                                            </div>
+                                                        </div>
+                                                    }
                                                 </tbody>
                                             </table>
                                             <div className="menu-item-footer">
@@ -637,6 +865,5 @@ const Menu = ({ addToCart, cart, setCart }) => {
 };
 
 export default Menu;
-
 
 
