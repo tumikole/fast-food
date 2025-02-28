@@ -8,7 +8,8 @@ const Navbar = () => {
     <nav className="menu">
       <input type="checkbox" style={{ display: "none" }} id="check" />
       <label htmlFor="check" className="checkbtn"></label>
-      <label className="logo">Olieven Kota & Grills</label>
+      <Link to="/"><label className="logo">Olieven Kota & Grills</label></Link>
+
       <ul>
         {[
           { path: "/", name: "Home", icon: "home-alt-2" },

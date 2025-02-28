@@ -90,10 +90,12 @@
   
     @media (max-width: 1024px) {
       padding: 1rem 2rem;
-  
-      .logo {
-        font-size: 1.6rem;
-      }
+  a{
+    .logo {
+      font-size: 1.3rem;
+    }
+
+  }
   
       .checkbtn, .closebtn {
         display: block;
