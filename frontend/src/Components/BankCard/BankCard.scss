@@ -6,8 +6,8 @@
   @import url(https://fonts.googleapis.com/css?family=Anaheim);
   @import url(https://fonts.googleapis.com/css?family=Inconsolata);
   
-  $blue: #174395;
-  $lightBlue: #ace4fa;
+  $blue: #ffcc0062;
+  $lightBlue: #ffcc00;
   $silver: #ececec;
   $space: 20px;
   
@@ -15,39 +15,42 @@
     background: $blue;
     border-radius: 20px;
     height: 310px;
-    margin: 50px;
+    margin: 50px auto;
     overflow: hidden;
     padding: $space;
-    position: relative;  
-    width: 490px;   
+    position: relative;
+    width: 490px;
   }
   
   .shine {
-    background: rgba(255,255,255,0.05); 
-    left: 390px; top: 0;
+    background: rgba(255, 255, 255, 0.05);
+    left: 390px;
+    top: 0;
     margin: 0 15px 0 0;
     padding: 0;
-      position: absolute;
+    position: absolute;
     height: 100%;
-      width: 100%;
-        -webkit-transform: skew(50deg);
-        -moz-transform: skew(50deg);
-        -ms-transform: skew(50deg);
-        -o-transform: skew(50deg);
-        transform: skew(50deg);
+    width: 100%;
+    -webkit-transform: skew(50deg);
+    -moz-transform: skew(50deg);
+    -ms-transform: skew(50deg);
+    -o-transform: skew(50deg);
+    transform: skew(50deg);
   }
   
   .shine-layer-two {
-      -webkit-transform: skew(80deg);
-      -moz-transform: skew(80deg);
-      -ms-transform: skew(80deg);
-      -o-transform: skew(80deg);
-      transform: skew(80deg);
+    -webkit-transform: skew(80deg);
+    -moz-transform: skew(80deg);
+    -ms-transform: skew(80deg);
+    -o-transform: skew(80deg);
+    transform: skew(80deg);
   }
   
   h2 {
-    font: 22px Anaheim; color: #fff;
-    margin: 0 $space/2 $space/2 0;       padding:0;
+    font: 22px Anaheim;
+    color: #fff;
+    margin: 0 $space / 2 $space / 2 0;
+    padding: 0;
     text-align: right;
   }
   
@@ -55,15 +58,16 @@
     text-transform: uppercase;
   }
   
-  .number, 
+  .number,
   .date {
-    margin-bottom: $space/2;
+    margin-bottom: $space / 2;
   }
   
   .provider {
     display: inline-block;
-    margin: 0 $space/2 $space/2 0;
-    width: 71px; height: 44px;
+    margin: 0 $space / 2 $space / 2 0;
+    width: 71px;
+    height: 44px;
   }
   
   .mastercard,
@@ -75,27 +79,32 @@
     overflow: hidden;
   }
   
-  .amex { background-position: 71px 0; }
-  .visa { background-position: 147px 0; }
+  .amex {
+    background-position: 71px 0;
+  }
+  .visa {
+    background-position: 147px 0;
+  }
   
-   input{ 
-    background: $silver; 
+  input {
+    background: $silver;
     border: 0;
     border-radius: 4px;
-    font: 20px Inconsolata, sans-serif; color: #303030;
+    font: 20px Inconsolata, sans-serif;
+    color: #303030;
     margin: 0 2px 3px 0;
-    padding: 8px $space/2;
+    padding: 8px $space / 2;
     text-align: center;
-    width: 24%; 
-      -moz-box-shadow:    1px 1px 0px 1px #0e306e;
-      -webkit-box-shadow: 1px 1px 0px 1px #0e306e;
-      box-shadow:         1px 1px 0px 1px #0e306e;
+    width: 24%;
+    -moz-box-shadow: 1px 1px 0px 1px #0e306e;
+    -webkit-box-shadow: 1px 1px 0px 1px #0e306e;
+    box-shadow: 1px 1px 0px 1px #0e306e;
     position: relative;
     z-index: 10;
-    
-     &:nth-child(4) {
-       margin-right: 0;
-     }
+  
+    &:nth-child(4) {
+      margin-right: 0;
+    }
   }
   
   .date input {
@@ -104,7 +113,7 @@
   
   .valid {
     position: relative;
-    margin-right: $space/2;
+    margin-right: $space / 2;
     width: 40px;
   }
   
@@ -115,5 +124,57 @@
   
   .instructions {
     letter-spacing: 1px;
-    font: 12px Anaheim, sans-serif; color: $lightBlue;
+    font: 12px Anaheim, sans-serif;
+    color: $lightBlue;
   }
+  
+  /* Media Queries for Responsive Design */
+  @media (max-width: 768px) {
+    .cc {
+      width: 90%;
+      height: auto;
+      padding: $space / 2;
+    }
+  
+    h2 {
+      font-size: 18px;
+    }
+  
+    input {
+      font-size: 16px;
+      width: 30%;
+    }
+  
+    .date input {
+      margin-right: $space / 2;
+    }
+  }
+  
+  @media (max-width: 480px) {
+    .cc {
+      width: 100%;
+      margin: 30px auto;
+      padding: $space / 2;
+    }
+  
+    h2 {
+      font-size: 16px;
+      text-align: center;
+    }
+  
+    input {
+      font-size: 14px;
+      width: 45%;
+      margin-bottom: 5px;
+    }
+  
+    .provider {
+      width: 60px;
+      height: 40px;
+    }
+  
+    .date input {
+      margin-right: $space / 4;
+    }
+  }
+  
