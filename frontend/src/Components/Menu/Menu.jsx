@@ -711,7 +711,7 @@ const Menu = ({ addToCart, cart, setCart }) => {
                                 <Link to="/cart" style={{ listStyle: "none" }}>
                                     <button className="btn btn-warning" style={{ display: "flex" }}>
                                         <div><box-icon name='cart-alt' color="#ffcc00" type='solid' ></box-icon></div>
-                                        <div>Show cart</div>
+                                        <div>View cart</div>
                                     </button>
                                 </Link>
                             </div>
