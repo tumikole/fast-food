@@ -1,84 +1,103 @@
 .how-it-works {
-  color: #ffcc00;
-  
+  padding: 60px 20px;
+  text-align: center;
+
   .secondary {
     font-size: 3rem;
     font-weight: 700;
     line-height: 1.2;
     color: #ffcc00;
-    margin-bottom: 1rem;
+    margin-bottom: 2rem;
     text-align: center;
     padding-top: 8rem;
+    transition: all 0.3s;
+
+    @media (max-width: 768px) {
+      font-size: 2.2rem;
+      padding-top: 5rem;
+
+    }
+
+    @media (max-width: 480px) {
+      font-size: 1.8rem;
+      padding-top: 3rem;
+
+    }
   }
 
   .how-it-works-container {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    gap: 1.5rem;
-    margin: 0 auto;
-    padding: 1rem;
-  }
+    gap: 30px;
 
-  .box {
-    background: rgba(255, 255, 255, 0.1);
-    padding: 2rem;
-    border-radius: 12px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-    transition: all 0.3s ease-in-out;
-    cursor: pointer;
-    
-    h3 {
-      font-size: 1.5rem;
-      margin-bottom: 1rem;
-    }
+    .box {
+      background-color: #404040;
+      border-radius: 15px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+      padding: 20px;
+      transition: transform 0.3s ease;
 
-    ion-icon {
-      font-size: 2.5rem;
-      color: #ffcc00;
-      margin-bottom: 1rem;
-    }
+      h3 {
+        font-size: 1.5rem;
+        margin-bottom: 15px;
+        color: #ffcc00;
+      }
 
-    p {
-      font-size: 1rem;
-      opacity: 0.9;
-    }
+      ion-icon {
+        font-size: 2rem;
+        color: #ffcc00;
+        margin-bottom: 10px;
+      }
 
-    &:hover {
-      transform: translateY(-5px);
-      background: #ffcc00;
-      color: #1e1e2f;
-    }
-  }
+      p {
+        font-size: 1rem;
+        color: white;
+      }
 
-  .how-it-works-container-active {
-    background: #ffcc00;
-    color: #1e1e2f;
-
-    ion-icon {
-      color: #1e1e2f;
-    }
-
-    &:hover {
-      background: #ffd633;
+      &:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 6px 30px rgba(0, 0, 0, 0.2);
+      }
     }
   }
 
   @media (max-width: 768px) {
     .secondary {
       font-size: 2rem;
-      text-align: center;
+    }
 
+    .how-it-works-container {
+      gap: 20px;
+    }
+
+    .box {
+      padding: 15px;
+
+      h3 {
+        font-size: 1.3rem;
+      }
+
+      p {
+        font-size: 0.9rem;
+      }
     }
   }
 
   @media (max-width: 480px) {
     .secondary {
       font-size: 1.8rem;
-      text-align: center;
     }
 
-    .container {
-      grid-template-columns: 1fr;
+    .box {
+      padding: 10px;
+
+      h3 {
+        font-size: 1.2rem;
+      }
+
+      p {
+        font-size: 0.8rem;
+      }
     }
   }
 }

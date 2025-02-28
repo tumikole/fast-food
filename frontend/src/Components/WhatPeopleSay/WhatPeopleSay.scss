@@ -1,0 +1,102 @@
+.what-people-say {
+    background-color: #f9f9f9; // Light background for contrast
+    padding: 60px 20px; // Padding for spacing
+    text-align: center;
+
+    .section-title {
+        font-size: 2.5rem; // Title size
+        font-weight: 700;
+        margin-bottom: 40px;
+        color: #333; // Darker color for contrast
+    }
+
+    .reviews-container {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); // Responsive grid layout
+        gap: 30px; // Space between cards
+
+        .review-card {
+            background-color: #ffffff; // White background for cards
+            border-radius: 15px; // Rounded corners
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1); // Subtle shadow for depth
+            padding: 20px; // Padding inside cards
+            transition: transform 0.3s ease; // Transition for hover effect
+
+            &:hover {
+                transform: translateY(-5px); // Lift effect on hover
+            }
+
+            .review-image {
+                width: 80px; // Image size
+                height: 80px; // Image size
+                border-radius: 50%; // Circular image
+                margin-bottom: 15px; // Space below image
+            }
+
+            .reviewer-name {
+                font-size: 1.2rem; // Name size
+                font-weight: 600; // Bold name
+                color: #333; // Dark color for name
+                margin-bottom: 10px; // Space below name
+            }
+
+            .review-message {
+                font-size: 1rem; // Message size
+                color: #666; // Dark gray for message
+            }
+        }
+    }
+
+    // Media Queries
+    @media (max-width: 768px) {
+        .section-title {
+            font-size: 2rem; // Adjusted size for smaller screens
+        }
+
+        .reviews-container {
+            gap: 20px; // Reduced gap for smaller screens
+
+            .review-card {
+                padding: 15px; // Adjusted padding for smaller screens
+
+                .review-image {
+                    width: 60px; // Adjusted image size for smaller screens
+                    height: 60px; // Adjusted image size for smaller screens
+                }
+
+                .reviewer-name {
+                    font-size: 1rem; // Adjusted name size for smaller screens
+                }
+
+                .review-message {
+                    font-size: 0.9rem; // Adjusted message size for smaller screens
+                }
+            }
+        }
+    }
+
+    @media (max-width: 480px) {
+        .section-title {
+            font-size: 1.5rem; // Further adjusted size for mobile
+        }
+
+        .reviews-container {
+            .review-card {
+                padding: 10px; // Further adjusted padding for mobile
+
+                .review-image {
+                    width: 50px; // Further adjusted image size for mobile
+                    height: 50px; // Further adjusted image size for mobile
+                }
+
+                .reviewer-name {
+                    font-size: 0.9rem; // Further adjusted name size for mobile
+                }
+
+                .review-message {
+                    font-size: 0.8rem; // Further adjusted message size for mobile
+                }
+            }
+        }
+    }
+}

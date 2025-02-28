@@ -1,13 +1,16 @@
 .hero-section {
     position: relative;
-    background: url('https://tb-static.uber.com/prod/image-proc/processed_images/f270d72a3f1dd44c3bc07206db9176a4/c4114ef7f0cc2f8ee04dbb216969493e.jpeg') no-repeat center center/cover;
+    background: url('https://afternoonexpress.co.za/website/admin/UserFiles/Image/Cook%20a%20long/2021/Mei/AEX%2018%20May%20(4)kota.jpg') no-repeat center center/cover;
     height: 100vh;
     display: flex;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
     color: #ffffff;
     text-align: center;
     padding: 0 20px;
+    overflow: hidden;
+    gap: 4rem   ;
 
     .overlay {
         position: absolute;
@@ -19,18 +22,28 @@
         z-index: 1;
     }
 
+
+    .hero-section-main-header {
+        font-size: 8.5rem;
+        font-weight: 600;
+        margin-bottom: 20px;
+        color: #ffcc00;
+        text-shadow: 0 2px 4px rgba(0, 0, 0, 0.7);
+    }
+
     .text {
-        z-index: 2; // Ensure text is above the overlay
+        z-index: 2; 
         max-width: 600px;
-        padding: 40px;
-        border-radius: 20px;
+        padding: 30px;
+        border-radius: 15px;
         background-color: rgba(0, 0, 0, 0.6);
         backdrop-filter: blur(10px);
-        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.7);
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
         transition: transform 0.3s ease;
 
-        h1 {
-            font-size: 3rem;
+
+        .primary {
+            font-size: 2.5rem;
             font-weight: 700;
             line-height: 1.2;
             margin-bottom: 15px;
@@ -42,7 +55,7 @@
             }
         }
 
-        p {
+        .tertiary {
             font-size: 1.2rem;
             margin-bottom: 25px;
             color: #e0e0e0;
@@ -50,12 +63,12 @@
 
         .btn {
             display: inline-block;
-            padding: 12px 28px;
+            padding: 15px 30px;
             background-color: #ffcc00;
             color: #1a1a1a;
             border: none;
             border-radius: 25px;
-            font-size: 1.1rem;
+            font-size: 1.2rem;
             font-weight: 600;
             text-decoration: none;
             transition: all 0.3s ease;
@@ -73,83 +86,78 @@
         }
     }
 
+
     // Media Queries
-    @media (max-width: 1200px) {
-        .text {
-            max-width: 500px;
-            padding: 30px;
-
-            h1 {
-                font-size: 2.8rem;
-            }
-
-            p {
-                font-size: 1.1rem;
-            }
-
-            .btn {
-                font-size: 1rem;
-                padding: 10px 24px;
-            }
-        }
+@media (max-width: 1200px) {
+    .hero-section-main-header {
+        font-size: 6rem; // More balanced scaling
     }
 
-    @media (max-width: 992px) {
-        .text {
-            max-width: 400px;
-            padding: 20px;
+    .text {
+        max-width: 80%;
+        padding: 25px;
 
-            h1 {
-                font-size: 2.5rem;
-            }
+        .primary {
+            font-size: 2rem;
+        }
 
-            p {
-                font-size: 1rem;
-            }
+        .tertiary {
+            font-size: 1.1rem;
+        }
 
-            .btn {
-                font-size: 0.9rem;
-                padding: 8px 20px;
-            }
+        .btn {
+            font-size: 1.1rem;
+            padding: 12px 26px;
         }
     }
+}
 
-    @media (max-width: 768px) {
-        .text {
-            max-width: 90%;
-            padding: 15px;
-
-            h1 {
-                font-size: 2rem;
-            }
-
-            p {
-                font-size: 0.9rem;
-            }
-
-            .btn {
-                font-size: 0.8rem;
-                padding: 6px 16px;
-            }
-        }
+@media (max-width: 768px) {
+    .hero-section-main-header {
+        font-size: 4rem; // Adjusted for mid-range screens
     }
 
-    @media (max-width: 480px) {
-        .text {
-            padding: 10px;
+    .text {
+        max-width: 85%;
+        padding: 18px;
 
-            h1 {
-                font-size: 1.8rem;
-            }
+        .primary {
+            font-size: 1.7rem;
+        }
 
-            p {
-                font-size: 0.8rem;
-            }
+        .tertiary {
+            font-size: 1rem;
+        }
 
-            .btn {
-                font-size: 0.7rem;
-                padding: 5px 12px;
-            }
+        .btn {
+            font-size: 1rem;
+            padding: 10px 22px;
         }
     }
+}
+
+@media (max-width: 480px) {
+    .hero-section-main-header {
+        font-size: 3rem; // Adjusted to be consistent
+    }
+
+    .text {
+        max-width: 95%;
+        padding: 12px;
+
+        .primary {
+            font-size: 1.4rem;
+        }
+
+        .tertiary {
+            font-size: 0.9rem;
+        }
+
+        .btn {
+            font-size: 0.9rem;
+            padding: 8px 18px;
+        }
+    }
+}
+
 }
