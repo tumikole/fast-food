@@ -15,7 +15,9 @@ const Cart = ({ cart, removeItem }) => {
   return (
     <div className="cart">
       <Navbar />
-      <h2>{cart.length > 0 ? "Your Cart" : "Your cart is empty"}</h2>
+      <h2>
+        {
+          cart.length > 0 ? "Your Cart" : "Your cart is empty"}</h2>
       <Link to="/menu">
         <div className="viewMenu" style={{ display: "flex" }}>
           <div><box-icon name='right-arrow-alt' animation='tada' color='#ffcc00' ></box-icon></div>
@@ -47,7 +49,12 @@ const Cart = ({ cart, removeItem }) => {
 
           <div className="cart-total">
             <h3>Total: R{calculateTotal()}</h3>
-            <button className="checkout-button">Proceed to Checkout</button>
+            <button className="checkout-button" style={{ display: "flex", justifyContent: "center", gap: "1rem" }}>
+              <div><box-icon name='check-circle' color="#ffcc00"></box-icon></div>
+              <div>Proceed to Checkout</div>
+              <div><box-icon name='check-circle' color="#ffcc00"></box-icon></div>
+
+            </button>
           </div>
         </>
       )}
