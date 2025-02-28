@@ -38,7 +38,7 @@ const Cart = ({ cart, removeItem }) => {
                   <p>Quantity: {item.quantity}</p>
                   <p>Price: R{Object.values(item.price)[0]}</p>
                   <div onClick={() => removeItem(index)} style={{ position: "absolute", bottom: 0, right: "1rem" }}>
-                    <box-icon name='trash' size="1rem" animation='flashing' color='#ff0000' ></box-icon>
+                    <box-icon name='trash' size="1.8rem" animation='flashing' color='#ff0000' ></box-icon>
                   </div>
                 </div>
               </div>
