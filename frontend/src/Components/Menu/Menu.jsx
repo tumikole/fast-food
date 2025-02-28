@@ -865,7 +865,7 @@ const Menu = ({ addToCart, cart, setCart }) => {
                                             </table>
                                             <div className="menu-item-footer">
                                                 <div className="item-price">
-                                                    <span>R {(itemTotals[item.id] || 0)}</span>
+                                                    <span>SubTotal: R {(itemTotals[item.id] || 0)}</span>
                                                 </div>
                                                 <button
                                                     className="btn btn-warning"

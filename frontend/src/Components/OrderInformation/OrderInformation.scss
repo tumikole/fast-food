@@ -1,0 +1,248 @@
+.order-information {
+    padding: 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+    background-color: #1a1a1a;
+    min-height: 100vh;
+
+    h2 {
+        font-size: 3rem;
+        font-weight: 700;
+        line-height: 1.2;
+        color: #ffcc00;
+        margin-bottom: 1rem;
+        text-align: center;
+        padding-top: 8rem;
+    }
+
+    .order-items {
+        margin-bottom: 40px;
+        display: grid;
+        gap: 20px;
+
+        .order-item {
+            background-color: #2a2a2a;
+            border: 1px solid #ffcc0033;
+            border-radius: 12px;
+            padding: 20px;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            
+            &:hover {
+                transform: translateY(-2px);
+                box-shadow: 0 8px 16px rgba(255, 204, 0, 0.1);
+            }
+            
+            .item-details {
+                h3 {
+                    color: #ffcc00;
+                    margin-bottom: 15px;
+                    font-size: 1.4rem;
+                    font-weight: 500;
+                }
+
+                p {
+                    margin: 8px 0;
+                    color: #ffffff;
+                    font-size: 1rem;
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: center;
+                }
+
+                .ingredients {
+                    margin: 15px 0;
+                    background-color: #333333;
+                    padding: 15px;
+                    border-radius: 8px;
+                    
+                    p {
+                        color: #ffcc00;
+                        font-weight: 500;
+                        margin-bottom: 10px;
+                    }
+
+                    ul {
+                        list-style: none;
+                        padding-left: 0;
+                        
+                        li {
+                            color: #ffffff;
+                            margin: 5px 0;
+                            padding: 5px 10px;
+                            background-color: #404040;
+                            border-radius: 4px;
+                            font-size: 0.9rem;
+                        }
+                    }
+                }
+
+                .price {
+                    color: #ffcc00;
+                    font-weight: 600;
+                    font-size: 1.3rem;
+                    margin-top: 15px;
+                    text-align: right;
+                }
+            }
+        }
+    }
+
+    .order-summary {
+        background-color: #2a2a2a;
+        padding: 30px;
+        border-radius: 16px;
+        border: 1px solid #ffcc0033;
+        margin-top: 40px;
+
+        .total {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 2px solid #ffcc0033;
+
+            h3 {
+                color: #ffffff;
+                font-size: 1.4rem;
+                font-weight: 500;
+            }
+
+            p {
+                color: #ffcc00;
+                font-size: 1.8rem;
+                font-weight: 600;
+            }
+        }
+
+        .customer-info {
+            h3 {
+                color: #ffffff;
+                margin-bottom: 25px;
+                font-size: 1.4rem;
+                font-weight: 500;
+            }
+
+            .form-group {
+                margin-bottom: 20px;
+
+                label {
+                    display: block;
+                    margin-bottom: 8px;
+                    color: #ffcc00;
+                    font-weight: 500;
+                }
+
+                input, textarea {
+                    width: 100%;
+                    padding: 12px;
+                    background-color: #333333;
+                    border: 1px solid #ffcc0033;
+                    border-radius: 8px;
+                    font-size: 1rem;
+                    color: #ffffff;
+                    transition: all 0.3s ease;
+
+                    &::placeholder {
+                        color: #666666;
+                    }
+
+                    &:focus {
+                        outline: none;
+                        border-color: #ffcc00;
+                        box-shadow: 0 0 0 2px rgba(255, 204, 0, 0.2);
+                    }
+                }
+
+                textarea {
+                    min-height: 120px;
+                    resize: vertical;
+                }
+            }
+        }
+
+        .place-order-btn {
+            width: 100%;
+            padding: 16px;
+            background-color: #ffcc00;
+            color: #1a1a1a;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.2rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 20px;
+
+            &:hover {
+                background-color: #ffd633;
+                transform: translateY(-2px);
+                box-shadow: 0 4px 12px rgba(255, 204, 0, 0.3);
+            }
+
+            &:active {
+                transform: translateY(0);
+            }
+        }
+    }
+}
+
+@media (max-width: 768px) {
+    .order-information {
+        padding: 15px;
+
+        h2 {
+            font-size: 2rem;
+            padding-top: 6rem;
+        }
+
+        .order-items {
+            gap: 15px;
+        }
+
+        .order-item {
+            padding: 15px;
+        }
+
+        .order-summary {
+            padding: 20px;
+            margin-top: 30px;
+
+            .total {
+                p {
+                    font-size: 1.5rem;
+                }
+            }
+
+            .place-order-btn {
+                padding: 14px;
+                font-size: 1.1rem;
+            }
+        }
+    }
+}
+
+@media (max-width: 480px) {
+    .order-information {
+        h2 {
+            font-size: 1.8rem;
+            padding-top: 5rem;
+        }
+
+        .order-items .order-item .item-details {
+            h3 {
+                font-size: 1.2rem;
+            }
+
+            .price {
+                font-size: 1.1rem;
+            }
+        }
+
+        .order-summary .total {
+            p {
+                font-size: 1.3rem;
+            }
+        }
+    }
+}

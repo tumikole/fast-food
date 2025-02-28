@@ -1,191 +1,237 @@
 .about {
+    background-color: #1a1a1a;
+    min-height: 100vh;
+    padding: 20px;
 
     .about-container {
-        margin: 0;
-        color: #ffcc00
-    }
+        max-width: 1200px;
+        margin: 0 auto;
+        padding-top: 8rem;
 
-    .flex {
-        display: flex;
-        align-items: center;
-        gap: 20px;
-    }
+        .text {
+            color: #ffffff;
 
-    .text {
-        flex: 1;
-        padding: 20px;
-        color: #ffcc00;
+            .primary {
+                font-size: 3rem;
+                font-weight: 700;
+                color: #ffcc00;
+                text-align: center;
+                margin-bottom: 2rem;
+                text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 
+                @media (max-width: 768px) {
+                    font-size: 2.2rem;
+                }
 
-        h2.primary {
-            font-size: 2.5rem;
-            font-weight: bold;
-            margin-bottom: 20px;
-            color: #ffcc00;
-            text-align: center;
-        }
-
-        .visual {
-            display: flex;
-            justify-content: center;
-            margin-bottom: 20px;
-            color: #ffcc00;
-
-            img {
-                width: 100%;
-                border-radius: 50% !important;
-                max-width: 400px;
-                border-radius: 10px;
-                object-fit: cover;
-                border: 10px solid #ffcc00;
+                @media (max-width: 480px) {
+                    font-size: 1.8rem;
+                }
             }
-        }
 
-        .visual-paragraphs {
-            font-size: 1.2rem;
-            line-height: 1.6;
-            color: #ffcc00;
-            margin-bottom: 20px;
-        }
+            .visual {
+                display: flex;
+                align-items: center;
+                gap: 30px;
+                background-color: #2a2a2a;
+                border-radius: 16px;
+                padding: 30px;
+                margin-bottom: 40px;
+                border: 1px solid #ffcc0033;
+                box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
 
-        .about-sub-header {
-            font-size: 2rem;
-            color: #ffcc00;
-            margin-top: 30px;
-        }
+                img {
+                    width: 300px;
+                    height: 300px;
+                    object-fit: cover;
+                    border-radius: 12px;
+                    border: 2px solid #ffcc0033;
+                    transition: transform 0.3s ease;
 
-        .paragraphs {
-            font-size: 1.1rem;
-            line-height: 1.7;
-            color: #ffcc00;
-            margin-bottom: 15px;
-        }
+                    &:hover {
+                        transform: scale(1.02);
+                    }
+                }
 
-        .Why-choose-us-list-containser,
-        .visit-us-today-list-containser {
-            list-style: none;
-            padding-left: 0;
+                .visual-paragraphs {
+                    flex: 1;
+                    font-size: 1.1rem;
+                    line-height: 1.8;
+                    color: #e0e0e0;
+                }
 
-            li {
+                @media (max-width: 768px) {
+                    flex-direction: column;
+                    padding: 20px;
+
+                    img {
+                        width: 100%;
+                        height: 250px;
+                    }
+                }
+            }
+
+            .about-sub-header {
+                font-size: 2rem;
+                color: #ffcc00;
+                margin: 2rem 0 1rem;
+                font-weight: 600;
+                position: relative;
+                padding-left: 20px;
+
+                &::before {
+                    content: '';
+                    position: absolute;
+                    left: 0;
+                    top: 50%;
+                    transform: translateY(-50%);
+                    width: 4px;
+                    height: 70%;
+                    background-color: #ffcc00;
+                    border-radius: 2px;
+                }
+
+                @media (max-width: 768px) {
+                    font-size: 1.8rem;
+                }
+            }
+
+            .paragraphs {
                 font-size: 1.1rem;
-                line-height: 1.6;
-                margin-bottom: 10px;
+                line-height: 1.8;
+                color: #e0e0e0;
+                margin-bottom: 1.5rem;
+                padding: 20px;
+                background-color: #2a2a2a;
+                border-radius: 12px;
+                border: 1px solid #ffcc0033;
+                transition: transform 0.3s ease;
+
+                &:hover {
+                    transform: translateY(-2px);
+                }
+            }
+
+            .Why-choose-us-list-containser,
+            .visit-us-today-list-containser {
+                list-style: none;
+                padding: 20px;
+                background-color: #2a2a2a;
+                border-radius: 12px;
+                border: 1px solid #ffcc0033;
+                margin: 2rem 0;
+
+                li {
+                    margin-bottom: 1.5rem;
+                    padding: 15px;
+                    background-color: #333333;
+                    border-radius: 8px;
+                    transition: transform 0.3s ease;
+                    color: #e0e0e0;
+
+                    &:hover {
+                        transform: translateX(10px);
+                    }
+
+                    b {
+                        color: #ffcc00;
+                        font-weight: 600;
+                        margin-right: 8px;
+                    }
+
+                    ul {
+                        list-style: none;
+                        margin-top: 1rem;
+                        padding-left: 1rem;
+
+                        li {
+                            margin-bottom: 0.5rem;
+                            padding: 10px;
+                            background-color: #404040;
+                            border-radius: 6px;
+
+                            &:hover {
+                                transform: translateX(5px);
+                            }
+
+                            &:last-child {
+                                margin-bottom: 0;
+                            }
+                        }
+                    }
+                }
+            }
+
+            .btn {
+                display: inline-block;
+                padding: 15px 30px;
+                background-color: #ffcc00;
+                color: #1a1a1a;
+                text-decoration: none;
+                border-radius: 8px;
+                font-weight: 600;
+                margin-top: 2rem;
+                transition: all 0.3s ease;
+                border: none;
+                cursor: pointer;
+
+                &:hover {
+                    background-color: #ffd633;
+                    transform: translateY(-2px);
+                    box-shadow: 0 4px 12px rgba(255, 204, 0, 0.3);
+                }
+
+                &:active {
+                    transform: translateY(0);
+                }
             }
         }
+    }
 
-        .btn {
-            background-color: #ffcc00;
-            color: #fff;
-            padding: 1rem 2rem;
-            font-size: 1rem;
-            font-weight: 600;
-            border-radius: 30px;
-            text-decoration: none;
-            transition: background-color 0.3s ease;
-            display: inline-block;
-            // display: flex;
-            // align-items: center;
-            // justify-content: center;
-            width: 15%;
-            margin: auto !important;
+    @media (max-width: 768px) {
+        padding: 15px;
 
-            &:hover {
-                background-color: #c0392b;
+        .about-container {
+            padding-top: 6rem;
+
+            .text {
+                .paragraphs {
+                    font-size: 1rem;
+                    padding: 15px;
+                }
+
+                .Why-choose-us-list-containser,
+                .visit-us-today-list-containser {
+                    padding: 15px;
+
+                    li {
+                        padding: 12px;
+                    }
+                }
             }
         }
     }
-}
 
-/* Responsive Design */
+    @media (max-width: 480px) {
+        .about-container {
+            padding-top: 5rem;
 
-/* Tablets & Small Laptops */
-@media (max-width: 1024px) {
+            .text {
+                .visual {
+                    padding: 15px;
 
-    .about .flex {
-        flex-direction: column;
-        text-align: center;
-    }
+                    .visual-paragraphs {
+                        font-size: 1rem;
+                    }
+                }
 
-    .about .text h2.primary {
-        font-size: 2rem;
-    }
+                .about-sub-header {
+                    font-size: 1.5rem;
+                }
 
-    .about .text .about-sub-header {
-        font-size: 1.8rem;
-    }
-
-    .about .text .paragraphs {
-        font-size: 1rem;
-    }
-
-    .about .text .btn {
-        font-size: 1rem;
-        padding: 10px 20px;
-    }
-}
-
-/* Tablets in Portrait & Large Phones */
-@media (max-width: 768px) and (min-width: 480px) {
-
-    .about .text {
-        padding: 10px;
-    }
-
-    .about .text h2.primary {
-        font-size: 1.8rem;
-    }
-
-    .about .text .about-sub-header {
-        font-size: 1.6rem;
-    }
-
-    .about .text .paragraphs {
-        font-size: 0.95rem;
-    }
-
-    .about .text .btn {
-        font-size: 0.95rem;
-        padding: 8px 18px;
-    }
-
-    .about .visual img {
-        max-width: 300px;
-    }
-
-    .btn{
-        width: 90% !important;
-        padding: 2rem 2rem;
-
-    }
-}
-
-/* Mobile Devices */
-@media (max-width: 480px) {
-
-    .about .text h2.primary {
-        font-size: 1.6rem;
-    }
-
-    .about .text .about-sub-header {
-        font-size: 1.4rem;
-    }
-
-    .about .text .paragraphs {
-        font-size: 0.9rem;
-    }
-
-    .about .text .btn {
-        font-size: 0.85rem;
-        padding: 7px 15px;
-    }
-
-    .about .visual img {
-        max-width: 250px;
-    }
-
-    .btn{
-        width: 90% !important;
-        padding: 2rem 2rem;
-
+                .paragraphs {
+                    font-size: 0.95rem;
+                }
+            }
+        }
     }
 }

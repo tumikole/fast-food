@@ -7,6 +7,7 @@ import Menu from './Menu/Menu';
 import Cart from './Cart/Cart';
 import Reviews from './Reviews/Reviews';
 import FAQ from './FAQ/FAQ';
+import OrderInformation from './OrderInformation/OrderInformation';
 
 const Main = () => {
   const [cart, setCart] = useState([]);
@@ -44,6 +45,10 @@ const Main = () => {
         <Route path="/cart" element={<Cart cart={cart} removeItem={removeItem} />} />
         <Route path="/review" element={<Reviews />} />
         <Route path="/faq" element={<FAQ />} />
+        <Route path="/order-information" element={<OrderInformation cart={cart}/>} />
+
+
+        
       </Routes>
     </div>
   );

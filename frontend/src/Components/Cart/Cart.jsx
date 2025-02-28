@@ -48,13 +48,14 @@ const Cart = ({ cart, removeItem }) => {
           </div>
 
           <div className="cart-total">
-            <h3>Total: R{calculateTotal()}</h3>
-            <button className="checkout-button" style={{ display: "flex", justifyContent: "center", gap: "1rem" }}>
-              <div><box-icon name='check-circle' color="#ffcc00"></box-icon></div>
-              <div>Proceed to Checkout</div>
-              <div><box-icon name='check-circle' color="#ffcc00"></box-icon></div>
-
-            </button>
+            <h3>Grand Total: R{calculateTotal()}</h3>
+            <Link to="/order-information">
+              <button className="checkout-button" style={{ display: "flex", justifyContent: "center", gap: "1rem" }}>
+                <div><box-icon name='check-circle' color="#ffcc00"></box-icon></div>
+                <div>Proceed to Checkout</div>
+                <div><box-icon name='check-circle' color="#ffcc00"></box-icon></div>
+              </button>
+            </Link>
           </div>
         </>
       )}
