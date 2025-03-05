@@ -3,6 +3,8 @@ import './Adminstrator.scss'
 
 const Adminstrator = () => {
     const [selectedTab, setSelectedTab] = useState("")
+    const [selectedSubMenu, setSelectedSubMenu] = useState("")
+
     const browseMenu = [
         {
             category: "Support",
@@ -17,13 +19,12 @@ const Adminstrator = () => {
             ]
         },
         {
-            category: "Inquires",
+            category: "Inquiries",
             total: 6,
             sub: [
                 { subMenuItem: "Messages", itemNumber: 6 },
             ]
         },
-
         {
             category: "New Inbox",
             total: 8,
@@ -35,42 +36,73 @@ const Adminstrator = () => {
         }
     ]
 
+    const renderContent = () => {
+        if (selectedSubMenu) {
+            return (
+                <div>
+                    <h3>{selectedSubMenu}</h3>
+                    <p>Details about {selectedSubMenu} will be displayed here.</p>
+                </div>
+            );
+        }
+
+        switch (selectedTab) {
+            case "Support":
+                return (
+                    <div>
+                        <h3>Support Details</h3>
+                        <p>Here you can find support-related information.</p>
+                    </div>
+                );
+            case "Inquiries":
+                return (
+                    <div>
+                        <h3>Inquiries</h3>
+                        <p>Here are your inquiries.</p>
+                    </div>
+                );
+            case "New Inbox":
+                return (
+                    <div>
+                        <h3>New Inbox</h3>
+                        <p>Check your new messages here.</p>
+                    </div>
+                );
+            default:
+                return <p>Please select a category to view details.</p>;
+        }
+    };
 
     return (
-        <div>
-            <div id="Adminstrator-main-container">
-
-
-                <div id="left-column">
-                    <p class="column-heading">Browse</p>
-                    <div class="vertical-menu">
-                        {browseMenu.map((item, idx) => {
-                            return (
-                                <div key={idx}>
-                                    <a href="#" class="highlight">
-                                        <i class="fa fa-inbox fa-lg" aria-hidden="true"></i> {item.category}
-                                        <span class="num">{item.total}</span>
+        <div className="administrator">
+            <div className="administrator-main-container">
+                <div className="left-column">
+                    <h2 className="column-heading">Browse</h2>
+                    <div className="vertical-menu">
+                        {browseMenu.map((item, idx) => (
+                            <div key={idx} className="menu-item">
+                                <a href="#" className="highlight" onClick={() => {
+                                    setSelectedTab(item.category);
+                                    setSelectedSubMenu(""); // Reset sub-menu selection
+                                }}>
+                                    <i className="fa fa-inbox fa-lg" aria-hidden="true"></i> {item.category}
+                                    <span className="num">{item.total}</span>
+                                </a>
+                                {item.sub.map((sub, i) => (
+                                    <a key={i} href="#" className="side-menu-item" onClick={() => {
+                                        setSelectedSubMenu(sub.subMenuItem);
+                                    }}>
+                                        {sub.subMenuItem}
+                                        <span className="num">{sub.itemNumber}</span>
                                     </a>
-                                    {item.sub.map((sub, i) => {
-                                        return (
-                                            <a href="#" class="side-menu-item">{sub.subMenuItem}
-                                                <span class="num">{sub.itemNumber}</span>
-                                            </a>
-                                        )
-                                    })}
-                                </div>
-                            )
-                        })}
+                                ))}
+                            </div>
+                        ))}
                     </div>
                 </div>
 
-                <div id="content-area">
-                    <div class="message-row">
-                        <img width="40px" height="40px" src="http://www.danielbrayphotography.com/img/s2/v70/p311082303-4.jpg" />
-                        <span class="sender-name">Lela	Williamson (2)</span> <span class="label grey-label label-right">Important</span>
-                        <br />
-                        <span class="message">Etiam quis lorem a nisi interdum tincidunt. <strong>In hendrerit felis</strong> a est ornare malesuada. Pellentesque efficitur semper lacus.</span>
-                    </div>
+                <div className="content-area">
+                    {renderContent()}
                 </div>
             </div>
         </div>
