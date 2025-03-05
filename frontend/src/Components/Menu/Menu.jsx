@@ -2,6 +2,7 @@ import React, { useState, useMemo, useEffect } from "react";
 import "./Menu.scss";
 import Navbar from "../Navbar/Navbar";
 import { Link } from "react-router-dom";
+import Footer from "../Footer/Footer";
 
 const Menu = ({ addToCart, cart, setCart }) => {
     const [activeCategory, setActiveCategory] = useState("All");
@@ -659,62 +660,28 @@ const Menu = ({ addToCart, cart, setCart }) => {
                     <h2 className="menu-header">
                         🔥 Kasi Flavors, Straight from the Streets! 🍗
                     </h2>
-                    <ul className="category" style={{ display: "none" }}>
-                        {categories.map((category) => (
-                            <li
-                                key={category}
-                                className={activeCategory === category ? "active" : ""}
-                                onClick={() => setActiveCategory(category)}
-                            >
-                                {category}
-                            </li>
-                        ))}
-                    </ul>
-                    <h3 className="active-category" style={{ display: "none" }}>
-                        {activeCategory}
-                    </h3>
                     <div className="cart-info">
                         <div>
+                            <div>
+                                <input type="search" className="form-control" placeholder="Search... eg: Kota, Extras" />
+                            </div>
                             <button disabled className="btn btn-warning" style={{ display: "flex" }}>
                                 <div className="cart-item-length">{cart.length}</div>
                             </button>
                         </div>
-                        {hasSelectedItems && <div
-                            style={{
-                                position: 'fixed',
-                                bottom: '0',
-                                left: '2rem',
-                                right: '2rem',
-                                backgroundColor: '#34495e',
-                                border: '1px solid #b8daff',
-                                color: 'red',
-                                padding: '5px',
-                                textAlign: 'center',
-                                boxShadow: '0 2px 10px rgba(0,0,0,0.1)',
-                                zIndex: 1000,
-                                animation: 'fadeIn 0.3s ease-in',
-
-                            }}
-                        >
-                            <div>
-                                <div><box-icon name='cart-download' animation='tada' color='red' ></box-icon></div>
-                                <div>You have pending items...</div>
-                            </div>
-
-
-                        </div>
-                        }
                         {
                             cart.length > 0 &&
                             <div>
                                 <Link to="/cart" style={{ listStyle: "none" }}>
                                     <button className="btn btn-warning" style={{ display: "flex" }}>
-                                        <div><box-icon name='cart-alt' color="#ffcc00" type='solid' ></box-icon></div>
-                                        {/* <div>View cart</div> */}
+                                        <div>
+                                            <p>Visit your cart</p>
+                                        </div>
                                     </button>
                                 </Link>
                             </div>
                         }
+
                     </div>
 
                     <div className="restaurant-menu-container">
@@ -831,18 +798,18 @@ const Menu = ({ addToCart, cart, setCart }) => {
                                                         <div style={{ display: item.id === 1 && "flex", backgroundColor: "#404040" }}>
                                                             <div style={{ backgroundColor: "#404040" }}>
                                                                 <input type="checkbox"
-                                                            
-                                                                checked={selectAllChecked}
-                                                                onClick={() =>
-                                                                    selectAllIngredients(
-                                                                        item.id,
-                                                                    )
-                                                                } />
+
+                                                                    checked={selectAllChecked}
+                                                                    onClick={() =>
+                                                                        selectAllIngredients(
+                                                                            item.id,
+                                                                        )
+                                                                    } />
                                                             </div>
 
                                                             <div style={{
-                                                                        backgroundColor: "#404040"
-                                                                    }}>
+                                                                backgroundColor: "#404040"
+                                                            }}>
                                                                 <span>
                                                                     {item.id === 1
                                                                         ? <span><strong>{currentImageData.itemName.charAt(0).toUpperCase() + currentImageData.itemName.slice(1).toLowerCase()}</strong> kota</span>
@@ -894,6 +861,7 @@ const Menu = ({ addToCart, cart, setCart }) => {
                     </div>
                 </div>
             </div>
+            <Footer />
 
         </div>
     );

@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import './FAQ.scss'
 import Navbar from '../Navbar/Navbar'
+import Footer from '../Footer/Footer';
 
 const FAQ = () => {
   const [openIndex, setOpenIndex] = useState(null);
@@ -92,6 +93,8 @@ const FAQ = () => {
           ))}
         </div>
       </div>
+      <Footer />
+
     </div>
   )
 }

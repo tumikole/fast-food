@@ -1,6 +1,7 @@
 import React from "react";
 import Navbar from "../Navbar/Navbar";
 import "./HowItWorks.scss";
+import Footer from "../Footer/Footer";
 
 const HowItWorks = () => {
   return (
@@ -34,6 +35,10 @@ const HowItWorks = () => {
           <p>Order in large quantities for events or businesses.</p>
         </div>
       </div>
+      <div className="how-it-works-main-division">
+      </div>
+      <Footer />
+
     </section>
   );
 };

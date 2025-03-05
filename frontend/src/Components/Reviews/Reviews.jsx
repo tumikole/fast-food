@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import './Reviews.scss';
 import TestimonialImage from '../../Asserts/download (5).jpeg';
 import Navbar from '../Navbar/Navbar';
+import Footer from '../Footer/Footer';
 
 const Reviews = () => {
     const [currentIndex, setCurrentIndex] = useState(0);
@@ -76,6 +77,8 @@ const Reviews = () => {
                     <img src={TestimonialImage} alt="Thank you to our customers" />
                 </div>
             </div>
+            <Footer />
+
         </div>
     );
 };

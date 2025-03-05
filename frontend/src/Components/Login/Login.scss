@@ -1,0 +1,107 @@
+.Login {
+    height: 100vh;
+    overflow: hidden;
+    position: relative;
+
+    img {
+        height: 100vh;
+        object-fit: cover;
+        width: 100%;
+    }
+
+    .login-header {
+        position: absolute;
+        top: 4rem;
+        left: 0rem;
+        right: 0rem;
+        font-size: 2.2rem;
+        font-weight: 700;
+        line-height: 1.2;
+        color: #ffcc00;
+        margin-bottom: 1rem;
+        background: linear-gradient(to top, rgba(0, 0, 0, 0.8), transparent);
+        width: 100%;
+        padding: 1rem;
+
+
+        h2 {
+            text-align: center !important;
+
+        }
+    }
+
+    .login-form {
+        position: absolute;
+        top: 10rem;
+        left: 1rem;
+        right: 1rem;
+        // bottom: 6rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background-color: #2a2a2ac8;
+        border-radius: 16px;
+        overflow: hidden;
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+        transition: all 0.3s ease;
+        border: 5px solid #ffcc00;
+        padding: 2rem;
+
+
+
+        form {
+            width: 100%;
+
+            label {
+                color: #ffcc00;
+                padding-top: 1rem;
+                padding-bottom: .5rem;
+            }
+
+            input[type="text"],
+            input[type="password"] {
+                border: none;
+                background-color: transparent;
+                border-bottom: 1px solid #ffcc00;
+
+                &:hover {
+                    border: none;
+                    // border-bottom: 1px solid #ffcc00;                    
+                }
+            }
+
+            .login-form-guest-forgotPassword {
+                margin-top: 2rem;
+                border-bottom: 1px solid#ffcc00;
+                
+                a{
+                    text-decoration: none;
+                p {
+                    color: #ffcc00;
+
+                    }
+                }
+            }
+
+            .login-form-button {
+                width: 90%;
+                margin: auto;
+
+                .login-form-btn {
+                    margin-top: 1.5rem;
+                    width: 100%;
+                    padding: 10px 20px;
+                    background-color: #ffcc00;
+                    color: #1a1a1a;
+                    border: none;
+                    border-radius: 8px;
+                    font-weight: 600;
+                    cursor: pointer;
+                    transition: all 0.3s ease;
+                }
+            }
+
+        }
+
+    }
+}

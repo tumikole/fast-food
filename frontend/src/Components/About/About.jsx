@@ -3,6 +3,7 @@ import Navbar from "../Navbar/Navbar";
 import { Link } from "react-router-dom";
 import "./About.scss";
 import AboutImage from '../../Asserts/download.jpeg'
+import Footer from "../Footer/Footer";
 
 const About = () => {
   return (
@@ -17,7 +18,7 @@ const About = () => {
             <div className="visual">
               <img src={AboutImage} alt="About Us" />
             </div>
-            <p className="visual-paragraphs">Welcome to Olieven Kota & Grills, a place where authentic South African flavors meet quality ingredients and unmatched hospitality.
+            <p className="visual-paragraphs">Olieven Kota & Grills, a place where authentic South African flavors meet quality ingredients and unmatched hospitality.
               Nestled in the heart of Olievenhoutbosch, we bring the rich, bold, and traditional street food experience to life, serving up the best kotas, flame-grilled meats, and classic township-style meals that keep our customers coming back for more.
             </p>
           </div>
@@ -49,9 +50,9 @@ const About = () => {
           </ul>
 
           <h3 className="about-sub-header">Visit Us Today!</h3>
-          <br />
+          {/* <br /> */}
 
-          <p className="paragraphs">If you're in Olievenhoutbosch or surrounding areas, make sure to stop by and experience the best kotas and grills in town. Whether you’re grabbing a meal on the go or sitting down to enjoy a feast, we guarantee you’ll leave happy, full, and craving more! 😋</p>
+          <p className="paragraphs">If you're in Olievenhoutbosch or surrounding areas, make sure to stop by and experience the best kotas and grills in kasi. Whether you’re grabbing a meal on the go or sitting down to enjoy a feast, we guarantee you’ll leave happy, full, and craving more! 😋</p>
           <br />
           <ul className="visit-us-today-list-containser">
             <li>📍 Location:
@@ -66,8 +67,8 @@ const About = () => {
             <li>⏰ ​​Open Hours:
             <br />
               <ul>
-                <li>Mon-Thur-10:00 AM-20:30 PM</li>
-                <li>Fri-Sun-10:00 AM-21:30 PM</li>
+                <li>Mon-Thur-10:00 AM - 20:30 PM</li>
+                <li>Fri-Sun-10:00 AM - 21:30 PM</li>
               </ul>
             </li>
             <br />
@@ -79,13 +80,14 @@ const About = () => {
               </ul>
             </li>
             <br />
-            <li>📲 Follow Us on Social Media: [Your Social Media Handles]</li>
+            <li>📲 Follow Us on Social Media: []</li>
           </ul>
           <br />
           <p className="paragraphs">At Olieven Kota & Grills, we don’t just serve food—we serve memories, culture, and passion on a plate. See you soon! 🙌</p>
           <Link to="/menu" className="btn">Explore Menu 🍽️</Link>
         </div>
       </div>
+      <Footer />
     </section>
   );
 };

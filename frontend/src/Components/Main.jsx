@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import LandingPage from './LandingPage/LandingPage';
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, useNavigate } from "react-router-dom";
 import About from './About/About';
 import HowItWorks from './HowItWorks/HowItWorks';
 import Menu from './Menu/Menu';
@@ -9,10 +9,40 @@ import Reviews from './Reviews/Reviews';
 import FAQ from './FAQ/FAQ';
 import OrderInformation from './OrderInformation/OrderInformation';
 import PlaceAnOrder from './PlaceAnOrder/PlaceAnOrder';
+import Login from './Login/Login';
+import ForgorPassword from './ForgotPassword/ForgotPassword';
+import GuestLogin from './GuestLogin/GuestLogin';
+import Adminstrator from './Adminstrator/Adminstrator';
 
 const Main = () => {
   const [cart, setCart] = useState([]);
   const [totalPrice, setTotalPrice] = useState(0);
+  const [loginTab, setLoginTab] = useState("Login")
+  // const [loggedInUser, setLoggedInUser] = useState({
+  const [username, setUsername] = useState("")
+  const [password, setPassword] = useState("")
+
+  const navigate = useNavigate()
+
+
+  const loginUser = e => {
+    e.preventDefault()
+    console.log({ username, password })
+    const user = {
+      username, password
+    }
+     localStorage.setItem('user', JSON.stringify(user));
+     const fetchUser = JSON.parse(localStorage.getItem('user')) || {};
+     if(fetchUser) {
+      alert(`User logged in successfully`)
+      navigate("/administrator")
+     }
+    
+    console.log({fetchUser})
+  }
+
+  const loginTabs = ["Login", "Forgot password"]
+
 
   // Update this to allow adding the same item multiple times to the cart
   const addToCart = (item) => {
@@ -33,8 +63,6 @@ const Main = () => {
     setTotalPrice(newTotal);
   }, [cart]);
 
-  console.log({ cart });
-  console.log({ totalPrice });
 
   return (
     <div>
@@ -46,12 +74,20 @@ const Main = () => {
         <Route path="/cart" element={<Cart cart={cart} removeItem={removeItem} />} />
         <Route path="/review" element={<Reviews />} />
         <Route path="/faq" element={<FAQ />} />
-        <Route path="/order-information" element={<OrderInformation cart={cart}/>} />
-        <Route path="/place_an_order" element={<PlaceAnOrder/>} />
+        <Route path="/order-information" element={<OrderInformation cart={cart} />} />
+        <Route path="/place_an_order" element={<PlaceAnOrder />} />
+        <Route path="/login" element={<Login loginTabs={loginTabs} setLoginTab={setLoginTab} loginTab={loginTab} loginUser={loginUser} setUsername={setUsername} setPassword={setPassword} username={username} password={password} />} />
+        <Route path="/Forgot_password" element={<ForgorPassword loginTabs={loginTabs} setLoginTab={setLoginTab} loginTab={loginTab} />} />
+        <Route path="/Guest" element={<GuestLogin loginTabs={loginTabs} setLoginTab={setLoginTab} loginTab={loginTab} />} />
+        <Route path="/administrator" element={<Adminstrator  />} />
 
 
 
-        
+
+
+
+
+
       </Routes>
     </div>
   );

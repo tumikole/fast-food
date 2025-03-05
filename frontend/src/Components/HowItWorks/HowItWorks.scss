@@ -1,3 +1,7 @@
+.how-it-works-main-division{
+  margin-bottom: 4rem !important;
+
+}
 .how-it-works {
 
   .secondary {
@@ -5,20 +9,21 @@
     font-weight: 700;
     line-height: 1.2;
     color: #ffcc00;
-    margin-bottom: 1rem;
     text-align: center;
     padding-top: 9.3rem;
     padding-bottom: 2rem;
+    margin-bottom: 2rem;
+
 
     @media (max-width: 768px) {
       font-size: 2.2rem;
-      padding-top: 6rem;
+      padding-top: 5rem;
 
     }
 
     @media (max-width: 480px) {
       font-size: 1.8rem;
-      padding-top: 6rem;
+      padding-top: 4rem;
 
     }
   }
@@ -70,7 +75,6 @@
   }
 
   @media (max-width: 768px) {
-    margin-bottom: 5rem !important;
 
     .secondary {
       font-size: 2rem;
@@ -94,7 +98,6 @@
   }
 
   @media (max-width: 480px) {
-    margin-bottom: 5rem !important;
     .secondary {
       font-size: 1.8rem;
     }

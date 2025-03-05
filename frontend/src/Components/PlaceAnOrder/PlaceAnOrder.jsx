@@ -5,10 +5,15 @@ import BankCard from '../BankCard/BankCard';
 
 const PlaceAnOrder = () => {
     const [paymentMethod, setPaymentMethod] = useState('online');
+    const [collectionType, setCollectionType] = useState('delivery');
 
 
     const handlePaymentChange = (event) => {
         setPaymentMethod(event.target.value);
+    };
+
+    const handleOnlineCollectionPaymentType = (event) => {
+        setCollectionType(event.target.value);
     };
 
     const handleSubmit = (event) => {
@@ -30,7 +35,7 @@ const PlaceAnOrder = () => {
                             checked={paymentMethod === 'online'}
                             onChange={handlePaymentChange}
                         />
-                        Pay Online
+                        Online Payment
                     </label>
                     <label className={`payment-option ${paymentMethod === 'cash-on-delivery' ? 'active' : ''}`}>
                         <input
@@ -48,13 +53,34 @@ const PlaceAnOrder = () => {
                             checked={paymentMethod === 'cash-on-pickup'}
                             onChange={handlePaymentChange}
                         />
-                        Pickup
+                        Cash on Pickup
                     </label>
                 </div>
 
                 {paymentMethod === 'online' &&
 
                     <div className="card-form">
+                        <div className="payment-options">
+                            
+                            <label className={`payment-option ${collectionType === 'delivery' ? 'active' : ''}`}>
+                                <input
+                                    type="radio"
+                                    value="delivery"
+                                    checked={collectionType === 'delivery'}
+                                    onChange={handleOnlineCollectionPaymentType}
+                                />
+                                Delivery
+                            </label>
+                            <label className={`payment-option ${collectionType === 'pickup' ? 'active' : ''}`}>
+                                <input
+                                    type="radio"
+                                    value="pickup"
+                                    checked={collectionType === 'pickup'}
+                                    onChange={handleOnlineCollectionPaymentType}
+                                />
+                                Pickup
+                            </label>
+                        </div>
                         <h3>Card Details</h3>
                         <BankCard />
                     </div>

@@ -17,16 +17,19 @@
                 color: #ffcc00;
                 margin-bottom: 1rem;
                 text-align: center;
-                padding-top: 8rem;
-                padding-bottom: 2rem;
+                padding-top: 3rem;
+                padding-bottom: 1rem;
 
 
                 @media (max-width: 768px) {
-                    font-size: 2.2rem;
+                    font-size: 2.6rem;
+                    text-align: center;
+                    padding-top: 2.3rem;
                 }
 
                 @media (max-width: 480px) {
-                    font-size: 1.8rem;
+                    text-align: center;
+                    padding-top: 2.3rem;
                 }
             }
 
@@ -143,7 +146,7 @@
                     ul {
                         list-style: none;
                         margin-top: 1rem;
-                        padding-left: 1rem;
+                        padding-left: 0rem;
 
                         li {
                             margin-bottom: 0.5rem;
@@ -175,6 +178,7 @@
                 transition: all 0.3s ease;
                 border: none;
                 cursor: pointer;
+                margin-bottom: 2rem;
 
                 &:hover {
                     background-color: #ffd633;
@@ -215,7 +219,7 @@
 
     @media (max-width: 480px) {
         .about-container {
-            padding-top: 5rem;
+            padding-top: 1rem;
 
             .text {
                 .visual {

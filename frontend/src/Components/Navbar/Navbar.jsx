@@ -11,6 +11,20 @@ const Navbar = () => {
       <Link to="/"><label className="logo">Olieven Kota & Grills</label></Link>
 
       <ul>
+        <li style={{
+          fontWeight: "700",
+          textTransform: "uppercase",
+          borderBottom: "1px solid #e74c3c",
+          fontSize: "2rem",
+          color: "#e74c3c",
+        }}>
+          <p style={{
+            marginLeft: "1rem",
+          }}>
+            Olieven Kota & Grills
+          </p>
+        </li>
+
         {[
           { path: "/", name: "Home", icon: "home-alt-2" },
           { path: "/how_it_works", name: "How it works", icon: "briefcase" },
