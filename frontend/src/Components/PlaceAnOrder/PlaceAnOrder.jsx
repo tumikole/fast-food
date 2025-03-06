@@ -61,7 +61,6 @@ const PlaceAnOrder = () => {
     
                 Swal.fire("Successfully saved user information and order!", "", "success");
                 navigate("/order_tracking");
-                window.location.reload();
     
             } else if (result.isDenied) {
                 Swal.fire("Changes are not saved", "", "info");
