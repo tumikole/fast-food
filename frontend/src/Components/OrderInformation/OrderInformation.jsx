@@ -5,7 +5,6 @@ import Navbar from "../Navbar/Navbar";
 import { 
   TextField, Button, Card, CardContent, Typography, Grid 
 } from "@mui/material";
-import "./OrderInformation.scss";
 
 const OrderInformation = ({ cart }) => {
   const navigate = useNavigate();
@@ -73,42 +72,15 @@ const OrderInformation = ({ cart }) => {
   };
 
   return (
-    <div className="order-information">
+    <div >
       <Navbar />
-      <Typography variant="h4" align="center" gutterBottom>
+      <div className="order-information">
+      <Typography variant="h4" align="center" gutterBottom color="white">
         Order Information
       </Typography>
 
-      {/* Order Items */}
-      <Grid container spacing={2} justifyContent="center">
-        {cart.map((item, index) => (
-          <Grid item xs={12} sm={6} md={4} key={index}>
-            <Card className="order-item">
-              <CardContent>
-                <Typography variant="h6">{item.itemName}</Typography>
-                <Typography variant="body2">Category: {item.category}</Typography>
-                <Typography variant="body2">Quantity: {item.quantity}</Typography>
-                {item.ingredients?.length > 0 && (
-                  <div>
-                    <Typography variant="body2">Ingredients:</Typography>
-                    <ul>
-                      {item.ingredients.map((ingredient, idx) => (
-                        <li key={idx}>{ingredient}</li>
-                      ))}
-                    </ul>
-                  </div>
-                )}
-                <Typography variant="h6" color="primary">
-                  R{Object.values(item.price)[0] * (item.quantity || 1)}
-                </Typography>
-              </CardContent>
-            </Card>
-          </Grid>
-        ))}
-      </Grid>
-
       {/* Order Summary */}
-      <Card className="order-summary">
+      <Card className="">
         <CardContent>
           <Typography variant="h5">Total Amount: R{calculateTotal()}</Typography>
 
@@ -178,7 +150,7 @@ const OrderInformation = ({ cart }) => {
           </Button>
         </CardContent>
       </Card>
-    </div>
+    </div></div>
   );
 };
 
