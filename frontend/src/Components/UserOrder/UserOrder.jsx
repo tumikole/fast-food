@@ -5,7 +5,7 @@ import Navbar from '../Navbar/Navbar';
 
 const UserOrder = () => {
     const [orderData, setOrderData] = useState(null);
-
+    const [timeLeft, setTimeLeft] = useState(600); // 10 minutes in seconds
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -13,11 +13,25 @@ const UserOrder = () => {
         const storedOrder = localStorage.getItem('userOrdering');
         if (storedOrder) {
             setOrderData(JSON.parse(storedOrder));
-        } else {
-            // If no order data is found, navigate to the PlaceAnOrder page
-            navigate('/menu');
         }
     }, [navigate]);
+
+    useEffect(() => {
+        if (timeLeft <= 0) return; // Stop countdown when time is up
+
+        const timer = setInterval(() => {
+            setTimeLeft(prevTime => prevTime - 1);
+        }, 1000);
+
+        return () => clearInterval(timer); // Cleanup on unmount
+    }, [timeLeft]);
+
+    // Format time into MM:SS
+    const formatTime = (seconds) => {
+        const minutes = Math.floor(seconds / 60);
+        const secs = seconds % 60;
+        return `${minutes.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+    };
 
     if (!orderData) {
         return (
@@ -28,8 +42,6 @@ const UserOrder = () => {
             </div>
         );
     }
-
-    console.log({ order: orderData.order })
 
     return (
         <div className="user-order">
@@ -43,25 +55,26 @@ const UserOrder = () => {
                 <p><strong>Order Details:</strong></p>
 
                 <ul>
-                    {orderData && orderData.order.map((item, index) => {
-                        return (
-                            <div >
-                                <li style={{color:"#ffcc00"}}>{item.category}</li>
-                                <li style={{color:"#ffcc00"}}>{item.itemName}</li>
-                                <li style={{color:"#ffcc00"}}>{item.quantity}</li>
-
-                                
-                            </div>
-                        )
-                    })}
+                    {orderData.order.map((item, index) => (
+                        <div key={index}>
+                            <li style={{ color: "#ffcc00" }}>{item.category}</li>
+                            <li style={{ color: "#ffcc00" }}>{item.itemName}</li>
+                            <li style={{ color: "#ffcc00" }}>{item.quantity}</li>
+                        </div>
+                    ))}
                 </ul>
             </div>
-            <caption>Order can be canceled within 10 minutes of ordering</caption>
-            <button onClick={() => navigate('/cart')} className="modify-order-button">
-                Cancel order
+            <caption>
+                Order can be canceled within <strong>{formatTime(timeLeft)}</strong>
+            </caption>
+            <button 
+                onClick={() => navigate('/cart')} 
+                className="modify-order-button"
+                disabled={timeLeft <= 0} // Disable button when time runs out
+            >
+                {timeLeft > 0 ? "Cancel Order" : "Time Expired"}
             </button>
         </div>
-
     );
 };
 
