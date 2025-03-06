@@ -4,7 +4,6 @@ import { Link } from "react-router-dom";
 import { Box, Typography, Button, List, ListItem, ListItemText } from "@mui/material";
 import AboutImage from "../../Asserts/download.jpeg";
 import Footer from "../Footer/Footer";
-import "./About.scss";
 
 const About = () => {
   return (
@@ -12,7 +11,7 @@ const About = () => {
       <Navbar />
       <Box className="about-container" sx={{ display: "flex", flexDirection: { xs: "column", md: "row" }, gap: 2, padding: 2 }}>
         <Box className="text" sx={{ flex: 1 }}>
-          <Typography variant="h2" sx={{ fontSize: { xs: "2rem", md: "2.5rem" }, fontWeight: "bold", color: "#2c3e50" }}>
+          <Typography variant="h2" sx={{ fontSize: { xs: "2rem", md: "2.5rem" }, fontWeight: "bold", color: "white" }}>
             About Our Restaurant
           </Typography>
 
@@ -20,25 +19,25 @@ const About = () => {
             <Box className="visual" sx={{ flex: 1, maxWidth: { xs: "100%", md: "30%" } }}>
               <img src={AboutImage} alt="About Us" style={{ width: "100%", borderRadius: "8px", boxShadow: "0 4px 8px rgba(0, 0, 0, 0.2)" }} />
             </Box>
-            <Typography sx={{ flex: 1, color: "#7f8c8d", lineHeight: 1.5, fontSize: "1rem" }}>
+            <Typography sx={{ flex: 1, color: "white", lineHeight: 1.5, fontSize: "1rem" }}>
               Olieven Kota & Grills, a place where authentic South African flavors meet quality ingredients and unmatched hospitality.
               Nestled in the heart of Olievenhoutbosch, we bring the rich, bold, and traditional street food experience to life, serving up the best kotas, flame-grilled meats, and classic township-style meals that keep our customers coming back for more.
             </Typography>
           </Box>
 
-          <Typography variant="h3" sx={{ marginTop: 3, fontWeight: "bold" }}>Our Story</Typography>
-          <Typography sx={{ marginTop: 1 }}>
+          <Typography variant="h5" sx={{ marginTop: 3, fontWeight: "bold", color: "white" }}>Our Story</Typography>
+          <Typography sx={{ marginTop: 1, color: "white" }}>
             Olieven Kota & Grills was founded with a simple vision—to celebrate South Africa’s vibrant kasi culture through food. Inspired by the mouthwatering flavors found in the streets of Soweto, Alexandra, and Mamelodi, we have perfected the art of crafting delicious, hearty, and satisfying meals that resonate with both locals and visitors.
           </Typography>
-          <Typography sx={{ marginTop: 1 }}>
+          <Typography sx={{ marginTop: 1, color: "white" }}>
             From our humble beginnings, we have grown into a well-loved food spot, known for our generous portions, fresh ingredients, and unique spin on township street food. Whether you're a fan of the classic kota stuffed with polony, atchar, and fresh fries or you crave a succulent grilled steak with our signature sauces, we have something for everyone.
           </Typography>
 
-          <Typography variant="h3" sx={{ marginTop: 3, fontWeight: "bold" }}>What We Serve</Typography>
-          <Typography sx={{ marginTop: 1 }}>
+          <Typography variant="h5" sx={{ marginTop: 3, fontWeight: "bold", color: "white" }}>What We Serve</Typography>
+          <Typography sx={{ marginTop: 1, color: "white" }}>
             At Olieven Kota & Grills, we pride ourselves on offering a diverse menu packed with South African favorites:
           </Typography>
-          <List>
+          <List sx={{ color: "white" }}>
             <ListItem>
               <ListItemText primary="🍞 Signature Kotas – Freshly baked bread filled with crispy fries, flavorful meats, and our special house sauces. Choose from polony, Russian, beef, chicken, or even our loaded deluxe kota options." />
             </ListItem>
@@ -53,9 +52,9 @@ const About = () => {
             </ListItem>
           </List>
 
-          <Typography variant="h3" sx={{ marginTop: 3, fontWeight: "bold" }}>Why Choose Us?</Typography>
-          <List>
-            <ListItem>
+          <Typography variant="h5" sx={{ marginTop: 3, fontWeight: "bold", color: "white" }}>Why Choose Us?</Typography>
+          <List sx={{ color: "white" }}>
+            <ListItem sx={{ color: "white" }}>
               <ListItemText primary="Authentic Kasi Flavor - Our meals capture the true essence of township street food, giving you an experience that feels like home. 🌍" />
             </ListItem>
             <ListItem>
@@ -72,12 +71,12 @@ const About = () => {
             </ListItem>
           </List>
 
-          <Typography variant="h3" sx={{ marginTop: 3, fontWeight: "bold" }}>Visit Us Today!</Typography>
-          <Typography sx={{ marginTop: 1 }}>
+          <Typography variant="h5" sx={{ marginTop: 3, fontWeight: "bold", color: "white" }}>Visit Us Today!</Typography>
+          <Typography sx={{ marginTop: 1, color: "white" }}>
             If you're in Olievenhoutbosch or surrounding areas, make sure to stop by and experience the best kotas and grills in kasi. Whether you’re grabbing a meal on the go or sitting down to enjoy a feast, we guarantee you’ll leave happy, full, and craving more! 😋
           </Typography>
 
-          <List sx={{ marginTop: 2 }}>
+          <List sx={{ marginTop: 2, color: "white" }}>
             <ListItem>
               <ListItemText primary="📍 Location: Olievenhoutbosch, Ext 36 Absa, Corner next to Waltlo opposite Shoprite" />
             </ListItem>
@@ -89,12 +88,12 @@ const About = () => {
             </ListItem>
           </List>
 
-          <Typography sx={{ marginTop: 1 }}>
+          <Typography sx={{ marginTop: 1, color: "white" }}>
             At Olieven Kota & Grills, we don’t just serve food—we serve memories, culture, and passion on a plate. See you soon! 🙌
           </Typography>
 
           <Link to="/menu">
-            <Button variant="contained" sx={{ marginTop: 2, backgroundColor: "#2980b9", color: "white" }}>
+            <Button variant="contained" sx={{ mt: 4, mb: 4, backgroundColor: "#2980b9", color: "white" }}>
               Explore Menu 🍽️
             </Button>
           </Link>
@@ -106,4 +105,3 @@ const About = () => {
 };
 
 export default About;
-  

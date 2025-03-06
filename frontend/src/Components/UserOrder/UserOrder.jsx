@@ -1,11 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
 import { Box, Button, Typography, Card, CardContent, List, ListItem, CircularProgress } from '@mui/material';
 
-const UserOrder = () => {
+const UserOrder = ({handleCancelOrder}) => {
     const [orderData, setOrderData] = useState(null);
     const [timeLeft, setTimeLeft] = useState(600); // 10 minutes in seconds
-    const navigate = useNavigate();
 
     useEffect(() => {
         const storedOrder = localStorage.getItem('userOrdering');
@@ -30,7 +28,6 @@ const UserOrder = () => {
     if (!orderData) {
         return (
             <Box className="user-order" sx={{ textAlign: 'center', mt: 4 }}>
-                {/* <Navbar /> */}
                 <Typography variant="h5" fontWeight="bold" color="error">No Order Found</Typography>
                 <Typography variant="body1">Your order details are not available. Please place an order.</Typography>
             </Box>
@@ -39,7 +36,6 @@ const UserOrder = () => {
 
     return (
         <Box className="user-order" sx={{ maxWidth: 600, mx: 'auto', mt: 4, px: 2 }}>
-            {/* <Navbar /> */}
             <Typography variant="h4" fontWeight="bold" color="primary" textAlign="center" mb={2}>
                 Order Summary
             </Typography>
@@ -74,20 +70,29 @@ const UserOrder = () => {
                 {timeLeft > 0 ? (
                     <CircularProgress variant="determinate" value={(timeLeft / 600) * 100} sx={{ mt: 1 }} />
                 ) : (
-                    <Typography variant="body2" color="error" mt={1}>Time Expired</Typography>
+                    <Typography variant="body2" color="error" mt={1}>Time Expired to cancil</Typography>
                 )}
             </Box>
-
-            <Button 
+            {timeLeft > 0 ? <Button
                 variant="contained"
-                color="secondary"
+                color="error"
+                onClick={handleCancelOrder}
                 fullWidth
                 sx={{ mt: 2, borderRadius: 2 }}
-                onClick={() => navigate('/cart')}
-                disabled={timeLeft <= 0}
             >
-                {timeLeft > 0 ? "Cancel Order" : "Time Expired"}
+                Cancel Order
             </Button>
+                :
+                <Button
+                    variant="contained"
+                    color="secondary"
+                    fullWidth
+                    sx={{ mt: 2, borderRadius: 2 }}
+                    disabled
+                >
+                    Time Expired
+                </Button>
+            }
         </Box>
     );
 };

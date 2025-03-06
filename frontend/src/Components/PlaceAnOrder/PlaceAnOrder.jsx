@@ -15,6 +15,7 @@ import {
     Paper,
     Box
 } from '@mui/material';
+import BankCard from '../BankCard/BankCard';
 
 const PlaceAnOrder = () => {
     const [paymentMethod, setPaymentMethod] = useState('online');
@@ -61,52 +62,56 @@ const PlaceAnOrder = () => {
     };
 
     return (
-        <Container maxWidth="sm">
+        <div>
             <Navbar />
-            <Paper elevation={3} sx={{ padding: 3, marginTop: 4 }}>
-                <Typography variant="h4" gutterBottom align="center">
-                    Order Payment
-                </Typography>
-                <form onSubmit={handleSubmit}>
-                    <FormControl component="fieldset" fullWidth>
-                        <FormLabel component="legend">Select Payment Method</FormLabel>
-                        <RadioGroup
-                            value={paymentMethod}
-                            onChange={(event) => setPaymentMethod(event.target.value)}
+            <Container>
+                <Paper elevation={3} sx={{ padding: 3, marginTop: 4 }}>
+                    <Typography variant="h4" gutterBottom align="center">
+                        Order Payment
+                    </Typography>
+                    <form onSubmit={handleSubmit} >
+                        <FormControl component="fieldset" fullWidth>
+                            <FormLabel component="legend">Select Payment Method</FormLabel>
+                            <RadioGroup
+                                value={paymentMethod}
+                                onChange={(event) => setPaymentMethod(event.target.value)}
+                            >
+                                <FormControlLabel value="online" control={<Radio />} label="Online Payment" />
+                                <FormControlLabel value="cash-on-delivery" control={<Radio />} label="Cash on Delivery" />
+                                <FormControlLabel value="cash-on-pickup" control={<Radio />} label="Cash on Pickup" />
+                            </RadioGroup>
+                        </FormControl>
+
+                        {paymentMethod === 'online' && (
+                            <Box mt={2}>
+                                <FormControl component="fieldset" fullWidth>
+                                    <FormLabel component="legend">Select Collection Type</FormLabel>
+                                    <RadioGroup
+                                        value={collectionType}
+                                        onChange={(event) => setCollectionType(event.target.value)}
+                                    >
+                                        <FormControlLabel value="delivery" control={<Radio />} label="Delivery" />
+                                        <FormControlLabel value="pickup" control={<Radio />} label="Pickup" />
+                                    </RadioGroup>
+                                </FormControl>
+                                <BankCard />
+                            </Box>
+                        )}
+
+                        <Button
+                            type="submit"
+                            variant="contained"
+                            color="primary"
+                            fullWidth
+                            sx={{ marginTop: 2 }}
                         >
-                            <FormControlLabel value="online" control={<Radio />} label="Online Payment" />
-                            <FormControlLabel value="cash-on-delivery" control={<Radio />} label="Cash on Delivery" />
-                            <FormControlLabel value="cash-on-pickup" control={<Radio />} label="Cash on Pickup" />
-                        </RadioGroup>
-                    </FormControl>
+                            Confirm Order
+                        </Button>
+                    </form>
+                </Paper>
+            </Container>
+        </div>
 
-                    {paymentMethod === 'online' && (
-                        <Box mt={2}>
-                            <FormControl component="fieldset" fullWidth>
-                                <FormLabel component="legend">Select Collection Type</FormLabel>
-                                <RadioGroup
-                                    value={collectionType}
-                                    onChange={(event) => setCollectionType(event.target.value)}
-                                >
-                                    <FormControlLabel value="delivery" control={<Radio />} label="Delivery" />
-                                    <FormControlLabel value="pickup" control={<Radio />} label="Pickup" />
-                                </RadioGroup>
-                            </FormControl>
-                        </Box>
-                    )}
-
-                    <Button
-                        type="submit"
-                        variant="contained"
-                        color="primary"
-                        fullWidth
-                        sx={{ marginTop: 2 }}
-                    >
-                        Confirm Order
-                    </Button>
-                </form>
-            </Paper>
-        </Container>
     );
 };
 

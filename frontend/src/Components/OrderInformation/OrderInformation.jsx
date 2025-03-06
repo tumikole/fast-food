@@ -75,12 +75,12 @@ const OrderInformation = ({ cart }) => {
     <div >
       <Navbar />
       <div className="order-information">
-      <Typography variant="h4" align="center" gutterBottom color="white">
+      <Typography variant="h4" align="center" gutterBottom color="white" py={3}>
         Order Information
       </Typography>
 
       {/* Order Summary */}
-      <Card className="">
+      <Card sx={{ ml:2,mr:2, my: 2, p: 2, position: "relative" }}>
         <CardContent>
           <Typography variant="h5">Total Amount: R{calculateTotal()}</Typography>
 

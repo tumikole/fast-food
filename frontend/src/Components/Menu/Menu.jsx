@@ -658,7 +658,7 @@ const Menu = ({ addToCart, cart, setCart }) => {
                             <div className="cart-item-length">{cart.length}</div>
                             {hasSelectedItems && (
                                 <div className="selected-item-length">
-                                    <box-icon name='cart-download' animation='tada' color='#ff0000' ></box-icon>
+                                    <box-icon name='cart-download' animation='tada' color='#ffffff' ></box-icon>
                                 </div>
                             )}
                         </button>
@@ -669,7 +669,7 @@ const Menu = ({ addToCart, cart, setCart }) => {
                                 <Link to="/cart" style={{ textDecoration: "none" }}>
                                     <button className="btn btn-warning" style={{ display: "flex" }}>
                                         <div style={{ display: "flex" }}>
-                                            <div><box-icon name='right-arrow-alt' animation='tada' color='#ffcc00' ></box-icon></div>
+                                            <div><box-icon name='right-arrow-alt' animation='tada' color='#ffffff' ></box-icon></div>
                                             <p>Visit your cart</p>
                                         </div>
                                     </button>
@@ -707,7 +707,7 @@ const Menu = ({ addToCart, cart, setCart }) => {
                                                             alignItems: 'center',
                                                             backgroundColor: '#f5f5f5'
                                                         }}>
-                                                            <box-icon name='loader-alt' animation='spin' color='#ffcc00'></box-icon>
+                                                            <box-icon name='loader-alt' animation='spin' color='#ffffff'></box-icon>
                                                         </div>
                                                     )}
                                                     <img
@@ -737,10 +737,10 @@ const Menu = ({ addToCart, cart, setCart }) => {
                                                     {item.images.length > 1 && (
                                                         <>
                                                             <div onClick={() => handlePreviousImage(item.id)}>
-                                                                <box-icon size="30px" color="#ffcc00" name="left-arrow-alt"></box-icon>
+                                                                <box-icon size="30px" color='#ffffff' name="left-arrow-alt"></box-icon>
                                                             </div>
                                                             <div onClick={() => handleNextImage(item.id)}>
-                                                                <box-icon size="30px" color="#ffcc00" name="right-arrow-alt"></box-icon>
+                                                                <box-icon size="30px" color='#ffffff' name="right-arrow-alt"></box-icon>
                                                             </div>
                                                         </>
                                                     )}
@@ -777,11 +777,11 @@ const Menu = ({ addToCart, cart, setCart }) => {
                                                                 {selectedIngredients[item.id]?.includes(ingredient.name) && (
                                                                     <div style={{ display: "flex", gap: "1rem" }}>
                                                                         <div onClick={() => updateQuantityMinus(ingredient.name, item.id, ingredient.itemPrice)}>
-                                                                            <box-icon name='minus' color='#ffcc00' ></box-icon>
+                                                                            <box-icon name='minus' color='#ffffff' ></box-icon>
                                                                         </div>
                                                                         <div>{quantities[ingredient.name] || 1}</div>
                                                                         <div onClick={() => updateQuantityPlus(ingredient.name, item.id, ingredient.itemPrice)}>
-                                                                            <box-icon name='plus' color='#ffcc00' ></box-icon>
+                                                                            <box-icon name='plus' color='#ffffff' ></box-icon>
                                                                         </div>
                                                                     </div>
                                                                 )}
@@ -819,11 +819,11 @@ const Menu = ({ addToCart, cart, setCart }) => {
                                                                         backgroundColor: "#404040"
                                                                     }}>
                                                                         <div onClick={() => updateKotaQuantityMinus(currentImageData.itemName, item.id, currentImageData.totalAmount)}>
-                                                                            <box-icon name='minus' color='#ffcc00' ></box-icon>
+                                                                            <box-icon name='minus' color='#ffffff' ></box-icon>
                                                                         </div>
-                                                                        <div>{quantities[currentImageData.itemName] || 1}</div>
+                                                                        <div style={{ color: "white" }}>{quantities[currentImageData.itemName] || 1}</div>
                                                                         <div onClick={() => updateKotaQuantityPlus(currentImageData.itemName, item.id, currentImageData.totalAmount)}>
-                                                                            <box-icon name='plus' color='#ffcc00' ></box-icon>
+                                                                            <box-icon name='plus' color='#ffffff' ></box-icon>
                                                                         </div>
                                                                     </div>
                                                                 )}

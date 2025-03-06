@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 
 const Footer = () => {
   return (
-    <Box component="footer" sx={{ backgroundColor: "#222", color: "#fff", py: 4 }}>
+    <Box component="footer" sx={{ backgroundColor: "#222", color: "#fff" }}>
       <Box sx={{ maxWidth: "1200px", mx: "auto", px: 3 }}>
         <Grid container spacing={4}>
           {/* About Section */}

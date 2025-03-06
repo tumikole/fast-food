@@ -21,22 +21,22 @@ const Cart = ({ cart, removeItem }) => {
 
       {/* Header */}
       <Box className="cart-header" textAlign="center" py={3}>
-        <ShoppingCartIcon sx={{ color: "#ffcc00", fontSize: 40 }} />
-        <Typography variant="h4" fontWeight="bold">
+        <ShoppingCartIcon sx={{ color: "#ffffff", fontSize: 40 }} />
+        <Typography variant="h4" fontWeight="bold" color="#ffffff">
           {cart.length > 0 ? "Your Cart" : "Your cart is empty"}
         </Typography>
         {cart.length === 0 && (
-          <Typography variant="h6" color="textSecondary">
+          <Typography variant="h6" color="#ffffff">
             Explore our products and add items to your cart
           </Typography>
         )}
       </Box>
 
       {/* View Menu Button */}
-      <Link to="/menu" style={{ textDecoration: "none" }}>
+      <Link to="/menu" style={{ textDecoration: "none", display: "flex", alignItems: "center", gap: 1, mt: 2, justifyContent: "center" }}>
         <Button
           variant="outlined"
-          sx={{ display: "flex", alignItems: "center", gap: 1, color: "#ffcc00", borderColor: "#ffcc00", my: 2 }}
+          sx={{ display: "flex", alignItems: "center", gap: 1, color: "#ffffff", borderColor: "#ffffff", my: 2 }}
         >
           <ArrowBackIosIcon sx={{ fontSize: 18 }} />
           <Typography variant="body1">View Menu</Typography>
@@ -49,7 +49,7 @@ const Cart = ({ cart, removeItem }) => {
         <>
           <Box className="cart-items">
             {cart.map((item, index) => (
-              <Card key={index} className="cart-item" sx={{ my: 2, p: 2, position: "relative" }}>
+              <Card key={index} className="cart-item" sx={{ ml:2,mr:2, my: 2, p: 2, position: "relative" }}>
                 <CardContent>
                   <Typography variant="h6">{item.itemName}</Typography>
                   <Typography variant="body2">Category: {item.category}</Typography>
@@ -69,14 +69,14 @@ const Cart = ({ cart, removeItem }) => {
 
           {/* Total Price & Checkout */}
           <Box className="cart-total" textAlign="center" mt={3}>
-            <Typography variant="h5" fontWeight="bold">
+            <Typography variant="h5" fontWeight="bold" color="#ffffff">
               Grand Total: R{calculateTotal()}
             </Typography>
-            <Link to="/order-information" style={{ textDecoration: "none" }}>
+            <Link to="/order-information" style={{ textDecoration: "none", display: "flex", alignItems: "center", gap: 1, mt: 2, justifyContent: "center" }} color="#ffffff">
               <Button
                 variant="contained"
-                color="primary"
-                sx={{ display: "flex", alignItems: "center", gap: 1, mt: 2 }}
+                color="#ffffff"
+                sx={{ display: "flex", alignItems: "center", gap: 1, mt: 2, justifyContent: "center" }}
               >
                 <CheckCircleIcon />
                 Proceed to Checkout

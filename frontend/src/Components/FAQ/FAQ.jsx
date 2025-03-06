@@ -2,7 +2,6 @@ import React from 'react';
 import { Accordion, AccordionSummary, AccordionDetails, Typography, Container } from '@mui/material';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import Navbar from '../Navbar/Navbar';
-import Footer from '../Footer/Footer';
 
 const FAQ = () => {
   const faqs = [
@@ -26,7 +25,7 @@ const FAQ = () => {
     <div>
       <Navbar />
       <Container maxWidth="md">
-        <Typography variant="h4" align="center" gutterBottom sx={{ mt: 4 }}>
+        <Typography variant="h4" align="center" gutterBottom sx={{ display: "flex", flexDirection: { xs: "column", md: "row" }, gap: 2, padding: 2, color:"white" }}>
           Frequently Asked Questions
         </Typography>
 
@@ -41,7 +40,6 @@ const FAQ = () => {
           </Accordion>
         ))}
       </Container>
-      <Footer />
     </div>
   );
 };

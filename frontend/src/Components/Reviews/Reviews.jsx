@@ -1,14 +1,13 @@
 import React, { useEffect, useState } from 'react';
-import { Card, CardContent, CardMedia, Typography, Button, Container } from '@mui/material';
+import { Card, CardContent, CardMedia, Typography, Button, Container, Box } from '@mui/material';
 import { Link } from 'react-router-dom';
-import './Reviews.scss';
-import TestimonialImage from '../../Asserts/download (5).jpeg';
 import Navbar from '../Navbar/Navbar';
 import Footer from '../Footer/Footer';
+import TestimonialImage from '../../Asserts/download (5).jpeg';
 
 const Reviews = () => {
     const [currentIndex, setCurrentIndex] = useState(0);
-    const intervalTime = 5000; // Switch testimonials every 5 seconds
+    const intervalTime = 5000;
 
     const testimonials = [
         {
@@ -22,9 +21,9 @@ const Reviews = () => {
             message: "Kota yo no naka-naka! Ndi a i humbela kha vhoṱhe uri vayedze."
         },
         {
-            "name": "Thabo Mokoena",
-            "img": "https://randomuser.me/api/portraits/men/55.jpg",
-            "message": "Tirelo e e molemo, tatso e e monate, mme boitemogelo bo itumedisang ka metlha!"
+            name: "Thabo Mokoena",
+            img: "https://randomuser.me/api/portraits/men/55.jpg",
+            message: "Tirelo e e molemo, tatso e e monate, mme boitemogelo bo itumedisang ka metlha!"
         },
         {
             name: 'Sibongile Dlamini',
@@ -37,71 +36,84 @@ const Reviews = () => {
         const interval = setInterval(() => {
             setCurrentIndex((prevIndex) => (prevIndex + 1) % testimonials.length);
         }, intervalTime);
-
         return () => clearInterval(interval);
     }, [testimonials.length]);
 
     return (
-        <div className="testimonial">
+        <Box sx={{ backgroundColor: 'black', minHeight: '100vh' }}>
             <Navbar />
             <Container maxWidth="lg">
-                <div className="testimonial-container">
-                    <div className="text">
-                        <Typography variant="h2" component="h2" gutterBottom>
-                            What We Think About Our Customers
-                        </Typography>
-                        <Typography variant="body1" paragraph>
-                            At Olieven Kota & Grills, our customers are the heart of everything we do.
-                            Your support, love, and feedback inspire us to continuously deliver the best street food experience.
-                            We believe in creating a community where every meal feels like a celebration of authentic flavors and good company.
-                        </Typography>
+                <Box sx={{ textAlign: 'center', mb: 4, mt: 4 }}>
+                    <Typography variant="h3" color="white" gutterBottom>
+                        What We Think About Our Customers
+                    </Typography>
+                    <Typography variant="body1" color="white" sx={{ maxWidth: '800px', mx: 'auto' }}>
+                        At Olieven Kota & Grills, our customers are the heart of everything we do.
+                        Your support, love, and feedback inspire us to continuously deliver the best street food experience.
+                        Thank you for being part of our journey!
+                    </Typography>
+                </Box>
+                <Typography sx={{ textAlign: 'center' }} variant="h4" color="white" gutterBottom>
+                        What Our Customers Say About Us
+                    </Typography>
+                {/* Testimonial Section */}
+                <Box
+                    sx={{
+                        display: 'flex',
+                        flexDirection: 'column',
+                        alignItems: 'center',
+                        gap: 3,
+                    }}
+                >
+                    <Card
+                        sx={{
+                            maxWidth: 500,
+                            backgroundColor: '#fff',
+                            boxShadow: 3,
+                            borderRadius: 3,
+                            textAlign: 'center',
+                            overflow: 'hidden',
+                        }}
+                    >
+                        <CardMedia
+                            component="img"
+                            height="220"
+                            image={testimonials[currentIndex].img}
+                            alt={testimonials[currentIndex].name}
+                            sx={{ objectFit: 'cover' }}
+                        />
+                        <CardContent>
+                            <Typography variant="h6" color="primary">
+                                {testimonials[currentIndex].name}
+                            </Typography>
+                            <Typography variant="body2" color="text.secondary">
+                                "{testimonials[currentIndex].message}"
+                            </Typography>
+                        </CardContent>
+                    </Card>
 
-                        <Typography variant="body1" paragraph>
-                            From the first bite to the last, we aim to bring you not just a meal, but an experience that resonates with the essence of street food culture.
-                            Our customers are more than just guests; they are our partners in this journey of bringing vibrant and delicious meals to life.
-                            Your smiles, your recommendations, and your loyalty motivate us every day to strive for excellence in everything we do.
-                            At Olieven Kota & Grills, it's not just about food—it's about building lasting relationships and making memories, one dish at a time.
-                        </Typography>
+                    <Box
+                        component="img"
+                        src={TestimonialImage}
+                        alt="Thank you to our customers"
+                        sx={{
+                            width: '100%',
+                            maxWidth: '800px',
+                            borderRadius: 3,
+                            boxShadow: 2,
+                        }}
+                    />
+                </Box>
 
-                        <Typography variant="body1" paragraph>
-                            Thank you for being a part of our story. We are here because of you, and together, we continue to make every bite a memorable one.
-                        </Typography>
-
-                        <Typography variant="h4" component="h4" gutterBottom>
-                            What Our Customers Say About Us
-                        </Typography>
-
-                        <div className="customer-say">
-                            <Card className="testimonial-card">
-                                <CardMedia
-                                    component="img"
-                                    alt={testimonials[currentIndex].name}
-                                    height="140"
-                                    image={testimonials[currentIndex].img}
-                                />
-                                <CardContent>
-                                    <Typography variant="h6" component="div">
-                                        {testimonials[currentIndex].name}
-                                    </Typography>
-                                    <Typography variant="body2" color="text.secondary">
-                                        "{testimonials[currentIndex].message}"
-                                    </Typography>
-                                </CardContent>
-                            </Card>
-                        </div>
-                    </div>
-
-                    <div className="visual">
-                        <img src={TestimonialImage} alt="Thank you to our customers" style={{ width: '100%', borderRadius: '8px' }} />
-                    </div>
-                </div>
-
-                <Button variant="contained" color="primary" component={Link} to="/menu" sx={{ mt: 4 }}>
-                    Explore Menu 🍽️
-                </Button>
+                {/* Explore Menu Button */}
+                <Box sx={{ textAlign: 'center', mt: 4, mb: 4, pb:2 }}>
+                    <Button variant="contained" color="primary" component={Link} to="/menu">
+                        Explore Menu 🍽️
+                    </Button>
+                </Box>
             </Container>
             <Footer />
-        </div>
+        </Box>
     );
 };
 

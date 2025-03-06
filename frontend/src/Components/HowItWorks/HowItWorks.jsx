@@ -19,7 +19,7 @@ const HowItWorks = () => {
     <section className="how-it-works">
       <Navbar />
       <Container maxWidth="md" sx={{ textAlign: "center", mt: 4 }}>
-        <Typography variant="h4" gutterBottom>
+        <Typography variant="h4" color="white" gutterBottom>
           How It Works
         </Typography>
 

@@ -13,7 +13,7 @@ import Login from './Login/Login';
 import ForgotPassword from './ForgotPassword/ForgotPassword'; // Fixed typo
 import GuestLogin from './GuestLogin/GuestLogin';
 import Adminstrator from './Adminstrator/Adminstrator';
-import OrderTracking from './OrderTracking/OrderTracking';
+import OrderTracking from './Tracking/OrderTracking';
 
 const Main = () => {
     const [cart, setCart] = useState([]);
