@@ -77,24 +77,24 @@ const Adminstrator = () => {
         <div className="administrator">
             <div className="administrator-main-container">
                 <div className="left-column">
-                    <h2 className="column-heading">Browse</h2>
+                    <h2 className="column-heading">Welcome to admin portal</h2>
                     <div className="vertical-menu">
                         {browseMenu.map((item, idx) => (
                             <div key={idx} className="menu-item">
-                                <a href="#" className="highlight" onClick={() => {
+                                <p className="highlight" onClick={() => {
                                     setSelectedTab(item.category);
                                     setSelectedSubMenu(""); // Reset sub-menu selection
                                 }}>
                                     <i className="fa fa-inbox fa-lg" aria-hidden="true"></i> {item.category}
                                     <span className="num">{item.total}</span>
-                                </a>
+                                </p>
                                 {item.sub.map((sub, i) => (
-                                    <a key={i} href="#" className="side-menu-item" onClick={() => {
+                                    <p key={i} className="side-menu-item" onClick={() => {
                                         setSelectedSubMenu(sub.subMenuItem);
                                     }}>
                                         {sub.subMenuItem}
                                         <span className="num">{sub.itemNumber}</span>
-                                    </a>
+                                    </p>
                                 ))}
                             </div>
                         ))}

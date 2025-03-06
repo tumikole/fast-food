@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 import Footer from "../Footer/Footer";
 
 const Menu = ({ addToCart, cart, setCart }) => {
-    const [activeCategory, setActiveCategory] = useState("All");
+    const [activeCategory] = useState("All");
     const [selectedIngredients, setSelectedIngredients] = useState({});
     const [imageIndexes, setImageIndexes] = useState({});
     const [itemTotals, setItemTotals] = useState({}); // Track total price per item
@@ -15,16 +15,6 @@ const Menu = ({ addToCart, cart, setCart }) => {
 
     // Add this at the top of your component to track if there are selected items
     const hasSelectedItems = Object.values(selectedIngredients).some(items => items.length > 0);
-
-    const categories = useMemo(
-        () => [
-            "All",
-            "Kota",
-            "Extras",
-            "Chips",
-        ],
-        []
-    );
 
     const menuItems = useMemo(() => [
         {
@@ -662,19 +652,24 @@ const Menu = ({ addToCart, cart, setCart }) => {
                     </h2>
                     <div className="cart-info">
                         <div>
-                            <div>
-                                <input type="search" className="form-control" placeholder="Search... eg: Kota, Extras" />
-                            </div>
-                            <button disabled className="btn btn-warning" style={{ display: "flex" }}>
-                                <div className="cart-item-length">{cart.length}</div>
-                            </button>
+                            <input type="search" className="form-control" placeholder="Search... eg: Kota, Extras" />
                         </div>
+                        <button disabled className="btn btn-warning">
+                            <div className="cart-item-length">{cart.length}</div>
+                            {hasSelectedItems && (
+                                <div className="selected-item-length">
+                                    <box-icon name='cart-download' animation='tada' color='#ff0000' ></box-icon>
+                                </div>
+                            )}
+                        </button>
+
                         {
                             cart.length > 0 &&
                             <div>
-                                <Link to="/cart" style={{ listStyle: "none" }}>
+                                <Link to="/cart" style={{ textDecoration: "none" }}>
                                     <button className="btn btn-warning" style={{ display: "flex" }}>
-                                        <div>
+                                        <div style={{ display: "flex" }}>
+                                            <div><box-icon name='right-arrow-alt' animation='tada' color='#ffcc00' ></box-icon></div>
                                             <p>Visit your cart</p>
                                         </div>
                                     </button>
@@ -842,6 +837,7 @@ const Menu = ({ addToCart, cart, setCart }) => {
                                                     <span>SubTotal: R {(itemTotals[item.id] || 0)}</span>
                                                 </div>
                                                 <button
+                                                    style={{ display: "flex" }}
                                                     className="btn btn-warning"
                                                     onClick={() => handleAddToCart(item)}
                                                     disabled={
@@ -850,7 +846,8 @@ const Menu = ({ addToCart, cart, setCart }) => {
                                                         itemTotals[item.id] === undefined
                                                     }
                                                 >
-                                                    Add to Cart
+                                                    <div><box-icon name='cart-add' ></box-icon></div>
+                                                    <div>Add to Cart</div>
                                                 </button>
                                             </div>
                                         </div>

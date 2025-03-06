@@ -1,9 +1,11 @@
-import React from 'react';
+import React, { useState } from 'react';
+import Swal from 'sweetalert2'
 import './OrderInformation.scss';
 import Navbar from '../Navbar/Navbar';
-import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
-const OrderInformation = ({ cart, setCart }) => {
+const OrderInformation = ({ cart }) => {
+    const navigate = useNavigate()
     // Calculate total price
     const calculateTotal = () => {
         return cart.reduce((total, item) => {
@@ -11,6 +13,51 @@ const OrderInformation = ({ cart, setCart }) => {
             return total + (itemPrice * (item.quantity || 1));
         }, 0);
     };
+
+    // State for form inputs
+    const [name, setName] = useState(localStorage.getItem('name') || '');
+    const [phone, setPhone] = useState(localStorage.getItem('phone') || '');
+    const [address, setAddress] = useState(localStorage.getItem('address') || '');
+    const [notes, setNotes] = useState(localStorage.getItem('notes') || '');
+
+    // Save user info to localStorage when "Place Order" is clicked
+    const handlePlaceOrder = () => {
+        if (name && phone && address) {
+            const userOrderingData = {
+                userInformation: { name, phone, address, notes },
+                order: cart
+            };
+
+            Swal.fire({
+                title: "Confirm Your Order",
+                text: "Are you sure you want to place this order?",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#3085d6",
+                cancelButtonColor: "#d33",
+                confirmButtonText: "Yes, place order!"
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    localStorage.setItem('userOrdering', JSON.stringify(userOrderingData));
+
+                    Swal.fire({
+                        title: "Order Placed!",
+                        text: "Your order has been successfully placed.",
+                        icon: "success"
+                    }).then(() => {
+                        navigate('/place_an_order'); // Redirect only after confirmation
+                    });
+                }
+            });
+        } else {
+            Swal.fire({
+                title: "Missing Information",
+                text: "Please fill in all required fields.",
+                icon: "error"
+            });
+        }
+    };
+
 
     return (
         <div className="order-information">
@@ -50,28 +97,47 @@ const OrderInformation = ({ cart, setCart }) => {
                     <h3>Customer Information</h3>
                     <form>
                         <div className="form-group">
-                            <label>Name:</label>
-                            <input type="text" placeholder="Enter your name" required />
+                            <label>Name <span style={{color:"red"}}>*</span></label>
+                            <input
+                                type="text"
+                                placeholder="Enter your name"
+                                required
+                                value={name}
+                                onChange={(e) => setName(e.target.value)}
+                            />
                         </div>
                         <div className="form-group">
-                            <label>Phone:</label>
-                            <input type="tel" placeholder="Enter your phone number" required />
+                            <label>Phone <span style={{color:"red"}}>*</span></label>
+                            <input
+                                type="tel"
+                                placeholder="Enter your phone number"
+                                required
+                                value={phone}
+                                onChange={(e) => setPhone(e.target.value)}
+                            />
                         </div>
                         <div className="form-group">
-                            <label>Address:</label>
-                            <textarea placeholder="Enter your delivery address" required></textarea>
+                            <label>Address <span style={{color:"red"}}>*</span></label>
+                            <textarea
+                                placeholder="Enter your delivery address"
+                                required
+                                value={address}
+                                onChange={(e) => setAddress(e.target.value)}
+                            ></textarea>
                         </div>
                         <div className="form-group">
-                            <label>Notes:</label>
-                            <textarea placeholder="Any special instructions?"></textarea>
+                            <label>Notes <span style={{color:"green"}}>Optional</span></label>
+                            <textarea
+                                placeholder="Any special instructions?"
+                                value={notes}
+                                onChange={(e) => setNotes(e.target.value)}
+                            ></textarea>
                         </div>
                     </form>
                 </div>
-                <Link to="/place_an_order">
-                    <button className="place-order-btn">
-                        Place Order
-                    </button>
-                </Link>
+                <button className="place-order-btn" onClick={handlePlaceOrder}>
+                    Place Order
+                </button>
             </div>
         </div>
     );

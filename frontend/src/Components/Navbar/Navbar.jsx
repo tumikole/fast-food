@@ -32,6 +32,7 @@ const Navbar = () => {
           { path: "/cart", name: "Cart", icon: "cart" },
           { path: "/review", name: "Reviews", icon: "low-vision" },
           { path: "/about", name: "About", icon: "info-circle" },
+          { path: "/order_tracking", name: "Tracking", icon: "info-circle" },
           { path: "/faq", name: "FAQ's", icon: "info-circle" },
 
         ].map((item, index) => (

@@ -6,10 +6,6 @@ import Navbar from '../Navbar/Navbar'
 
 const GuestLogin = ({ loginTabs, setLoginTab }) => {
 
-    const handleFogotPassword = async () => {
-
-    }
-
     return (
         <div className='Log in'>
             <Navbar />

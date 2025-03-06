@@ -4,6 +4,8 @@ module.exports = {
     infrastructureLogging: {
       level: 'warn', // Adjust log level to avoid the warning
     },
+    ignoreWarnings: [/jsx-a11y\/anchor-is-valid/],
+
     // More config options...
   };
   

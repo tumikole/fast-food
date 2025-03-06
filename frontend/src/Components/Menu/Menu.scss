@@ -38,7 +38,7 @@
         margin-bottom: 1.5rem;
         border: 1px solid #ffcc0033;
         box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-
+    
         .btn {
             display: flex;
             align-items: center;
@@ -52,22 +52,20 @@
             cursor: pointer;
             transition: all 0.3s ease;
             font-weight: 500;
-
+    
             &:disabled {
-                // opacity: 0.6;
                 cursor: not-allowed;
             }
-
+    
             box-icon {
                 margin-right: 10px;
             }
-
-
+    
             &:hover:not(:disabled) {
                 background-color: rgba(255, 204, 0, 0.1);
                 transform: translateY(-1px);
             }
-
+    
             .cart-item-length {
                 background-color: #ffcc00;
                 color: black;
@@ -82,42 +80,70 @@
                 position: absolute;
                 top: -5px;
                 right: -5px;
-
+                transition: background-color 0.3s ease, transform 0.2s ease;
+    
+                &:hover {
+                    background-color: #ffd633;
+                    transform: scale(1.1);
+                }
+    
                 @media (max-width: 768px) {
                     width: 25px;
                     height: 25px;
                     font-size: 0.9rem;
                 }
-
+    
                 @media (max-width: 480px) {
                     width: 20px;
                     height: 20px;
                     font-size: 0.8rem;
-
                 }
             }
-
-
+    
+            .selected-item-length {
+                position: absolute;
+                bottom: 1px;
+                right: 0;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                margin-bottom: .5rem;
+                margin-right: -0.5rem;
+    
+                box-icon {
+                    width: 24px;
+                    height: 24px;
+                }
+    
+                @media (max-width: 768px) {
+                    bottom: -3px;
+                    right: -3px;
+                }
+    
+                @media (max-width: 480px) {
+                    bottom: -2px;
+                    right: -2px;
+                }
+            }
         }
-
+    
         @media (max-width: 768px) {
             padding: 12px;
             flex-wrap: wrap;
             gap: 10px;
             top: 4.5rem;
-
+    
             .btn {
                 padding: 10px 15px;
                 font-size: 0.9rem;
             }
         }
-
+    
         @media (max-width: 480px) {
             top: 4.5rem;
-
-
         }
     }
+    
 
     .restaurant-menu-container {
         display: grid;
@@ -186,7 +212,7 @@
             }
         }
 
-        h4{
+        h4 {
             color: #ffcc00;
         }
 
@@ -282,7 +308,7 @@
                                 position: relative;
                                 width: 100% !important;
                                 width: 100% !important;
-                                box-shadow:none !important;
+                                box-shadow: none !important;
                                 background: transparent !important;
                                 padding: 0rem !important;
 
