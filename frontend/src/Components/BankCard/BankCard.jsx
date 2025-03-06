@@ -1,41 +1,87 @@
-import React from "react";
+import React, { useState } from "react";
+import { TextField, Card, CardContent, Grid, Typography } from "@mui/material";
 import "./BankCard.scss";
 
 export default function BankCard() {
+    const [cardNumber, setCardNumber] = useState(["", "", "", ""]);
+    const [expiry, setExpiry] = useState("");
+    const [ccv, setCcv] = useState("");
+    const [cardholder, setCardholder] = useState("");
+
+    const handleCardNumberChange = (index, value) => {
+        const newCardNumber = [...cardNumber];
+        newCardNumber[index] = value;
+        setCardNumber(newCardNumber);
+    };
+
     return (
-        <div className="bank-card">
-            <div class="cc">
+        <Card className="bank-card">
+            <CardContent>
+                <Typography variant="h6" gutterBottom>
+                    Process Transaction
+                </Typography>
 
-                <h2>Process Transaction</h2>
+                <Grid container spacing={2}>
+                    {/* Card Number Inputs */}
+                    <Grid item xs={12}>
+                        <Typography variant="body2" gutterBottom>
+                            Card Number
+                        </Typography>
+                        <Grid container spacing={1}>
+                            {cardNumber.map((num, index) => (
+                                <Grid item xs={3} key={index}>
+                                    <TextField
+                                        variant="outlined"
+                                        fullWidth
+                                        inputProps={{ maxLength: 4 }}
+                                        value={num}
+                                        onChange={(e) =>
+                                            handleCardNumberChange(index, e.target.value)
+                                        }
+                                        placeholder={index === 0 ? "5280" : "****"}
+                                    />
+                                </Grid>
+                            ))}
+                        </Grid>
+                    </Grid>
 
-                <span class="provider mastercard">MasterCard</span>
+                    {/* Expiry & CCV */}
+                    <Grid item xs={6}>
+                        <Typography variant="body2">Valid Thru</Typography>
+                        <TextField
+                            variant="outlined"
+                            fullWidth
+                            inputProps={{ maxLength: 5 }}
+                            value={expiry}
+                            onChange={(e) => setExpiry(e.target.value)}
+                            placeholder="MM/YY"
+                        />
+                    </Grid>
+                    <Grid item xs={6}>
+                        <Typography variant="body2">CCV</Typography>
+                        <TextField
+                            variant="outlined"
+                            fullWidth
+                            inputProps={{ maxLength: 3 }}
+                            value={ccv}
+                            onChange={(e) => setCcv(e.target.value)}
+                            placeholder="123"
+                        />
+                    </Grid>
 
-                <span class="provider visa">Visa</span>
-
-                <div class="number">
-                    <input type="text" maxlength="4" placeholder="5280" />
-                    <input type="text" maxlength="4" />
-                    <input type="text" maxlength="4" />
-                    <input type="text" maxlength="4" />
-                    <span class="instructions">5280</span>
-                </div>
-
-                <div class="date">
-                    <span class="instructions valid">Valid Thru</span>
-                    <input type="text" maxlength="5" placeholder="00/00" />
-
-                    <span class="instructions valid">CCV</span>
-                    <input type="text" maxlength="3" placeholder="123" />
-                </div>
-
-                <div class="name">
-                    <input class="full-name" type="text" maxlength="" inputmode='numeric' placeholder="John Doe" />
-                    <span class="instructions">Name on Card</span>
-                </div>
-
-                <div class="shine"></div>
-                <div class="shine shine-layer-two"></div>
-            </div>
-        </div>
+                    {/* Cardholder Name */}
+                    <Grid item xs={12}>
+                        <Typography variant="body2">Name on Card</Typography>
+                        <TextField
+                            variant="outlined"
+                            fullWidth
+                            value={cardholder}
+                            onChange={(e) => setCardholder(e.target.value)}
+                            placeholder="John Doe"
+                        />
+                    </Grid>
+                </Grid>
+            </CardContent>
+        </Card>
     );
 }

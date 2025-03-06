@@ -1,44 +1,43 @@
 import React from "react";
+import { Container, Grid, Card, CardContent, Typography } from "@mui/material";
+import TimerOutlinedIcon from "@mui/icons-material/TimerOutlined";
+import EmojiEventsOutlinedIcon from "@mui/icons-material/EmojiEventsOutlined";
+import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
 import Navbar from "../Navbar/Navbar";
-import "./HowItWorks.scss";
 import Footer from "../Footer/Footer";
 
 const HowItWorks = () => {
+  const steps = [
+    { title: "Easy Order", icon: <TimerOutlinedIcon fontSize="large" />, description: "Place your order online in just a few clicks." },
+    { title: "Best Quality", icon: <EmojiEventsOutlinedIcon fontSize="large" />, description: "We use top-quality ingredients for an authentic taste." },
+    { title: "Fast Delivery", icon: <CheckCircleOutlineIcon fontSize="large" />, description: "Get your food delivered hot and fresh, right on time." },
+    { title: "Food Catering", icon: <CheckCircleOutlineIcon fontSize="large" />, description: "Perfect catering services for any special occasion." },
+    { title: "Bulk Ordering", icon: <CheckCircleOutlineIcon fontSize="large" />, description: "Order in large quantities for events or businesses." },
+  ];
+
   return (
     <section className="how-it-works">
       <Navbar />
-      <h2 className="secondary">How It Works</h2>
-      <div className="how-it-works-container flex">
-        <div className="box">
-          <h3>Easy Order</h3>
-          <ion-icon name="timer-outline"></ion-icon>
-          <p>Place your order online in just a few clicks.</p>
-        </div>
-        <div className="box">
-          <h3>Best Quality</h3>
-          <ion-icon name="trophy-outline"></ion-icon>
-          <p>We use top-quality ingredients for an authentic taste.</p>
-        </div>
-        <div className="box">
-          <h3>Fast Delivery</h3>
-          <ion-icon name="checkmark-done-circle-outline"></ion-icon>
-          <p>Get your food delivered hot and fresh, right on time.</p>
-        </div>
-        <div className="box">
-          <h3>Food Catering</h3>
-          <ion-icon name="checkmark-done-circle-outline"></ion-icon>
-          <p>Perfect catering services for any special occasion.</p>
-        </div>
-        <div className="box">
-          <h3>Bulk Ordering</h3>
-          <ion-icon name="checkmark-done-circle-outline"></ion-icon>
-          <p>Order in large quantities for events or businesses.</p>
-        </div>
-      </div>
-      <div className="how-it-works-main-division">
-      </div>
-      <Footer />
+      <Container maxWidth="md" sx={{ textAlign: "center", mt: 4 }}>
+        <Typography variant="h4" gutterBottom>
+          How It Works
+        </Typography>
 
+        <Grid container spacing={3} justifyContent="center">
+          {steps.map((step, index) => (
+            <Grid item xs={12} sm={6} md={4} key={index}>
+              <Card sx={{ textAlign: "center", p: 3 }}>
+                {step.icon}
+                <CardContent>
+                  <Typography variant="h6">{step.title}</Typography>
+                  <Typography variant="body2">{step.description}</Typography>
+                </CardContent>
+              </Card>
+            </Grid>
+          ))}
+        </Grid>
+      </Container>
+      <Footer />
     </section>
   );
 };

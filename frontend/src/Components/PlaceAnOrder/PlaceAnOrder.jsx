@@ -1,42 +1,41 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Swal from 'sweetalert2';
-import { v4 as uuidv4 } from 'uuid'; // Importing uuid for unique order numbers
-import './PlaceAnOrder.scss';
+import { v4 as uuidv4 } from 'uuid';
 import Navbar from '../Navbar/Navbar';
-// import BankCard from '../BankCard/BankCard';
+import {
+    FormControl,
+    FormLabel,
+    RadioGroup,
+    FormControlLabel,
+    Radio,
+    Button,
+    Typography,
+    Container,
+    Paper,
+    Box
+} from '@mui/material';
 
 const PlaceAnOrder = () => {
     const [paymentMethod, setPaymentMethod] = useState('online');
     const [collectionType, setCollectionType] = useState('delivery');
     const [orderData, setOrderData] = useState(null);
-
     const navigate = useNavigate();
 
     useEffect(() => {
-        // Retrieve user order data from localStorage
         const storedOrder = localStorage.getItem('userOrdering');
         if (storedOrder) {
             setOrderData(JSON.parse(storedOrder));
         }
     }, []);
 
-    const handlePaymentChange = (event) => {
-        setPaymentMethod(event.target.value);
-    };
-
-    const handleOnlineCollectionPaymentType = (event) => {
-        setCollectionType(event.target.value);
-    };
-
     const handleSubmit = (event) => {
         event.preventDefault();
-    
         if (!orderData) {
             Swal.fire("No order details found!", "Please start again.", "error");
             return;
         }
-    
+
         Swal.fire({
             title: `Are you sure about ${paymentMethod === "online" ? `Online payment - ${collectionType}` : paymentMethod}?`,
             showDenyButton: true,
@@ -45,95 +44,69 @@ const PlaceAnOrder = () => {
             denyButtonText: `Don't save`
         }).then((result) => {
             if (result.isConfirmed) {
-                // Generate a unique order number
-                const orderNumber = uuidv4().slice(0, 12); // Create a unique order number using uuid
-    
-                // Create final order object
+                const orderNumber = uuidv4().slice(0, 12);
                 const finalOrder = {
                     ...orderData,
                     paymentMethod: paymentMethod === "online" ? `Online payment - ${collectionType}` : paymentMethod,
                     collectionType,
-                    orderNumber, // Add the order number
+                    orderNumber,
                 };
-    
-                // Save updated order in localStorage
                 localStorage.setItem('userOrdering', JSON.stringify(finalOrder));
-    
-                Swal.fire("Successfully saved user information and order!", "", "success");
+                Swal.fire("Successfully saved order!", "", "success");
                 navigate("/order_tracking");
-    
             } else if (result.isDenied) {
                 Swal.fire("Changes are not saved", "", "info");
             }
         });
     };
-    
 
     return (
-        <section className="place-an-order">
+        <Container maxWidth="sm">
             <Navbar />
-            <h2 className="section-title">Order Payment</h2>
-            <form onSubmit={handleSubmit} className="order-form">
-                <div className="payment-options">
-                    <label className={`payment-option ${paymentMethod === 'online' ? 'active' : ''}`}>
-                        <input
-                            type="radio"
-                            value="online"
-                            checked={paymentMethod === 'online'}
-                            onChange={handlePaymentChange}
-                        />
-                        Online Payment
-                    </label>
-                    <label className={`payment-option ${paymentMethod === 'cash-on-delivery' ? 'active' : ''}`}>
-                        <input
-                            type="radio"
-                            value="cash-on-delivery"
-                            checked={paymentMethod === 'cash-on-delivery'}
-                            onChange={handlePaymentChange}
-                        />
-                        Cash on Delivery
-                    </label>
-                    <label className={`payment-option ${paymentMethod === 'cash-on-pickup' ? 'active' : ''}`}>
-                        <input
-                            type="radio"
-                            value="cash-on-pickup"
-                            checked={paymentMethod === 'cash-on-pickup'}
-                            onChange={handlePaymentChange}
-                        />
-                        Cash on Pickup
-                    </label>
-                </div>
+            <Paper elevation={3} sx={{ padding: 3, marginTop: 4 }}>
+                <Typography variant="h4" gutterBottom align="center">
+                    Order Payment
+                </Typography>
+                <form onSubmit={handleSubmit}>
+                    <FormControl component="fieldset" fullWidth>
+                        <FormLabel component="legend">Select Payment Method</FormLabel>
+                        <RadioGroup
+                            value={paymentMethod}
+                            onChange={(event) => setPaymentMethod(event.target.value)}
+                        >
+                            <FormControlLabel value="online" control={<Radio />} label="Online Payment" />
+                            <FormControlLabel value="cash-on-delivery" control={<Radio />} label="Cash on Delivery" />
+                            <FormControlLabel value="cash-on-pickup" control={<Radio />} label="Cash on Pickup" />
+                        </RadioGroup>
+                    </FormControl>
 
-                {paymentMethod === 'online' && (
-                    <div className="card-form">
-                        <div className="payment-options">
-                            <label className={`payment-option ${collectionType === 'delivery' ? 'active' : ''}`}>
-                                <input
-                                    type="radio"
-                                    value="delivery"
-                                    checked={collectionType === 'delivery'}
-                                    onChange={handleOnlineCollectionPaymentType}
-                                />
-                                Delivery
-                            </label>
-                            <label className={`payment-option ${collectionType === 'pickup' ? 'active' : ''}`}>
-                                <input
-                                    type="radio"
-                                    value="pickup"
-                                    checked={collectionType === 'pickup'}
-                                    onChange={handleOnlineCollectionPaymentType}
-                                />
-                                Pickup
-                            </label>
-                        </div>
-                        <h3>Card Details</h3>
-                        {/* <BankCard /> */}
-                    </div>
-                )}
+                    {paymentMethod === 'online' && (
+                        <Box mt={2}>
+                            <FormControl component="fieldset" fullWidth>
+                                <FormLabel component="legend">Select Collection Type</FormLabel>
+                                <RadioGroup
+                                    value={collectionType}
+                                    onChange={(event) => setCollectionType(event.target.value)}
+                                >
+                                    <FormControlLabel value="delivery" control={<Radio />} label="Delivery" />
+                                    <FormControlLabel value="pickup" control={<Radio />} label="Pickup" />
+                                </RadioGroup>
+                            </FormControl>
+                        </Box>
+                    )}
 
-                <button type="submit" className="submit-button">Confirm Order</button>
-            </form>
-        </section>
+                    <Button
+                        type="submit"
+                        variant="contained"
+                        color="primary"
+                        fullWidth
+                        sx={{ marginTop: 2 }}
+                    >
+                        Confirm Order
+                    </Button>
+                </form>
+            </Paper>
+        </Container>
     );
 };
 

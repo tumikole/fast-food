@@ -1,59 +1,91 @@
-import React from 'react'
-import { Link } from 'react-router-dom'
-import './Login.scss'
-import Background from '../../Asserts/download (4).jpeg'
-import Navbar from '../Navbar/Navbar'
-import ForgorPassword from '../ForgotPassword/ForgotPassword'
-import GuestLogin from '../GuestLogin/GuestLogin'
+import React from 'react';
+import { Link } from 'react-router-dom';
+import { Box, Button, TextField, Typography, Grid } from '@mui/material';
+import Background from '../../Asserts/download (4).jpeg';
+import Navbar from '../Navbar/Navbar';
+import ForgotPassword from '../ForgotPassword/ForgotPassword';
+import GuestLogin from '../GuestLogin/GuestLogin';
 
 const Login = ({ loginTabs, setLoginTab, loginTab, loginUser, setUsername, setPassword, username, password }) => {
 
-
     if (loginTab && loginTab === "Login") {
         return (
-            <div className='Login'>
+            <Box className="Login">
                 <Navbar />
-                <img src={Background} alt="background Kota" />
-                <div className="login-header">
-                    <h2>Login</h2>
-                </div>
-                <div className='login-form'>
-                    <form action="" onSubmit={loginUser}>
-                        <div className="form-group">
-                            <label htmlFor="">Username</label>
-                            <input type="text" className="form-control" onChange={(e) => setUsername(e.target.value)} value={username}/>
-                            
+                <Box sx={{ position: "relative", height: "100vh" }}>
+                    <img src={Background} alt="background Kota" style={{ width: "100%", height: "100%", objectFit: "cover", position: "absolute", top: 0, left: 0 }} />
+                    <Box sx={{ position: "absolute", top: "50%", left: "50%", transform: "translate(-50%, -50%)", textAlign: "center", color: "white" }}>
+                        <Typography variant="h2" sx={{ fontWeight: "bold" }}>Login</Typography>
+                    </Box>
+                </Box>
 
-                        </div>
-                        <div className="form-group">
-                            <label htmlFor="">Password</label>
-                            <input type="password" className="form-control" onChange={(e) => setPassword(e.target.value)} value={password} />
-                           
-                        </div>
-                        <div className="login-form-guest-forgotPassword">
-                            {loginTabs.map((tab) => {
-                                return (
-                                    <Link to={`/${tab === "Forgot password" ? "forgot_password" : tab}`}>
-                                        <p style={{ display: tab === loginTab && "none" }} onClick={() => setLoginTab(tab)}>{tab}</p>
-                                    </Link>
-                                )
-                            })}
-                        </div>
-                        <div className="login-form-button">
-                            <button type="submit" className='login-form-btn'>Login</button>
-                        </div>
-                    </form>
-                </div>
-            </div>
-        )
+                <Box sx={{ padding: 4 }}>
+                    <Box className="login-form" sx={{ background: 'rgba(255, 255, 255, 0.8)', padding: 3, borderRadius: 2 }}>
+                        <form onSubmit={loginUser}>
+                            <Grid container spacing={2}>
+                                <Grid item xs={12}>
+                                    <TextField
+                                        label="Username"
+                                        fullWidth
+                                        variant="outlined"
+                                        onChange={(e) => setUsername(e.target.value)}
+                                        value={username}
+                                    />
+                                </Grid>
+                                <Grid item xs={12}>
+                                    <TextField
+                                        label="Password"
+                                        type="password"
+                                        fullWidth
+                                        variant="outlined"
+                                        onChange={(e) => setPassword(e.target.value)}
+                                        value={password}
+                                    />
+                                </Grid>
+
+                                <Grid item xs={12}>
+                                    <Box className="login-form-guest-forgotPassword">
+                                        {loginTabs.map((tab) => (
+                                            <Link to={`/${tab === "Forgot password" ? "forgot_password" : tab}`} key={tab}>
+                                                <Typography 
+                                                    sx={{ 
+                                                        display: tab === loginTab && "none", 
+                                                        cursor: "pointer", 
+                                                        textDecoration: "underline",
+                                                        color: "#00796b" 
+                                                    }} 
+                                                    onClick={() => setLoginTab(tab)}
+                                                >
+                                                    {tab}
+                                                </Typography>
+                                            </Link>
+                                        ))}
+                                    </Box>
+                                </Grid>
+
+                                <Grid item xs={12}>
+                                    <Button 
+                                        variant="contained" 
+                                        color="primary" 
+                                        fullWidth 
+                                        type="submit"
+                                    >
+                                        Login
+                                    </Button>
+                                </Grid>
+                            </Grid>
+                        </form>
+                    </Box>
+                </Box>
+            </Box>
+        );
     } else if (loginTab === "Forgot password") {
-        <ForgorPassword />
+        return <ForgotPassword />;
     } else if (loginTab && loginTab === "Guest") {
-        return (
-            <GuestLogin />
-
-        )
+        return <GuestLogin />;
     }
+
+    return null; // In case no login tab is selected
 }
 
-export default Login
+export default Login;

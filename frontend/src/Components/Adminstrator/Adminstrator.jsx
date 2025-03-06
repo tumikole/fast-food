@@ -1,13 +1,29 @@
-import React, { useState } from 'react'
-import './Adminstrator.scss'
+import React, { useState } from "react";
+import {
+    Accordion,
+    AccordionSummary,
+    AccordionDetails,
+    List,
+    ListItem,
+    ListItemText,
+    Typography,
+    Card,
+    CardContent,
+} from "@mui/material";
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import InboxIcon from "@mui/icons-material/Inbox";
+import MailIcon from "@mui/icons-material/Mail";
+import SupportAgentIcon from "@mui/icons-material/SupportAgent";
+// import "./Administrator.scss";
 
-const Adminstrator = () => {
-    const [selectedTab, setSelectedTab] = useState("")
-    const [selectedSubMenu, setSelectedSubMenu] = useState("")
+const Administrator = () => {
+    const [selectedTab, setSelectedTab] = useState("");
+    const [selectedSubMenu, setSelectedSubMenu] = useState("");
 
     const browseMenu = [
         {
             category: "Support",
+            icon: <SupportAgentIcon color="primary" />,
             total: 41,
             sub: [
                 { subMenuItem: "Preparing", itemNumber: 7 },
@@ -15,61 +31,71 @@ const Adminstrator = () => {
                 { subMenuItem: "Picked up", itemNumber: 5 },
                 { subMenuItem: "Completed", itemNumber: 9 },
                 { subMenuItem: "Canceled", itemNumber: 2 },
-                { subMenuItem: "Closed", itemNumber: 7 }
-            ]
+                { subMenuItem: "Closed", itemNumber: 7 },
+            ],
         },
         {
             category: "Inquiries",
+            icon: <MailIcon color="secondary" />,
             total: 6,
-            sub: [
-                { subMenuItem: "Messages", itemNumber: 6 },
-            ]
+            sub: [{ subMenuItem: "Messages", itemNumber: 6 }],
         },
         {
             category: "New Inbox",
+            icon: <InboxIcon color="action" />,
             total: 8,
             sub: [
                 { subMenuItem: "Example", itemNumber: 0 },
                 { subMenuItem: "Example 1", itemNumber: 5 },
-                { subMenuItem: "Example 2", itemNumber: 3 }
-            ]
-        }
-    ]
+                { subMenuItem: "Example 2", itemNumber: 3 },
+            ],
+        },
+    ];
 
     const renderContent = () => {
         if (selectedSubMenu) {
             return (
-                <div>
-                    <h3>{selectedSubMenu}</h3>
-                    <p>Details about {selectedSubMenu} will be displayed here.</p>
-                </div>
+                <Card>
+                    <CardContent>
+                        <Typography variant="h5">{selectedSubMenu}</Typography>
+                        <Typography variant="body1">
+                            Details about {selectedSubMenu} will be displayed here.
+                        </Typography>
+                    </CardContent>
+                </Card>
             );
         }
 
         switch (selectedTab) {
             case "Support":
                 return (
-                    <div>
-                        <h3>Support Details</h3>
-                        <p>Here you can find support-related information.</p>
-                    </div>
+                    <Card>
+                        <CardContent>
+                            <Typography variant="h5">Support Details</Typography>
+                            <Typography>Here you can find support-related information.</Typography>
+                        </CardContent>
+                    </Card>
                 );
             case "Inquiries":
                 return (
-                    <div>
-                        <h3>Inquiries</h3>
-                        <p>Here are your inquiries.</p>
-                    </div>
+                    <Card>
+                        <CardContent>
+                            <Typography variant="h5">Inquiries</Typography>
+                            <Typography>Here are your inquiries.</Typography>
+                        </CardContent>
+                    </Card>
                 );
             case "New Inbox":
                 return (
-                    <div>
-                        <h3>New Inbox</h3>
-                        <p>Check your new messages here.</p>
-                    </div>
+                    <Card>
+                        <CardContent>
+                            <Typography variant="h5">New Inbox</Typography>
+                            <Typography>Check your new messages here.</Typography>
+                        </CardContent>
+                    </Card>
                 );
             default:
-                return <p>Please select a category to view details.</p>;
+                return <Typography>Select a category to view details.</Typography>;
         }
     };
 
@@ -77,36 +103,38 @@ const Adminstrator = () => {
         <div className="administrator">
             <div className="administrator-main-container">
                 <div className="left-column">
-                    <h2 className="column-heading">Welcome to admin portal</h2>
-                    <div className="vertical-menu">
-                        {browseMenu.map((item, idx) => (
-                            <div key={idx} className="menu-item">
-                                <p className="highlight" onClick={() => {
-                                    setSelectedTab(item.category);
-                                    setSelectedSubMenu(""); // Reset sub-menu selection
-                                }}>
-                                    <i className="fa fa-inbox fa-lg" aria-hidden="true"></i> {item.category}
-                                    <span className="num">{item.total}</span>
-                                </p>
-                                {item.sub.map((sub, i) => (
-                                    <p key={i} className="side-menu-item" onClick={() => {
-                                        setSelectedSubMenu(sub.subMenuItem);
-                                    }}>
-                                        {sub.subMenuItem}
-                                        <span className="num">{sub.itemNumber}</span>
-                                    </p>
-                                ))}
-                            </div>
-                        ))}
-                    </div>
+                    <Typography variant="h4" className="column-heading">
+                        Welcome to Admin Portal
+                    </Typography>
+                    {browseMenu.map((item, idx) => (
+                        <Accordion key={idx} className="menu-item">
+                            <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+                                {item.icon} &nbsp;
+                                <Typography onClick={() => setSelectedTab(item.category)}>
+                                    {item.category} ({item.total})
+                                </Typography>
+                            </AccordionSummary>
+                            <AccordionDetails>
+                                <List>
+                                    {item.sub.map((sub, i) => (
+                                        <ListItem
+                                            button
+                                            key={i}
+                                            onClick={() => setSelectedSubMenu(sub.subMenuItem)}
+                                        >
+                                            <ListItemText primary={`${sub.subMenuItem} (${sub.itemNumber})`} />
+                                        </ListItem>
+                                    ))}
+                                </List>
+                            </AccordionDetails>
+                        </Accordion>
+                    ))}
                 </div>
 
-                <div className="content-area">
-                    {renderContent()}
-                </div>
+                <div className="content-area">{renderContent()}</div>
             </div>
         </div>
-    )
-}
+    );
+};
 
-export default Adminstrator
+export default Administrator;

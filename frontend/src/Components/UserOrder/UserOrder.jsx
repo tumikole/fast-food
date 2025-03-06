@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import './UserOrder.scss';
-import Navbar from '../Navbar/Navbar';
+import { Box, Button, Typography, Card, CardContent, List, ListItem, CircularProgress } from '@mui/material';
 
 const UserOrder = () => {
     const [orderData, setOrderData] = useState(null);
@@ -9,24 +8,19 @@ const UserOrder = () => {
     const navigate = useNavigate();
 
     useEffect(() => {
-        // Retrieve user order data from localStorage
         const storedOrder = localStorage.getItem('userOrdering');
         if (storedOrder) {
             setOrderData(JSON.parse(storedOrder));
         }
-    }, [navigate]);
+    }, []);
 
     useEffect(() => {
-        if (timeLeft <= 0) return; // Stop countdown when time is up
+        if (timeLeft <= 0) return;
 
-        const timer = setInterval(() => {
-            setTimeLeft(prevTime => prevTime - 1);
-        }, 1000);
-
-        return () => clearInterval(timer); // Cleanup on unmount
+        const timer = setInterval(() => setTimeLeft(prev => prev - 1), 1000);
+        return () => clearInterval(timer);
     }, [timeLeft]);
 
-    // Format time into MM:SS
     const formatTime = (seconds) => {
         const minutes = Math.floor(seconds / 60);
         const secs = seconds % 60;
@@ -35,46 +29,66 @@ const UserOrder = () => {
 
     if (!orderData) {
         return (
-            <div className="user-order">
-                <Navbar />
-                <h2 className="section-title">No Order Found</h2>
-                <p>Your order details are not available. Please start placing an order.</p>
-            </div>
+            <Box className="user-order" sx={{ textAlign: 'center', mt: 4 }}>
+                {/* <Navbar /> */}
+                <Typography variant="h5" fontWeight="bold" color="error">No Order Found</Typography>
+                <Typography variant="body1">Your order details are not available. Please place an order.</Typography>
+            </Box>
         );
     }
 
     return (
-        <div className="user-order">
-            <Navbar />
-            <h2 className="section-title">Order Summary</h2>
-            <caption>Keep your order number safe for tracking</caption>
-            <div className="order-summary">
-                <p><strong>Order Number:</strong> {orderData.orderNumber}</p>
-                <p><strong>Payment Method:</strong> {orderData.paymentMethod}</p>
-                <p><strong>Collection Type:</strong> {orderData.collectionType}</p>
-                <p><strong>Order Details:</strong></p>
+        <Box className="user-order" sx={{ maxWidth: 600, mx: 'auto', mt: 4, px: 2 }}>
+            {/* <Navbar /> */}
+            <Typography variant="h4" fontWeight="bold" color="primary" textAlign="center" mb={2}>
+                Order Summary
+            </Typography>
 
-                <ul>
-                    {orderData.order.map((item, index) => (
-                        <div key={index}>
-                            <li style={{ color: "#ffcc00" }}>{item.category}</li>
-                            <li style={{ color: "#ffcc00" }}>{item.itemName}</li>
-                            <li style={{ color: "#ffcc00" }}>{item.quantity}</li>
-                        </div>
-                    ))}
-                </ul>
-            </div>
-            <caption>
-                Order can be canceled within <strong>{formatTime(timeLeft)}</strong>
-            </caption>
-            <button 
-                onClick={() => navigate('/cart')} 
-                className="modify-order-button"
-                disabled={timeLeft <= 0} // Disable button when time runs out
+            <Card sx={{ boxShadow: 3, borderRadius: 2 }}>
+                <CardContent>
+                    <Typography variant="h6" gutterBottom>
+                        Keep your order number safe for tracking
+                    </Typography>
+
+                    <Typography variant="body1"><strong>Order Number:</strong> {orderData.orderNumber}</Typography>
+                    <Typography variant="body1"><strong>Payment Method:</strong> {orderData.paymentMethod}</Typography>
+                    <Typography variant="body1"><strong>Collection Type:</strong> {orderData.collectionType}</Typography>
+
+                    <Typography variant="h6" mt={2}>Order Details:</Typography>
+                    <List>
+                        {orderData.order.map((item, index) => (
+                            <ListItem key={index} sx={{ display: 'flex', flexDirection: 'column', alignItems: 'start' }}>
+                                <Typography variant="body1" color="secondary">{item.category}</Typography>
+                                <Typography variant="body1" color="text.primary">{item.itemName}</Typography>
+                                <Typography variant="body2" color="text.secondary">Quantity: {item.quantity}</Typography>
+                            </ListItem>
+                        ))}
+                    </List>
+                </CardContent>
+            </Card>
+
+            <Box textAlign="center" mt={3}>
+                <Typography variant="body2" color="error">
+                    Order can be canceled within <strong>{formatTime(timeLeft)}</strong>
+                </Typography>
+                {timeLeft > 0 ? (
+                    <CircularProgress variant="determinate" value={(timeLeft / 600) * 100} sx={{ mt: 1 }} />
+                ) : (
+                    <Typography variant="body2" color="error" mt={1}>Time Expired</Typography>
+                )}
+            </Box>
+
+            <Button 
+                variant="contained"
+                color="secondary"
+                fullWidth
+                sx={{ mt: 2, borderRadius: 2 }}
+                onClick={() => navigate('/cart')}
+                disabled={timeLeft <= 0}
             >
                 {timeLeft > 0 ? "Cancel Order" : "Time Expired"}
-            </button>
-        </div>
+            </Button>
+        </Box>
     );
 };
 

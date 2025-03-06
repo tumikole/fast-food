@@ -1,82 +1,100 @@
-import React from 'react'
-import './Footer.scss'
-import { Link } from 'react-router-dom'
+import React from "react";
+import { Box, Grid, Typography, List, ListItem, ListItemText } from "@mui/material";
+import { Link } from "react-router-dom";
 
 const Footer = () => {
-    return (
-        <div class="footer">
-            <div class="footer-container flex">
-                <div class="footer-about">
-                    <h2>About</h2>
-                    <p>
-                        Olieven Kota & Grills, a place where authentic South African flavors meet quality ingredients and unmatched hospitality.
-                        Nestled in the heart of Olievenhoutbosch, we bring the rich, bold, and traditional street food experience to life, serving up the best kotas, flame-grilled meats, and classic township-style meals that keep our customers coming back for more.
-                    </p>
-                </div>
+  return (
+    <Box component="footer" sx={{ backgroundColor: "#222", color: "#fff", py: 4 }}>
+      <Box sx={{ maxWidth: "1200px", mx: "auto", px: 3 }}>
+        <Grid container spacing={4}>
+          {/* About Section */}
+          <Grid item xs={12} md={3}>
+            <Typography variant="h6" sx={{ borderBottom: "2px solid #e74c3c", pb: 1 }}>
+              About
+            </Typography>
+            <Typography variant="body2">
+              Olieven Kota & Grills, a place where authentic South African flavors meet quality ingredients.
+              We serve the best kotas, flame-grilled meats, and classic township-style meals.
+            </Typography>
+          </Grid>
 
-                <div class="footer-category">
-                    <h2>Our Menu</h2>
+          {/* Menu Section */}
+          <Grid item xs={12} md={2}>
+            <Typography variant="h6" sx={{ borderBottom: "2px solid #e74c3c", pb: 1 }}>
+              Our Menu
+            </Typography>
+            <List dense>
+              {["Kota", "Kota Extras", "Soft Drinks", "Chips", "Burger Patty"].map((item, index) => (
+                <ListItem key={index} disablePadding>
+                  <ListItemText primary={item} />
+                </ListItem>
+              ))}
+            </List>
+          </Grid>
 
-                    <ul>
-                        <li>Kota</li>
-                        <li>Kota Extras</li>
-                        <li>Soft Drinks</li>
-                        <li>Chips</li>
-                        <li>Burger Patty</li>
-                    </ul>
-                </div>
+          {/* Quick Links */}
+          <Grid item xs={12} md={2}>
+            <Typography variant="h6" sx={{ borderBottom: "2px solid #e74c3c", pb: 1 }}>
+              Quick Links
+            </Typography>
+            <List dense>
+              {[
+                { path: "/how_it_works", name: "How it works" },
+                { path: "/menu", name: "Menu" },
+                { path: "/cart", name: "Cart" },
+                { path: "/review", name: "Reviews" },
+                { path: "/about", name: "About Us" },
+                { path: "/faq", name: "FAQ's" },
+                { path: "/services", name: "Services" },
+                { path: "/contact_us", name: "Contact Us" },
+              ].map((link, idx) => (
+                <ListItem key={idx} disablePadding>
+                  <Link to={link.path} style={{ textDecoration: "none", color: "inherit" }}>
+                    <ListItemText primary={link.name} />
+                  </Link>
+                </ListItem>
+              ))}
+            </List>
+          </Grid>
 
-                <div class="quick-links">
-                    <h2>Quick Links</h2>
+          {/* Get in Touch */}
+          <Grid item xs={12} md={2}>
+            <Typography variant="h6" sx={{ borderBottom: "2px solid #e74c3c", pb: 1 }}>
+              Get in Touch
+            </Typography>
+            <List dense>
+              {["Support Center", "Feedback", "Suggestion"].map((item, index) => (
+                <ListItem key={index} disablePadding>
+                  <ListItemText primary={item} />
+                </ListItem>
+              ))}
+            </List>
+          </Grid>
 
-                    <ul>
-                        {
-                            [
-                                { path: "/how_it_works", name: "How it works" },
-                                { path: "/menu", name: "Menu" },
-                                { path: "/cart", name: "Cart" },
-                                { path: "/review", name: "Reviews" },
-                                { path: "/about", name: "About Us" },
-                                { path: "/faq", name: "FAQ's" },
-                                { path: "/services", name: "Services" },
-                                { path: "/contact_us", name: "Contact Us" },
-                            ].map((link, idx) => {
-                                return (
-                                    <Link style={{ textDecoration: "none" }} key={idx} to={link.path}
-                                    >
-                                        <li>{link.name}</li>
-                                    </Link>
-                                )
-                            })
-                        }
-                    </ul>
-                </div>
+          {/* Account Section */}
+          <Grid item xs={12} md={2}>
+            <Typography variant="h6" sx={{ borderBottom: "2px solid #e74c3c", pb: 1 }}>
+              Account
+            </Typography>
+            <List dense>
+              <ListItem disablePadding>
+                <Link to="/login" style={{ textDecoration: "none", color: "inherit" }}>
+                  <ListItemText primary="Account" />
+                </Link>
+              </ListItem>
+            </List>
+          </Grid>
+        </Grid>
+      </Box>
 
-                <div class="get-in-touch">
-                    <h2>Get in touch</h2>
-                    <ul>
-                        <li>Support Center</li>
-                        <li>Feedback</li>
-                        <li>Suggession</li>
-                    </ul>
-                </div>
+      {/* Copyright Section */}
+      <Box sx={{ textAlign: "center", mt: 4, py: 2, backgroundColor: "#111" }}>
+        <Typography variant="body2">
+          &copy; {new Date().getFullYear()} Olieven Kota & Grills. All Rights Reserved.
+        </Typography>
+      </Box>
+    </Box>
+  );
+};
 
-                <div class="get-in-touch">
-                    <h2>Account</h2>
-                    <ul>
-                        <Link to="/login" style={{ textDecoration: "none" }}>
-                            <li>Account</li>
-                        </Link>
-                    </ul>
-                </div>
-                
-            </div>
-
-            <div class="copyright">
-                <p>Copyright &copy; 2025. All Rights Reserved.</p>
-            </div>
-        </div>
-    )
-}
-
-export default Footer
+export default Footer;
