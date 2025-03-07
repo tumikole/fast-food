@@ -14,11 +14,12 @@ import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import InboxIcon from "@mui/icons-material/Inbox";
 import MailIcon from "@mui/icons-material/Mail";
 import SupportAgentIcon from "@mui/icons-material/SupportAgent";
-// import "./Administrator.scss";
 
 const Administrator = () => {
     const [selectedTab, setSelectedTab] = useState("");
     const [selectedSubMenu, setSelectedSubMenu] = useState("");
+    const userDetails = JSON.parse(localStorage.getItem('sb-ccovgcyugrypthfgduxm-auth-token'));
+
 
     const browseMenu = [
         {
@@ -103,8 +104,8 @@ const Administrator = () => {
         <div className="administrator">
             <div className="administrator-main-container">
                 <div className="left-column">
-                    <Typography variant="h4" className="column-heading">
-                        Welcome to Admin Portal
+                    <Typography variant="h4" className="column-heading" color="white">
+                        Welcome {userDetails.user.email} to Admin Portal
                     </Typography>
                     {browseMenu.map((item, idx) => (
                         <Accordion key={idx} className="menu-item">
