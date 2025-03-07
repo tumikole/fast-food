@@ -70,7 +70,7 @@ const Login = ({ loginTabs, setLoginTab, loginTab, loginUser, setUsername, setPa
                                         fullWidth 
                                         type="submit"
                                     >
-                                        Login
+                                        Sign Up
                                     </Button>
                                 </Grid>
                             </Grid>

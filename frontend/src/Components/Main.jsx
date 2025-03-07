@@ -14,6 +14,8 @@ import ForgotPassword from './ForgotPassword/ForgotPassword'; // Fixed typo
 import GuestLogin from './GuestLogin/GuestLogin';
 import Adminstrator from './Adminstrator/Adminstrator';
 import OrderTracking from './Tracking/OrderTracking';
+import { login } from '../Supabase/Login/Login'
+import PrivateRoutes from '../PrivateRoutes/PrivateRoutes';
 
 const Main = () => {
     const [cart, setCart] = useState([]);
@@ -21,23 +23,30 @@ const Main = () => {
     const [loginTab, setLoginTab] = useState("Login");
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
+    const userToken = JSON.parse(localStorage.getItem('sb-ccovgcyugrypthfgduxm-auth-token'));
 
     const navigate = useNavigate();
 
-    const loginUser = e => {
+    const loginUser = async e => {
         e.preventDefault();
-        console.log({ username, password });
-        const user = {
-            username, password
-        };
-        localStorage.setItem('user', JSON.stringify(user));
-        const fetchUser = JSON.parse(localStorage.getItem('user')) || {};
-        if (fetchUser) {
-            alert(`User logged in successfully`);
-            navigate("/administrator");
+        const userData = await login(username, password)
+        if (userData.session.access_token) {
+            console.log({ userToken })
+            navigate('/administrator')
+            // localStorage.setItem('userToken', JSON.stringify(userData.session.access_token));
+            // localStorage.setItem('user', JSON.stringify(userData.session.user));
+
+
         }
 
-        console.log({ fetchUser });
+        // localStorage.setItem('user', JSON.stringify(user));
+        // const fetchUser = JSON.parse(localStorage.getItem('user')) || {};
+        // if (fetchUser) {
+        //     alert(`User logged in successfully`);
+        //     navigate("/administrator");
+        // }
+
+        // console.log({ fetchUser });
     };
 
     const loginTabs = ["Login", "Forgot password"];
@@ -76,13 +85,18 @@ const Main = () => {
                 <Route path="/login" element={<Login loginTabs={loginTabs} setLoginTab={setLoginTab} loginTab={loginTab} loginUser={loginUser} setUsername={setUsername} setPassword={setPassword} username={username} password={password} />} />
                 <Route path="/forgot_password" element={<ForgotPassword loginTabs={loginTabs} setLoginTab={setLoginTab} loginTab={loginTab} />} /> {/* Fixed typo */}
                 <Route path="/Guest" element={<GuestLogin loginTabs={loginTabs} setLoginTab={setLoginTab} loginTab={loginTab} />} />
-
-                {/* ///// */}
-                <Route path="/administrator" element={<Adminstrator />} />
                 <Route path="/order_tracking" element={<OrderTracking />} />
 
 
-                
+                <Route element={<PrivateRoutes userToken={userToken} />}>
+
+                    <Route path="/administrator" element={<Adminstrator />} />
+                </Route>
+
+
+
+
+
             </Routes>
         </div>
     );
