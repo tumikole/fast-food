@@ -1,139 +1,262 @@
 import React, { useState } from "react";
 import {
-    Accordion,
-    AccordionSummary,
-    AccordionDetails,
     List,
-    ListItem,
+    ListItemButton,
     ListItemText,
     Typography,
     Card,
     CardContent,
+    Box,
+    Button,
+    Grid,
+    TextField,
+    Select,
+    MenuItem,
+    Dialog,
+    DialogActions,
+    DialogContent,
+    DialogTitle,
 } from "@mui/material";
-import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import InboxIcon from "@mui/icons-material/Inbox";
 import MailIcon from "@mui/icons-material/Mail";
+import PersonIcon from "@mui/icons-material/Person";
 import SupportAgentIcon from "@mui/icons-material/SupportAgent";
+import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
+import { signUp } from '../../Supabase/Login/SignUp';
 
-const Administrator = () => {
+const Administrator = ({ handleAddUserSubmit, setEmail, setPassword, email, password, username, setUsername, setRole, role }) => {
     const [selectedTab, setSelectedTab] = useState("");
-    const [selectedSubMenu, setSelectedSubMenu] = useState("");
-    const userDetails = JSON.parse(localStorage.getItem('sb-ccovgcyugrypthfgduxm-auth-token'));
+    const [openModal, setOpenModal] = useState(false); // State to control modal visibility
+    const [category, setCategory] = useState('');
+    const [itemName, setItemName] = useState('');
+    const [imageUrl, setImageUrl] = useState('');
+    const [ingredients, setIngredients] = useState('');
+    const [totalAmount, setTotalAmount] = useState('');
 
-
-    const browseMenu = [
-        {
-            category: "Support",
-            icon: <SupportAgentIcon color="primary" />,
-            total: 41,
-            sub: [
-                { subMenuItem: "Preparing", itemNumber: 7 },
-                { subMenuItem: "Delivered", itemNumber: 8 },
-                { subMenuItem: "Picked up", itemNumber: 5 },
-                { subMenuItem: "Completed", itemNumber: 9 },
-                { subMenuItem: "Canceled", itemNumber: 2 },
-                { subMenuItem: "Closed", itemNumber: 7 },
-            ],
-        },
-        {
-            category: "Inquiries",
-            icon: <MailIcon color="secondary" />,
-            total: 6,
-            sub: [{ subMenuItem: "Messages", itemNumber: 6 }],
-        },
-        {
-            category: "New Inbox",
-            icon: <InboxIcon color="action" />,
-            total: 8,
-            sub: [
-                { subMenuItem: "Example", itemNumber: 0 },
-                { subMenuItem: "Example 1", itemNumber: 5 },
-                { subMenuItem: "Example 2", itemNumber: 3 },
-            ],
-        },
+    const administratorTabs = [
+        { tab: "Users", icon: <PersonIcon /> },
+        { tab: "Menu", icon: <InboxIcon /> },
+        { tab: "Messages", icon: <MailIcon /> },
+        { tab: "Notifications", icon: <SupportAgentIcon /> },
+        { tab: "Orders", icon: <ShoppingCartIcon /> }
     ];
 
-    const renderContent = () => {
-        if (selectedSubMenu) {
-            return (
-                <Card>
-                    <CardContent>
-                        <Typography variant="h5">{selectedSubMenu}</Typography>
-                        <Typography variant="body1">
-                            Details about {selectedSubMenu} will be displayed here.
-                        </Typography>
-                    </CardContent>
-                </Card>
-            );
-        }
+    // Safely parse user details
+    const userDetails = JSON.parse(localStorage.getItem('sb-ccovgcyugrypthfgduxm-auth-token')) || {};
+    const userEmail = userDetails?.user?.email || "Admin";
 
-        switch (selectedTab) {
-            case "Support":
-                return (
-                    <Card>
-                        <CardContent>
-                            <Typography variant="h5">Support Details</Typography>
-                            <Typography>Here you can find support-related information.</Typography>
-                        </CardContent>
-                    </Card>
-                );
-            case "Inquiries":
-                return (
-                    <Card>
-                        <CardContent>
-                            <Typography variant="h5">Inquiries</Typography>
-                            <Typography>Here are your inquiries.</Typography>
-                        </CardContent>
-                    </Card>
-                );
-            case "New Inbox":
-                return (
-                    <Card>
-                        <CardContent>
-                            <Typography variant="h5">New Inbox</Typography>
-                            <Typography>Check your new messages here.</Typography>
-                        </CardContent>
-                    </Card>
-                );
-            default:
-                return <Typography>Select a category to view details.</Typography>;
-        }
+    const handleAddUser = async () => {
+        await signUp();
+    };
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        // Handle the form submission logic here for the Menu tab
+        console.log("Submitting menu item:", { category, itemName, imageUrl, ingredients, totalAmount });
+    };
+
+    // Handle open modal when a tab is clicked
+    const handleTabClick = (tab) => {
+        setSelectedTab(tab);
+        setOpenModal(true); // Open modal when a tab is clicked
+    };
+
+    // Close modal
+    const handleCloseModal = () => {
+        setOpenModal(false);
     };
 
     return (
         <div className="administrator">
-            <div className="administrator-main-container">
-                <div className="left-column">
-                    <Typography variant="h4" className="column-heading" color="white">
-                        Welcome {userDetails.user.email} to Admin Portal
-                    </Typography>
-                    {browseMenu.map((item, idx) => (
-                        <Accordion key={idx} className="menu-item">
-                            <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-                                {item.icon} &nbsp;
-                                <Typography onClick={() => setSelectedTab(item.category)}>
-                                    {item.category} ({item.total})
-                                </Typography>
-                            </AccordionSummary>
-                            <AccordionDetails>
-                                <List>
-                                    {item.sub.map((sub, i) => (
-                                        <ListItem
-                                            button
-                                            key={i}
-                                            onClick={() => setSelectedSubMenu(sub.subMenuItem)}
-                                        >
-                                            <ListItemText primary={`${sub.subMenuItem} (${sub.itemNumber})`} />
-                                        </ListItem>
-                                    ))}
-                                </List>
-                            </AccordionDetails>
-                        </Accordion>
-                    ))}
-                </div>
+            <Grid container spacing={3}>
+                <Grid item xs={12} sm={4}>
+                    <Card>
+                        <CardContent>
+                            <Typography variant="h6">Welcome, {userEmail}</Typography>
+                            <List>
+                                {administratorTabs.map((item) => (
+                                    <ListItemButton key={item.tab} onClick={() => handleTabClick(item.tab)}>
+                                        <Box display="flex" alignItems="center">
+                                            {item.icon}
+                                            <ListItemText primary={item.tab} />
+                                        </Box>
+                                    </ListItemButton>
+                                ))}
+                            </List>
+                        </CardContent>
+                    </Card>
+                </Grid>
+            </Grid>
 
-                <div className="content-area">{renderContent()}</div>
-            </div>
+            {/* Full Screen Modal (Dialog) */}
+            <Dialog
+                open={openModal}
+                onClose={handleCloseModal}
+                fullScreen
+            >
+                <DialogTitle>{selectedTab}</DialogTitle>
+                <DialogContent>
+                    {/* Content changes based on selectedTab */}
+                    {selectedTab === "Users" && (
+                        <Card>
+                            <CardContent>
+                                <Typography variant="h6">Add User</Typography>
+                                <TextField
+                                    label="Username"
+                                    fullWidth
+                                    margin="normal"
+                                    value={username}
+                                    onChange={(e) => setUsername(e.target.value)}
+                                />
+                                <TextField
+                                    label="Email"
+                                    fullWidth
+                                    margin="normal"
+                                    value={email}
+                                    onChange={(e) => setEmail(e.target.value)}
+                                />
+                                <TextField
+                                    label="Password"
+                                    fullWidth
+                                    margin="normal"
+                                    type="password"
+                                    value={password}
+                                    onChange={(e) => setPassword(e.target.value)}
+                                />
+                                <Select
+                                    fullWidth
+                                    label="Role"
+                                    value={role}
+                                    onChange={(e) => setRole(e.target.value)}
+                                    margin="normal"
+                                >
+                                    <MenuItem value="Admin">Admin</MenuItem>
+                                    <MenuItem value="User">User</MenuItem>
+                                </Select>
+                                <Button
+                                    fullWidth
+                                    variant="contained"
+                                    color="primary"
+                                    onClick={handleAddUser}
+                                    sx={{ mt: 2 }}
+                                >
+                                    Add User
+                                </Button>
+                            </CardContent>
+                        </Card>
+                    )}
+                    {selectedTab === "Menu" && (
+                        <form onSubmit={handleSubmit}>
+                            <Card>
+                                <CardContent>
+                                    <Typography variant="h6">Add a New Menu Item</Typography>
+
+                                    <Select
+                                        label="Category"
+                                        fullWidth
+                                        value={category}
+                                        onChange={(e) => setCategory(e.target.value)}
+                                        margin="normal"
+                                        required
+                                    >
+                                        <MenuItem value="">Select a Category</MenuItem>
+                                        <MenuItem value="Kota">Kota</MenuItem>
+                                        <MenuItem value="Extras">Extras</MenuItem>
+                                        <MenuItem value="Chips">Chips</MenuItem>
+                                        <MenuItem value="Beverages">Beverages</MenuItem>
+                                    </Select>
+
+                                    <TextField
+                                        label="Item Name"
+                                        fullWidth
+                                        value={itemName}
+                                        onChange={(e) => setItemName(e.target.value)}
+                                        margin="normal"
+                                        required
+                                    />
+                                    {/* Replace this with a proper file input for images */}
+                                    <input
+                                        type="file"
+                                        onChange={(e) => setImageUrl(URL.createObjectURL(e.target.files[0]))}
+                                        required
+                                    />
+                                    <TextField
+                                        label="Ingredients (comma separated)"
+                                        fullWidth
+                                        value={ingredients}
+                                        onChange={(e) => setIngredients(e.target.value)}
+                                        margin="normal"
+                                        required
+                                    />
+                                    <TextField
+                                        label="Total Amount"
+                                        fullWidth
+                                        type="number"
+                                        value={totalAmount}
+                                        onChange={(e) => setTotalAmount(e.target.value)}
+                                        margin="normal"
+                                        required
+                                    />
+                                    <Button
+                                        fullWidth
+                                        variant="contained"
+                                        color="primary"
+                                        type="submit"
+                                        sx={{ mt: 2 }}
+                                        disabled={!category || !itemName || !imageUrl || !ingredients || !totalAmount }
+                                    >
+                                        Add Menu Item
+                                    </Button>
+                                </CardContent>
+                            </Card>
+                        </form>
+                    )}
+                    {selectedTab === "Messages" && (
+                        <Typography variant="body1">
+                            <h2>Messages</h2>
+                            <List>
+                                <ListItemButton>
+                                    <ListItemText primary="Message from User1" />
+                                </ListItemButton>
+                                <ListItemButton>
+                                    <ListItemText primary="Message from User2" />
+                                </ListItemButton>
+                            </List>
+                        </Typography>
+                    )}
+                    {selectedTab === "Notifications" && (
+                        <Typography variant="body1">
+                            <h2>Notifications</h2>
+                            <List>
+                                <ListItemButton>
+                                    <ListItemText primary="New User Registration" />
+                                </ListItemButton>
+                                <ListItemButton>
+                                    <ListItemText primary="Order #1234 Shipped" />
+                                </ListItemButton>
+                            </List>
+                        </Typography>
+                    )}
+                    {selectedTab === "Orders" && (
+                        <Typography variant="body1">
+                            <h2>Orders</h2>
+                            <List>
+                                <ListItemButton>
+                                    <ListItemText primary="Order #1001 - Pending" />
+                                </ListItemButton>
+                                <ListItemButton>
+                                    <ListItemText primary="Order #1002 - Completed" />
+                                </ListItemButton>
+                            </List>
+                        </Typography>
+                    )}
+                </DialogContent>
+                <DialogActions>
+                    <Button onClick={handleCloseModal} color="primary">
+                        Close
+                    </Button>
+                </DialogActions>
+            </Dialog>
         </div>
     );
 };

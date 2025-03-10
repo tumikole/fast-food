@@ -6,7 +6,7 @@ import Navbar from '../Navbar/Navbar';
 import ForgotPassword from '../ForgotPassword/ForgotPassword';
 import GuestLogin from '../GuestLogin/GuestLogin';
 
-const Login = ({ loginTabs, setLoginTab, loginTab, loginUser, setUsername, setPassword, username, password }) => {
+const Login = ({ loginTabs, setLoginTab, loginTab, loginUser, setEmail, setPassword, email, password }) => {
 
     if (loginTab && loginTab === "Login") {
         return (
@@ -28,8 +28,8 @@ const Login = ({ loginTabs, setLoginTab, loginTab, loginUser, setUsername, setPa
                                         label="Username"
                                         fullWidth
                                         variant="outlined"
-                                        onChange={(e) => setUsername(e.target.value)}
-                                        value={username}
+                                        onChange={(e) => setEmail(e.target.value)}
+                                        value={email}
                                     />
                                 </Grid>
                                 <Grid item xs={12}>
