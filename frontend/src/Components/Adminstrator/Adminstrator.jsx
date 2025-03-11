@@ -85,9 +85,8 @@ const Administrator = ({ handleAddUserSubmit, setEmail, setPassword, email, pass
             }}
         >
             <Grid container spacing={3}>
-                <Grid item xs={{ width: "100%" }} sm={4}>
-                    <Card sx={{ backgroundColor: "transparent" }}> {/* Set backgroundColor to transparent */}
-                        <CardContent sx={{}}>
+                <Grid item xs={{ width: "100%" }}>
+                        <CardContent>
                             <Typography variant="h6">
                                 Hi👋, {user}. Welcome🤲 to Olieven Kota🥪 And Grills🥩🍗.
                             </Typography>
@@ -102,7 +101,6 @@ const Administrator = ({ handleAddUserSubmit, setEmail, setPassword, email, pass
                                 ))}
                             </List>
                         </CardContent>
-                    </Card>
                 </Grid>
             </Grid>
 
