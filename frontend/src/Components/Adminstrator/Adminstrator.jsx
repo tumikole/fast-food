@@ -91,7 +91,6 @@ const Administrator = ({ handleAddUserSubmit, setEmail, setPassword, email, pass
                             <Typography variant="h6">
                                 Hi👋, {user}. Welcome🤲 to Olieven Kota🥪 And Grills🥩🍗.
                             </Typography>
-                            <hr />
                             <List>
                                 {administratorTabs.map((item) => (
                                     <ListItemButton key={item.tab} onClick={() => handleTabClick(item.tab)}>
@@ -121,7 +120,7 @@ const Administrator = ({ handleAddUserSubmit, setEmail, setPassword, email, pass
                 <DialogContent sx={{ p: 0 }}>
                     {/* Content changes based on selectedTab */}
                     {selectedTab === "Users" && (
-                        <Card sx={{ backgroundColor: "transparent" }}> {/* Set backgroundColor to transparent */}
+                        <Card sx={{ backgroundColor: "transparent" }}>
                             <CardContent>
                                 <Typography variant="h6">Add User</Typography>
                                 <TextField
@@ -170,7 +169,7 @@ const Administrator = ({ handleAddUserSubmit, setEmail, setPassword, email, pass
                     )}
                     {selectedTab === "Menu" && (
                         <form onSubmit={handleSubmit}>
-                            <Card sx={{ backgroundColor: "transparent" }}> {/* Set backgroundColor to transparent */}
+                            <Card sx={{ backgroundColor: "transparent" }}>
                                 <CardContent>
                                     <Typography variant="h6">Add a New Menu Item</Typography>
                                     <Select
@@ -196,7 +195,6 @@ const Administrator = ({ handleAddUserSubmit, setEmail, setPassword, email, pass
                                         margin="normal"
                                         required
                                     />
-                                    {/* Replace this with a proper file input for images */}
                                     <input
                                         type="file"
                                         onChange={(e) => setImageUrl(URL.createObjectURL(e.target.files[0]))}
