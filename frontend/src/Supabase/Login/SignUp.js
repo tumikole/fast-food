@@ -8,15 +8,18 @@ export async function signUp(email, password, username, role) {
     email,
     password,
     options: {
-      data: { username, role }, // Save username in user metadata
+      data: { username, userSystemRole: role }, // Save username in user metadata
     },
   });
+
+  console.log({ data })
 
   if (error) {
     if (error.message.toLowerCase().includes('already registered')) {
       console.error('User already exists:', error);
       return { error: 'User already exists' };
     } else {
+      console.log({ error })
       console.error('Error signing up:', error);
       return { error: error.message };
     }

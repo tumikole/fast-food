@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import LandingPage from './LandingPage/LandingPage';
 import { Routes, Route, useNavigate } from "react-router-dom";
+import Swal from 'sweetalert2'
 import About from './About/About';
 import HowItWorks from './HowItWorks/HowItWorks';
 import Menu from './Menu/Menu';
@@ -37,26 +38,64 @@ const Main = () => {
         e.preventDefault();
         const userData = await login(email, password);
         if (userData.session.access_token) {
+            console.log({ userData })
+            Swal.fire({
+                title: `Hi, ${userData.user.user_metadata.username}, Welcome to Olieven Kota and Grills`,
+                icon: "success",
+                draggable: true
+            });
             const userRole = userData.session.user.role || "user"; // assuming role info is available
             localStorage.setItem('userRole', JSON.stringify(userRole)); // Store role in localStorage
-            console.log({ userRole });
             navigate('/administrator');
-        }
-    };
-    
-
-    const handleAddUserSubmit = async (e) => {
-        e.preventDefault();
-        console.log({password})
-        const response = await signUp(username, email, password, role); // signUp should be your user creation logic
-        if (response.success) {
-            alert("User added successfully!");
-            // You can redirect or do something else here
         } else {
-            alert("Error adding user!");
+            Swal.fire({
+                icon: "error",
+                title: "Oops...",
+                text: "Something went wrong!",
+            });
         }
     };
-    
+
+    const handleAddUserSubmit = async () => {
+        if (!email || !password || !username || !role) {
+            Swal.fire({
+                text: "Please fill in all fields.",
+                icon: "question"
+            });
+            return;
+        }
+
+        const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailPattern.test(email)) {
+            Swal.fire({
+                text: "Please enter a valid email address.",
+                icon: "question"
+            });
+            return;
+        }
+
+        const result = await signUp(email, password, username, role);
+        if (result.error) {
+            Swal.fire({
+                icon: "error",
+                title: "Oops...",
+                text: result.error,
+            });
+        } else {
+            Swal.fire({
+                title: "Good job!",
+                text: "User added successfully!",
+                icon: "success"
+            });
+            // Optionally reset the form
+            setUsername("");
+            setEmail("");
+            setPassword("");
+            setRole("");
+        }
+    };
+
+
 
 
     // Update this to allow adding the same item multiple times to the cart
@@ -97,8 +136,7 @@ const Main = () => {
 
 
                 <Route element={<PrivateRoutes userToken={userToken} />}>
-
-                    <Route path="/administrator" element={<Adminstrator handleAddUserSubmit={handleAddUserSubmit} setEmail={setEmail} setPassword={setPassword} email={email} password={password} username={username} setUsername={setUsername} setRole={setRole} role={role}/>} />
+                    <Route path="/administrator" element={<Adminstrator handleAddUserSubmit={handleAddUserSubmit} setEmail={setEmail} setPassword={setPassword} email={email} password={password} username={username} setUsername={setUsername} setRole={setRole} role={role} />} />
                 </Route>
 
 

@@ -22,7 +22,7 @@ import MailIcon from "@mui/icons-material/Mail";
 import PersonIcon from "@mui/icons-material/Person";
 import SupportAgentIcon from "@mui/icons-material/SupportAgent";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
-import { signUp } from '../../Supabase/Login/SignUp';
+import Messaging from "../Messaging/Messaging";
 
 const Administrator = ({ handleAddUserSubmit, setEmail, setPassword, email, password, username, setUsername, setRole, role }) => {
     const [selectedTab, setSelectedTab] = useState("");
@@ -43,11 +43,8 @@ const Administrator = ({ handleAddUserSubmit, setEmail, setPassword, email, pass
 
     // Safely parse user details
     const userDetails = JSON.parse(localStorage.getItem('sb-ccovgcyugrypthfgduxm-auth-token')) || {};
-    const userEmail = userDetails?.user?.email || "Admin";
+    const user = userDetails.user.user_metadata.username;
 
-    const handleAddUser = async () => {
-        await signUp();
-    };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -67,12 +64,12 @@ const Administrator = ({ handleAddUserSubmit, setEmail, setPassword, email, pass
     };
 
     return (
-        <div className="administrator">
+        <div className="administrator" style={{ backgroundColor: "white", height: "100vh" }}>
             <Grid container spacing={3}>
-                <Grid item xs={12} sm={4}>
+                <Grid item xs={{ width: "100%" }} sm={4} >
                     <Card>
-                        <CardContent>
-                            <Typography variant="h6">Welcome, {userEmail}</Typography>
+                        <CardContent sx={{}}>
+                            <Typography variant="h6">Welcome, {user}</Typography>
                             <List>
                                 {administratorTabs.map((item) => (
                                     <ListItemButton key={item.tab} onClick={() => handleTabClick(item.tab)}>
@@ -95,7 +92,7 @@ const Administrator = ({ handleAddUserSubmit, setEmail, setPassword, email, pass
                 fullScreen
             >
                 <DialogTitle>{selectedTab}</DialogTitle>
-                <DialogContent>
+                <DialogContent sx={{p:0}}>
                     {/* Content changes based on selectedTab */}
                     {selectedTab === "Users" && (
                         <Card>
@@ -137,7 +134,7 @@ const Administrator = ({ handleAddUserSubmit, setEmail, setPassword, email, pass
                                     fullWidth
                                     variant="contained"
                                     color="primary"
-                                    onClick={handleAddUser}
+                                    onClick={handleAddUserSubmit}
                                     sx={{ mt: 2 }}
                                 >
                                     Add User
@@ -203,7 +200,7 @@ const Administrator = ({ handleAddUserSubmit, setEmail, setPassword, email, pass
                                         color="primary"
                                         type="submit"
                                         sx={{ mt: 2 }}
-                                        disabled={!category || !itemName || !imageUrl || !ingredients || !totalAmount }
+                                        disabled={!category || !itemName || !imageUrl || !ingredients || !totalAmount}
                                     >
                                         Add Menu Item
                                     </Button>
@@ -212,17 +209,7 @@ const Administrator = ({ handleAddUserSubmit, setEmail, setPassword, email, pass
                         </form>
                     )}
                     {selectedTab === "Messages" && (
-                        <Typography variant="body1">
-                            <h2>Messages</h2>
-                            <List>
-                                <ListItemButton>
-                                    <ListItemText primary="Message from User1" />
-                                </ListItemButton>
-                                <ListItemButton>
-                                    <ListItemText primary="Message from User2" />
-                                </ListItemButton>
-                            </List>
-                        </Typography>
+                            <Messaging />
                     )}
                     {selectedTab === "Notifications" && (
                         <Typography variant="body1">
