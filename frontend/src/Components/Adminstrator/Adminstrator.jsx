@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useNavigate } from 'react-router-dom'
 import {
     List,
     ListItemButton,
@@ -17,12 +18,14 @@ import {
     DialogContent,
     DialogTitle,
 } from "@mui/material";
+import BackgroundImsge from '../../Asserts/Steak-avo-kota.jpg'
 import InboxIcon from "@mui/icons-material/Inbox";
 import MailIcon from "@mui/icons-material/Mail";
 import PersonIcon from "@mui/icons-material/Person";
 import SupportAgentIcon from "@mui/icons-material/SupportAgent";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import Messaging from "../Messaging/Messaging";
+import Notifications from "../Notifications/Notifications";
 
 const Administrator = ({ handleAddUserSubmit, setEmail, setPassword, email, password, username, setUsername, setRole, role }) => {
     const [selectedTab, setSelectedTab] = useState("");
@@ -33,6 +36,7 @@ const Administrator = ({ handleAddUserSubmit, setEmail, setPassword, email, pass
     const [ingredients, setIngredients] = useState('');
     const [totalAmount, setTotalAmount] = useState('');
 
+    const navigate = useNavigate()
     const administratorTabs = [
         { tab: "Users", icon: <PersonIcon /> },
         { tab: "Menu", icon: <InboxIcon /> },
@@ -44,7 +48,6 @@ const Administrator = ({ handleAddUserSubmit, setEmail, setPassword, email, pass
     // Safely parse user details
     const userDetails = JSON.parse(localStorage.getItem('sb-ccovgcyugrypthfgduxm-auth-token')) || {};
     const user = userDetails.user.user_metadata.username;
-
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -63,13 +66,32 @@ const Administrator = ({ handleAddUserSubmit, setEmail, setPassword, email, pass
         setOpenModal(false);
     };
 
+    const handleSignOutClick = () => {
+        localStorage.removeItem("user");
+        localStorage.removeItem("token");
+        localStorage.clear();
+        navigate('/')
+    };
+
     return (
-        <div className="administrator" style={{ backgroundColor: "white", height: "100vh" }}>
+        <div
+            className="administrator"
+            style={{
+                height: "100vh",
+                backgroundImage: `url(${BackgroundImsge})`,  // Add your image path here
+                backgroundSize: "cover",
+                backgroundPosition: "center",
+                backgroundAttachment: "fixed", // Optional, to keep background fixed on scroll
+            }}
+        >
             <Grid container spacing={3}>
-                <Grid item xs={{ width: "100%" }} sm={4} >
-                    <Card>
+                <Grid item xs={{ width: "100%" }} sm={4}>
+                    <Card sx={{ backgroundColor: "transparent" }}> {/* Set backgroundColor to transparent */}
                         <CardContent sx={{}}>
-                            <Typography variant="h6">Welcome, {user}</Typography>
+                            <Typography variant="h6">
+                                Hi👋, {user}. Welcome🤲 to Olieven Kota🥪 And Grills🥩🍗.
+                            </Typography>
+                            <hr />
                             <List>
                                 {administratorTabs.map((item) => (
                                     <ListItemButton key={item.tab} onClick={() => handleTabClick(item.tab)}>
@@ -85,17 +107,21 @@ const Administrator = ({ handleAddUserSubmit, setEmail, setPassword, email, pass
                 </Grid>
             </Grid>
 
+            <Grid>
+                <ListItemButton onClick={handleSignOutClick}>
+                    <Box alignItems="center" ml={3}>
+                        <ListItemText primary="Sign Out" />
+                    </Box>
+                </ListItemButton>
+            </Grid>
+
             {/* Full Screen Modal (Dialog) */}
-            <Dialog
-                open={openModal}
-                onClose={handleCloseModal}
-                fullScreen
-            >
+            <Dialog open={openModal} onClose={handleCloseModal} fullScreen>
                 <DialogTitle>{selectedTab}</DialogTitle>
-                <DialogContent sx={{p:0}}>
+                <DialogContent sx={{ p: 0 }}>
                     {/* Content changes based on selectedTab */}
                     {selectedTab === "Users" && (
-                        <Card>
+                        <Card sx={{ backgroundColor: "transparent" }}> {/* Set backgroundColor to transparent */}
                             <CardContent>
                                 <Typography variant="h6">Add User</Typography>
                                 <TextField
@@ -144,10 +170,9 @@ const Administrator = ({ handleAddUserSubmit, setEmail, setPassword, email, pass
                     )}
                     {selectedTab === "Menu" && (
                         <form onSubmit={handleSubmit}>
-                            <Card>
+                            <Card sx={{ backgroundColor: "transparent" }}> {/* Set backgroundColor to transparent */}
                                 <CardContent>
                                     <Typography variant="h6">Add a New Menu Item</Typography>
-
                                     <Select
                                         label="Category"
                                         fullWidth
@@ -208,22 +233,8 @@ const Administrator = ({ handleAddUserSubmit, setEmail, setPassword, email, pass
                             </Card>
                         </form>
                     )}
-                    {selectedTab === "Messages" && (
-                            <Messaging />
-                    )}
-                    {selectedTab === "Notifications" && (
-                        <Typography variant="body1">
-                            <h2>Notifications</h2>
-                            <List>
-                                <ListItemButton>
-                                    <ListItemText primary="New User Registration" />
-                                </ListItemButton>
-                                <ListItemButton>
-                                    <ListItemText primary="Order #1234 Shipped" />
-                                </ListItemButton>
-                            </List>
-                        </Typography>
-                    )}
+                    {selectedTab === "Messages" && <Messaging />}
+                    {selectedTab === "Notifications" && <Notifications />}
                     {selectedTab === "Orders" && (
                         <Typography variant="body1">
                             <h2>Orders</h2>

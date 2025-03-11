@@ -15,7 +15,7 @@ const Login = ({ loginTabs, setLoginTab, loginTab, loginUser, setEmail, setPassw
                 <Box sx={{ position: "relative", height: "100vh" }}>
                     <img src={Background} alt="background Kota" style={{ width: "100%", height: "100%", objectFit: "cover", position: "absolute", top: 0, left: 0 }} />
                     <Box sx={{ position: "absolute", top: "50%", left: "50%", transform: "translate(-50%, -50%)", textAlign: "center", color: "white" }}>
-                        <Typography variant="h2" sx={{ fontWeight: "bold" }}>Login</Typography>
+                        <Typography variant="h2" sx={{ fontWeight: "bold" }}>Sign In</Typography>
                     </Box>
                 </Box>
 
@@ -25,7 +25,7 @@ const Login = ({ loginTabs, setLoginTab, loginTab, loginUser, setEmail, setPassw
                             <Grid container spacing={2}>
                                 <Grid item xs={12}>
                                     <TextField
-                                        label="Username"
+                                        label="Email"
                                         fullWidth
                                         variant="outlined"
                                         onChange={(e) => setEmail(e.target.value)}
@@ -70,7 +70,7 @@ const Login = ({ loginTabs, setLoginTab, loginTab, loginUser, setEmail, setPassw
                                         fullWidth 
                                         type="submit"
                                     >
-                                        Sign Up
+                                        Sign In
                                     </Button>
                                 </Grid>
                             </Grid>

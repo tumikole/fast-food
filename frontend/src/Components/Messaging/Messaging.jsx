@@ -17,7 +17,7 @@ const Messaging = () => {
       </Box>
 
       <Box p={1} sx={{ backgroundColor: 'grey', color: '#fff' }}>
-        <Typography variant="body1">FRIENDS ONLINE (31)</Typography>
+        <Typography variant="body1">Costomers ONLINE (31)</Typography>
         <Box display="flex" gap={1} overflow="auto" p={1}>
           {[...Array(5)].map((_, index) => (
             <Avatar
