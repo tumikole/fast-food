@@ -10,7 +10,6 @@ import Navbar from "../Navbar/Navbar";
 import "./Cart.scss";
 
 const Cart = ({ cart, removeItem }) => {
-  // Calculate total price
   const calculateTotal = () => {
     return cart.reduce((total, item) => total + Object.values(item.price)[0], 0);
   };
@@ -72,7 +71,7 @@ const Cart = ({ cart, removeItem }) => {
             <Typography variant="h5" fontWeight="bold" color="#ffffff">
               Grand Total: R{calculateTotal()}
             </Typography>
-            <Link to="/order-information" style={{ textDecoration: "none", display: "flex", alignItems: "center", gap: 1, mt: 2, justifyContent: "center" }} color="#ffffff">
+            <Link to="/place_an_order" style={{ textDecoration: "none", display: "flex", alignItems: "center", gap: 1, mt: 2, justifyContent: "center" }} color="#ffffff">
               <Button
                 variant="contained"
                 color="#ffffff"

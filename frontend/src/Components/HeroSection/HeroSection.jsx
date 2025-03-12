@@ -7,6 +7,7 @@ const HeroSection = () => {
   return (
     <section className="hero-section">
       <Typography variant="h1" className="hero-section-main-header">
+     
         Olieven Kota & Grills
       </Typography>
       <div className="text">

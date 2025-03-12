@@ -8,7 +8,6 @@ import Menu from './Menu/Menu';
 import Cart from './Cart/Cart';
 import Reviews from './Reviews/Reviews';
 import FAQ from './FAQ/FAQ';
-import OrderInformation from './OrderInformation/OrderInformation';
 import PlaceAnOrder from './PlaceAnOrder/PlaceAnOrder';
 import Login from './Login/Login';
 import ForgotPassword from './ForgotPassword/ForgotPassword'; // Fixed typo
@@ -127,7 +126,6 @@ const Main = () => {
                 <Route path="/cart" element={<Cart cart={cart} removeItem={removeItem} />} />
                 <Route path="/review" element={<Reviews />} />
                 <Route path="/faq" element={<FAQ />} />
-                <Route path="/order-information" element={<OrderInformation cart={cart} />} />
                 <Route path="/place_an_order" element={<PlaceAnOrder />} />
                 <Route path="/login" element={<Login loginTabs={loginTabs} setLoginTab={setLoginTab} loginTab={loginTab} loginUser={loginUser} setEmail={setEmail} setPassword={setPassword} email={email} password={password} />} />
                 <Route path="/forgot_password" element={<ForgotPassword loginTabs={loginTabs} setLoginTab={setLoginTab} loginTab={loginTab} />} /> {/* Fixed typo */}

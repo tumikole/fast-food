@@ -46,6 +46,9 @@ const Navbar = () => {
               Olieven Kota & Grills
             </Link>
           </Typography>
+          <div>
+      <box-icon name='bell' animation='tada' color='#ffffff' ></box-icon>
+      </div>
         </Toolbar>
       </AppBar>
 
