@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Box, Typography, List, Button, Card, CardContent, TextField, IconButton, Divider } from '@mui/material';
+import { Box, Typography, List, Button, Card, CardContent, TextField, IconButton, CircularProgress, Divider } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
 import AddIcon from '@mui/icons-material/Add';
 import { addNotification, getNotifications, deleteNotification } from '../../Supabase/Notifications/Notifications';
@@ -10,6 +10,7 @@ const COUNTDOWN_DURATION = 24 * 60 * 60 * 1000; // 24 hours in milliseconds
 const Notifications = ({ user, userId }) => {
     const [notifications, setNotifications] = useState([]);
     const [note, setNote] = useState("");
+    const [loadingDelete, setLoadingDelete] = useState(null);
 
     useEffect(() => {
         // Fetch initial notifications
@@ -50,7 +51,9 @@ const Notifications = ({ user, userId }) => {
     };
 
     const handleDeleteNote = async (id) => {
+        setLoadingDelete(id); // Set loading state for the current notification
         await deleteNotification(id);
+        setLoadingDelete(null); // Reset loading state after deletion
     };
 
     // Calculate countdown to 24 hours from creation time
@@ -64,10 +67,10 @@ const Notifications = ({ user, userId }) => {
 
         const hours = Math.floor((difference / (1000 * 60 * 60)) % 24);
         const minutes = Math.floor((difference / (1000 * 60)) % 60);
+        const seconds = Math.floor((difference / 1000) % 60);
 
-        return `${String(hours).padStart(2, '0')}h ${String(minutes).padStart(2, '0')}m`;
+        return `${String(hours).padStart(2, '0')}h ${String(minutes).padStart(2, '0')}m ${String(seconds).padStart(2, '0')}s`;
     };
-    console.log({ user, userId })
 
     return (
         <Box sx={{ p: 4, maxWidth: 600, margin: '0 auto' }}>
@@ -120,12 +123,16 @@ const Notifications = ({ user, userId }) => {
                             </Typography>
                             <Divider sx={{ my: 1 }} />
                             <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                                <Typography>{notification.author}</Typography>
-                                <Typography>|</Typography>
-
-                                <Typography variant="body2" color="textSecondary">
-                                    {`${calculateCountdown(notification.created_at)} left`}
+                            <Typography variant="body2" color="textSecondary">
+                                    {notification.author}
                                 </Typography>
+                                <Typography variant="body2" color="textSecondary">
+                                    |
+                                </Typography>
+                                <Typography variant="body2" color="textSecondary">
+                                    {calculateCountdown(notification.created_at)}
+                                </Typography>
+                               
                                 {
                                     userId === notification.authorId
                                         ?
@@ -135,7 +142,11 @@ const Notifications = ({ user, userId }) => {
                                             onClick={() => handleDeleteNote(notification.id)}
                                             sx={{ color: 'red' }}
                                         >
-                                            <DeleteIcon />
+                                            {loadingDelete === notification.id ? (
+                                                <CircularProgress size={24} />
+                                            ) : (
+                                                <DeleteIcon />
+                                            )}
                                         </IconButton>
                                         :
                                         <IconButton
@@ -144,7 +155,8 @@ const Notifications = ({ user, userId }) => {
                                             sx={{ color: 'grey' }}
                                         >
                                             <DeleteIcon />
-                                        </IconButton>}
+                                        </IconButton>
+                                }
                             </Box>
                         </CardContent>
                     </Card>
@@ -161,3 +173,8 @@ const Notifications = ({ user, userId }) => {
 };
 
 export default Notifications;
+
+
+
+
+
