@@ -122,7 +122,7 @@ const Notifications = ({ user, userId }) => {
                             </Typography>
                             <Divider sx={{ my: 1 }} />
                             <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                            <Typography variant="body2" color="textSecondary">
+                                <Typography variant="body2" color="textSecondary">
                                     {notification.author}
                                 </Typography>
                                 <Typography variant="body2" color="textSecondary">
@@ -131,7 +131,7 @@ const Notifications = ({ user, userId }) => {
                                 <Typography variant="body2" color="textSecondary">
                                     {`${calculateCountdown(notification.created_at)} left`}
                                 </Typography>
-                               
+
                                 {
                                     userId === notification.authorId
                                         ?
