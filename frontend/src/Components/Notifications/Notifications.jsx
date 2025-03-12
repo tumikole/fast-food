@@ -67,9 +67,8 @@ const Notifications = ({ user, userId }) => {
 
         const hours = Math.floor((difference / (1000 * 60 * 60)) % 24);
         const minutes = Math.floor((difference / (1000 * 60)) % 60);
-        const seconds = Math.floor((difference / 1000) % 60);
 
-        return `${String(hours).padStart(2, '0')}h ${String(minutes).padStart(2, '0')}m ${String(seconds).padStart(2, '0')}s`;
+        return `${String(hours).padStart(2, '0')}h ${String(minutes).padStart(2, '0')}m`;
     };
 
     return (
@@ -130,7 +129,7 @@ const Notifications = ({ user, userId }) => {
                                     |
                                 </Typography>
                                 <Typography variant="body2" color="textSecondary">
-                                    {calculateCountdown(notification.created_at)}
+                                    {`${calculateCountdown(notification.created_at)} left`}
                                 </Typography>
                                
                                 {
