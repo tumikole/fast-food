@@ -37,7 +37,6 @@ const Main = () => {
         e.preventDefault();
         const userData = await login(email, password);
         if (userData.session.access_token) {
-            console.log({ userData })
             Swal.fire({
                 title: `Hi, ${userData.user.user_metadata.username}, Welcome to Olieven Kota and Grills`,
                 icon: "success",
@@ -106,15 +105,6 @@ const Main = () => {
     const removeItem = (index) => {
         setCart((prevCart) => prevCart.filter((_, i) => i !== index));
     };
-
-    // Recalculate total price whenever the cart changes
-    // useEffect(() => {
-    //     const newTotal = cart.reduce(
-    //         (total, item) => total + (item.price ?? 0) * (item.quantity ?? 1),
-    //         0
-    //     );
-    //     setTotalPrice(newTotal);
-    // }, [cart]);
 
     return (
         <div>

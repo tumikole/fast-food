@@ -1,12 +1,12 @@
 import supabase from '../supabase.config';
 
-export const addNotification = async (note) => {
+export const addNotification = async (note, user, userId) => {
     try {
         const { data, error } = await supabase
             .from('notifications')
-            .insert([{ note }]);
+            .insert([{ note, author: user, authorId: userId }]);
 
-            console.log({data})
+        console.log({ data })
         if (error) {
             console.error('Error adding notification:', error.message);
             return;

@@ -48,6 +48,8 @@ const Administrator = ({ handleAddUserSubmit, setEmail, setPassword, email, pass
     // Safely parse user details
     const userDetails = JSON.parse(localStorage.getItem('sb-ccovgcyugrypthfgduxm-auth-token')) || {};
     const user = userDetails.user.user_metadata.username;
+    const userId = userDetails.user.id;
+
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -86,21 +88,21 @@ const Administrator = ({ handleAddUserSubmit, setEmail, setPassword, email, pass
         >
             <Grid container spacing={3}>
                 <Grid item xs={{ width: "100%" }}>
-                        <CardContent>
-                            <Typography variant="h6">
-                                Hi👋, {user}. Welcome🤲 to Olieven Kota🥪 And Grills🥩🍗.
-                            </Typography>
-                            <List>
-                                {administratorTabs.map((item) => (
-                                    <ListItemButton key={item.tab} onClick={() => handleTabClick(item.tab)}>
-                                        <Box display="flex" alignItems="center">
-                                            {item.icon}
-                                            <ListItemText primary={item.tab} />
-                                        </Box>
-                                    </ListItemButton>
-                                ))}
-                            </List>
-                        </CardContent>
+                    <CardContent>
+                        <Typography variant="h6">
+                            Hi👋, {user}. Welcome🤲 to Olieven Kota🥪 And Grills🥩🍗.
+                        </Typography>
+                        <List>
+                            {administratorTabs.map((item) => (
+                                <ListItemButton key={item.tab} onClick={() => handleTabClick(item.tab)}>
+                                    <Box display="flex" alignItems="center">
+                                        {item.icon}
+                                        <ListItemText primary={item.tab} />
+                                    </Box>
+                                </ListItemButton>
+                            ))}
+                        </List>
+                    </CardContent>
                 </Grid>
             </Grid>
 
@@ -230,7 +232,7 @@ const Administrator = ({ handleAddUserSubmit, setEmail, setPassword, email, pass
                         </form>
                     )}
                     {selectedTab === "Messages" && <Messaging />}
-                    {selectedTab === "Notifications" && <Notifications />}
+                    {selectedTab === "Notifications" && <Notifications user={user} userId={userId} />}
                     {selectedTab === "Orders" && (
                         <Typography variant="body1">
                             <h2>Orders</h2>
