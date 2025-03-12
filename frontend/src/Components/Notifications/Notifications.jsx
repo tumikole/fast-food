@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Box, Typography, List, ListItem, ListItemText, Button, Card, CardContent, TextField, IconButton, Divider } from '@mui/material';
+import { Box, Typography, List, Button, Card, CardContent, TextField, IconButton, Divider } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
 import AddIcon from '@mui/icons-material/Add';
 import { addNotification, getNotifications, deleteNotification } from '../../Supabase/Notifications/Notifications';
@@ -64,9 +64,8 @@ const Notifications = ({ user, userId }) => {
 
         const hours = Math.floor((difference / (1000 * 60 * 60)) % 24);
         const minutes = Math.floor((difference / (1000 * 60)) % 60);
-        const seconds = Math.floor((difference / 1000) % 60);
 
-        return `${String(hours).padStart(2, '0')}h ${String(minutes).padStart(2, '0')}m ${String(seconds).padStart(2, '0')}s`;
+        return `${String(hours).padStart(2, '0')}h ${String(minutes).padStart(2, '0')}m`;
     };
     console.log({ user, userId })
 
@@ -125,7 +124,7 @@ const Notifications = ({ user, userId }) => {
                                 <Typography>|</Typography>
 
                                 <Typography variant="body2" color="textSecondary">
-                                    {calculateCountdown(notification.created_at)}
+                                    {`${calculateCountdown(notification.created_at)} left`}
                                 </Typography>
                                 {
                                     userId === notification.authorId
