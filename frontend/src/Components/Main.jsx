@@ -17,6 +17,7 @@ import OrderTracking from './Tracking/OrderTracking';
 import { login } from '../Supabase/Login/Login'
 import signUp from '../Supabase/Login/SignUp'
 import PrivateRoutes from '../PrivateRoutes/PrivateRoutes';
+import Settings from './Settings/Settings';
 
 const Main = () => {
     const [cart, setCart] = useState([]);
@@ -121,6 +122,7 @@ const Main = () => {
                 <Route path="/forgot_password" element={<ForgotPassword loginTabs={loginTabs} setLoginTab={setLoginTab} loginTab={loginTab} />} /> {/* Fixed typo */}
                 <Route path="/Guest" element={<GuestLogin loginTabs={loginTabs} setLoginTab={setLoginTab} loginTab={loginTab} />} />
                 <Route path="/order_tracking" element={<OrderTracking />} />
+                <Route path="/settings" element={<Settings />} />
 
 
                 <Route element={<PrivateRoutes userToken={userToken} />}>
