@@ -174,6 +174,8 @@ const Administrator = ({ handleAddUserSubmit, setEmail, setPassword, email, pass
                                     >
                                         <MenuItem value="Admin">Admin</MenuItem>
                                         <MenuItem value="User">User</MenuItem>
+                                        <MenuItem value="User">Customer</MenuItem>
+
                                     </Select>
                                     <Button
                                         fullWidth

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import LandingPage from './LandingPage/LandingPage';
 import { Routes, Route, useNavigate } from "react-router-dom";
 import Swal from 'sweetalert2'
@@ -97,6 +97,13 @@ const Main = () => {
             setRole("");
         }
     };
+
+    useEffect(() => {
+        if (user && userToken) {
+            navigate('/administrator')
+        }
+    }, [user, userToken, navigate])
+
 
 
 

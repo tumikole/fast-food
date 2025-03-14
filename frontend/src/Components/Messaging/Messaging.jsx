@@ -2,9 +2,9 @@ import React, { useState, useEffect, useRef } from 'react';
 import { Box, Typography, Avatar, IconButton, Divider, TextField, Paper } from '@mui/material';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import SendIcon from '@mui/icons-material/Send';
-import AttachFileIcon from '@mui/icons-material/AttachFile';
-import MicIcon from '@mui/icons-material/Mic';
-import StopIcon from '@mui/icons-material/Stop';
+// import AttachFileIcon from '@mui/icons-material/AttachFile';
+// import MicIcon from '@mui/icons-material/Mic';
+// import StopIcon from '@mui/icons-material/Stop';
 import { v4 as uuidv4 } from 'uuid';
 import supabase from '../../Supabase/supabase.config';
 import { fetchMessages, sendMessage, subscribeToMessages } from '../../Supabase/Messaging/Messaging';
@@ -17,9 +17,9 @@ const Messaging = ({ userDetails }) => {
   const [users, setUsers] = useState([]);
   const [unreadMessages, setUnreadMessages] = useState({});
   const [selectedImage, setSelectedImage] = useState(null);
-  const [isRecording, 
-    // setIsRecording
-  ] = useState(false);
+  // const [isRecording, 
+  //   // setIsRecording
+  // ] = useState(false);
   const [audioBlob, setAudioBlob] = useState(null);
   const [
     // audioUrl, 
@@ -286,14 +286,14 @@ const Messaging = ({ userDetails }) => {
             <IconButton sx={{ backgroundColor: '#007BFF', color: 'black' }} onClick={handleSendMessage}>
               <SendIcon />
             </IconButton>
-            <input
+            {/* <input
               type="file"
               accept="image/*"
               style={{ display: 'none' }}
               id="image-upload"
               // onChange={handleImageChange}
-            />
-            <label htmlFor="image-upload">
+            /> */}
+            {/* <label htmlFor="image-upload">
               <IconButton sx={{ backgroundColor: '#007BFF', color: 'black' }}>
                 <AttachFileIcon />
               </IconButton>
@@ -302,7 +302,7 @@ const Messaging = ({ userDetails }) => {
             // onClick={isRecording ? stopRecording : startRecording}
             >
               {isRecording ? <StopIcon /> : <MicIcon />}
-            </IconButton>
+            </IconButton> */}
           </Box>
         </Box>
       )}
