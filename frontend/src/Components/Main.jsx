@@ -40,12 +40,15 @@ const Main = () => {
         e.preventDefault();
         const userData = await login(email, password);
         console.log({ userData })
-        if (userToken && user) {
+        if (userData) {
             Swal.fire({
                 title: `Hi, ${user.username}, Welcome to Olieven Kota and Grills`,
                 icon: "success",
                 draggable: true
             });
+            setEmail("")
+            setPassword("")
+
             navigate('/administrator');
         } else {
             Swal.fire({
@@ -73,7 +76,6 @@ const Main = () => {
             });
             return;
         }
-        console.log({ email })
 
         const result = await signUp(email, password, username, role);
         if (result.error) {
@@ -128,7 +130,7 @@ const Main = () => {
 
 
                 <Route element={<PrivateRoutes userToken={userToken} />}>
-                <Route path="/administrator" element={<Adminstrator handleAddUserSubmit={handleAddUserSubmit} setEmail={setEmail} setPassword={setPassword} email={email} password={password} username={username} setUsername={setUsername} setRole={setRole} role={role} user={user}/>} />
+                    <Route path="/administrator" element={<Adminstrator handleAddUserSubmit={handleAddUserSubmit} setEmail={setEmail} setPassword={setPassword} email={email} password={password} username={username} setUsername={setUsername} setRole={setRole} role={role} user={user} />} />
                 </Route>
 
 
