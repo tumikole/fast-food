@@ -1,7 +1,12 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Box, Typography, Avatar, IconButton, Divider, TextField, Paper } from '@mui/material';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import SendIcon from '@mui/icons-material/Send';
+import AttachFileIcon from '@mui/icons-material/AttachFile';
+import MicIcon from '@mui/icons-material/Mic';
+import StopIcon from '@mui/icons-material/Stop';
+import { v4 as uuidv4 } from 'uuid';
+import supabase from '../../Supabase/supabase.config';
 import { fetchMessages, sendMessage, subscribeToMessages } from '../../Supabase/Messaging/Messaging';
 import { fetchUsers } from '../../Supabase/Login/AllUsers';
 
@@ -10,14 +15,25 @@ const Messaging = ({ userDetails }) => {
   const [message, setMessage] = useState('');
   const [messages, setMessages] = useState([]);
   const [users, setUsers] = useState([]);
-  const [unreadMessages, setUnreadMessages] = useState({}); // Tracks unread messages count for each user
+  const [unreadMessages, setUnreadMessages] = useState({});
+  const [selectedImage, setSelectedImage] = useState(null);
+  const [isRecording, 
+    // setIsRecording
+  ] = useState(false);
+  const [audioBlob, setAudioBlob] = useState(null);
+  const [
+    // audioUrl, 
+    setAudioUrl] = useState(null);
+  // const mediaRecorder = useRef(null);
+  // const audioChunks = useRef([]);
+
+  // Ref for auto-scrolling
+  const messagesEndRef = useRef(null);
 
   useEffect(() => {
-    // Fetch users for selection
     const loadUsers = async () => {
       const usersList = await fetchUsers();
       setUsers(usersList);
-      console.log("Users List:", usersList); // Debugging log
     };
 
     loadUsers();
@@ -29,30 +45,23 @@ const Messaging = ({ userDetails }) => {
         const currentUser = userDetails.username;
         const initialMessages = await fetchMessages(currentUser, selectedUser.username);
         setMessages(initialMessages);
-        console.log("Initial Messages:", initialMessages); // Debugging log
 
-        // Set up real-time messaging subscription
         const realTimeSubscription = subscribeToMessages(
           currentUser,
           selectedUser.username,
           (newMessage) => {
-            console.log('New Message Received:', newMessage);  // Debugging log
-
             setMessages((prevMessages) => [...prevMessages, newMessage]);
 
-            // If the selected user is not the one receiving the message, increase unread count
             if (selectedUser.username !== newMessage.sender) {
               setUnreadMessages((prevUnread) => {
                 const newUnread = { ...prevUnread };
                 newUnread[newMessage.sender] = (newUnread[newMessage.sender] || 0) + 1;
-                console.log('Updated Unread Messages:', newUnread); // Debugging log
                 return newUnread;
               });
             }
           }
         );
 
-        // Cleanup the subscription when the component is unmounted or user switches chat
         return () => {
           realTimeSubscription.unsubscribe();
         };
@@ -62,14 +71,75 @@ const Messaging = ({ userDetails }) => {
     loadMessages();
   }, [selectedUser, userDetails]);
 
+  // const startRecording = async () => {
+  //   try {
+  //     const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+  //     mediaRecorder.current = new MediaRecorder(stream);
+  //     mediaRecorder.current.ondataavailable = (event) => {
+  //       audioChunks.current.push(event.data);
+  //     };
+
+  //     mediaRecorder.current.onstop = () => {
+  //       const blob = new Blob(audioChunks.current, { type: 'audio/wav' });
+  //       setAudioBlob(blob);
+  //       setAudioUrl(URL.createObjectURL(blob));
+  //       audioChunks.current = [];
+  //     };
+
+  //     mediaRecorder.current.start();
+  //     setIsRecording(true);
+  //   } catch (error) {
+  //     console.error('Error accessing the microphone: ', error);
+  //   }
+  // };
+
+  // const stopRecording = () => {
+  //   mediaRecorder.current.stop();
+  //   setIsRecording(false);
+  // };
+
   const handleSendMessage = async () => {
-    if (message.trim()) {
+    if (message.trim() || selectedImage || audioBlob) {
       const senderUsername = userDetails.username;
       const receiverUsername = selectedUser.username;
-      
-      await sendMessage(message, senderUsername, receiverUsername);
-      
+
+      let imageUrl = null;
+      let audioUrl = null;
+
+      if (selectedImage) {
+        const imagePath = `chat_images/${uuidv4()}-${selectedImage.name}`;
+        const { data, error } = await supabase.storage
+          .from('chat-uploads')
+          .upload(imagePath, selectedImage);
+
+        if (error) {
+          console.error('Image upload failed:', error);
+          return;
+        }
+
+        imageUrl = data?.path;
+      }
+
+      if (audioBlob) {
+        const audioPath = `chat_audio/${uuidv4()}.wav`;
+        const { data, error } = await supabase.storage
+          .from('chat-uploads')
+          .upload(audioPath, audioBlob);
+
+        if (error) {
+          console.error('Audio upload failed:', error);
+          return;
+        }
+
+        audioUrl = data?.path;
+      }
+
+      await sendMessage(message, senderUsername, receiverUsername, imageUrl, audioUrl);
+
       setMessage('');
+      setSelectedImage(null);
+      setAudioBlob(null);
+      setAudioUrl(null);
     }
   };
 
@@ -78,24 +148,44 @@ const Messaging = ({ userDetails }) => {
   };
 
   const handleUserClick = (user) => {
-    // When user selects a user, reset unread message count for that user
     setSelectedUser(user);
     setUnreadMessages((prevUnread) => ({
       ...prevUnread,
-      [user.username]: 0, // Reset unread messages when entering chat
+      [user.username]: 0,
     }));
   };
 
+  // const handleImageChange = (e) => {
+  //   const file = e.target.files[0];
+  //   if (file) {
+  //     setSelectedImage(file);
+  //   }
+  // };
+
+  // Scroll to the bottom whenever a new message is added
+  useEffect(() => {
+    if (messages.length > 0) {
+      messagesEndRef.current.scrollIntoView({ behavior: 'smooth' });
+    }
+  }, [messages]);
+
   return (
-    <Box m={0} p={0} sx={{ width: '100%', height: '100vh', backgroundColor: '#ECE5DD', display: 'flex', flexDirection: 'column' }}>
+<Box  >
       {!selectedUser ? (
-        <Box sx={{ height: '100%', display: 'flex', flexDirection: 'column' }}>
-          {/* Header */}
-          <Box p={2} sx={{ backgroundColor: '#075E54', color: '#fff', borderBottomLeftRadius: 8, borderBottomRightRadius: 8 }}>
+        <Box sx={{ flex: 1, overflowY: 'auto' }}>
+          <Box
+            sx={{
+              padding: 2,
+              backgroundColor: '#0066FF',
+              color: '#fff',
+              position: 'sticky',
+              top: 0,
+              zIndex: 1,
+            }}
+          >
             <Typography variant="h6">Select User to Chat</Typography>
           </Box>
-          {/* User List */}
-          <Box sx={{ flex: 1, overflowY: 'auto', padding: 2 }}>
+          <Box sx={{ padding: 2 }}>
             {users.map((user) => (
               <Box
                 key={user.username}
@@ -103,25 +193,32 @@ const Messaging = ({ userDetails }) => {
                   display: 'flex',
                   alignItems: 'center',
                   cursor: 'pointer',
+                  padding: 1,
                   marginBottom: 1,
-                  padding: 2,
                   borderRadius: 2,
-                  boxShadow: 1,
+                  boxShadow: 2,
                   backgroundColor: '#fff',
                   '&:hover': {
-                    backgroundColor: '#f0f0f0',
+                    backgroundColor: '#E9F1FF',
                   },
                 }}
                 style={{ display: user.username === userDetails.username && 'none' }}
                 onClick={() => handleUserClick(user)}
               >
-                <Avatar sx={{ marginRight: 2 }} />
+                <Avatar sx={{ marginRight: 2, backgroundColor: '#007BFF' }} />
                 <Typography variant="body1" sx={{ flexGrow: 1 }}>
                   {user.username}
                 </Typography>
-                {/* Display unread message count */}
                 {unreadMessages[user.username] > 0 && (
-                  <Box sx={{ backgroundColor: '#ff3b30', color: '#fff', borderRadius: '50%', padding: '0.5rem', fontSize: '0.75rem' }}>
+                  <Box
+                    sx={{
+                      backgroundColor: '#FF4D4D',
+                      color: '#fff',
+                      borderRadius: '50%',
+                      padding: '0.5rem',
+                      fontSize: '0.75rem',
+                    }}
+                  >
                     {unreadMessages[user.username]}
                   </Box>
                 )}
@@ -130,9 +227,20 @@ const Messaging = ({ userDetails }) => {
           </Box>
         </Box>
       ) : (
-        <Box sx={{ display: 'flex', flexDirection: 'column', height: '100%' }}>
-          {/* Chat Header */}
-          <Box p={2} sx={{ backgroundColor: '#075E54', color: '#fff', display: 'flex', alignItems: 'center', borderBottomLeftRadius: 8, borderBottomRightRadius: 8 }}>
+        <Box sx={{ display: 'flex', flexDirection: 'column', flex: 1 }}>
+          <Box
+            p={2}
+            sx={{
+              backgroundColor: '#0066FF',
+              color: '#fff',
+              display: 'flex',
+              alignItems: 'center',
+              position: 'sticky',
+              top: 0,
+              zIndex: 1,
+            }}
+            
+          >
             <IconButton onClick={handleBackClick} sx={{ color: '#fff' }}>
               <ArrowBackIcon />
             </IconButton>
@@ -141,7 +249,6 @@ const Messaging = ({ userDetails }) => {
             </Typography>
           </Box>
           <Divider />
-          {/* Chat Messages */}
           <Box sx={{ flex: 1, overflowY: 'auto', padding: 2 }}>
             {messages.map((msg, index) => (
               <Box
@@ -153,37 +260,48 @@ const Messaging = ({ userDetails }) => {
                   marginBottom: 2,
                 }}
               >
-                <Avatar sx={{ marginRight: 1, marginLeft: msg.sender === userDetails.username ? 0 : 2 }} />
-                <Paper sx={{ padding: 2, borderRadius: 2, maxWidth: '60%', backgroundColor: msg.sender === userDetails.username ? '#DCF8C6' : '#fff' }}>
+                <Avatar sx={{ marginRight: 1, marginLeft: msg.sender === userDetails.username ? 0 : 2, backgroundColor: '#007BFF' }} />
+                <Paper sx={{ padding: 2, borderRadius: 2, maxWidth: '60%', backgroundColor: msg.sender === userDetails.username ? '#B7F7B1' : '#fff' }}>
                   <Typography variant="body2">{msg.content}</Typography>
+                  {msg.imageUrl && (
+                    <Box mt={1}>
+                      <img src={msg.imageUrl} alt="uploaded" style={{ maxWidth: '100%', borderRadius: '8px' }} />
+                    </Box>
+                  )}
                 </Paper>
               </Box>
             ))}
+            <div ref={messagesEndRef} /> {/* This is the reference to the last message */}
           </Box>
           <Divider />
-          {/* Send Message */}
-          <Box
-            sx={{
-              padding: 2,
-              display: 'flex',
-              alignItems: 'center',
-              backgroundColor: '#fff',
-              position: 'sticky',
-              bottom: 0,
-              zIndex: 1,
-              boxShadow: '0 -2px 5px rgba(0, 0, 0, 0.1)',
-            }}
-          >
+          <Box sx={{ display: 'flex', gap:1, padding: 2, alignItems: 'center', backgroundColor: '#fff', position: 'sticky', bottom: 0, zIndex: 2 }}>
             <TextField
-              variant="outlined"
               fullWidth
+              variant="outlined"
+              size="small"
+              label="Type a message"
               value={message}
               onChange={(e) => setMessage(e.target.value)}
-              placeholder="Type a message"
-              sx={{ marginRight: 2, borderRadius: 20, backgroundColor: '#f1f1f1' }}
             />
-            <IconButton onClick={handleSendMessage} sx={{ color: '#075E54' }}>
+            <IconButton sx={{ backgroundColor: '#007BFF', color: 'black' }} onClick={handleSendMessage}>
               <SendIcon />
+            </IconButton>
+            <input
+              type="file"
+              accept="image/*"
+              style={{ display: 'none' }}
+              id="image-upload"
+              // onChange={handleImageChange}
+            />
+            <label htmlFor="image-upload">
+              <IconButton sx={{ backgroundColor: '#007BFF', color: 'black' }}>
+                <AttachFileIcon />
+              </IconButton>
+            </label>
+            <IconButton sx={{ backgroundColor: '#007BFF', color: 'black' }} 
+            // onClick={isRecording ? stopRecording : startRecording}
+            >
+              {isRecording ? <StopIcon /> : <MicIcon />}
             </IconButton>
           </Box>
         </Box>

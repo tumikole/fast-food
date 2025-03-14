@@ -16,7 +16,6 @@ import {
     Dialog,
     DialogActions,
     DialogContent,
-    DialogTitle,
     IconButton,
     Divider,
     Avatar
@@ -115,7 +114,7 @@ const Administrator = ({ handleAddUserSubmit, setEmail, setPassword, email, pass
                                         onClick={() => handleTabClick(item.tab)}
                                         className={`tab-button ${selectedTab === item.tab ? 'active' : ''}`}
                                         style={{
-                                            display: user.role === "Admin" || (item.tab !== "Notifications") ? "block" : "none"
+                                            display: user.role === "Admin" || (item.tab !== "Notifications" && item.tab !== "Users") ? "block" : "none"
                                         }}
                                     >
                                         <Box display="flex" alignItems="center" gap={2}>
@@ -138,7 +137,6 @@ const Administrator = ({ handleAddUserSubmit, setEmail, setPassword, email, pass
 
             {/* Full Screen Modal (Dialog) */}
             <Dialog open={openModal} onClose={handleCloseModal} fullScreen className="dialog-container">
-                <DialogTitle className="dialog-title">{selectedTab}</DialogTitle>
                 <DialogContent sx={{ p: 0 }}>
                     {selectedTab === "Users" && (
                         <>
