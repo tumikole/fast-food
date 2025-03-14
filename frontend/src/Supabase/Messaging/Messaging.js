@@ -1,32 +1,66 @@
 import supabase from '../supabase.config';
 
-  export const fetchMessages = async () => {
+// Example fetchMessages function to fix query structure
+export const fetchMessages = async (currentUser, selectedUser) => {
+  try {
     const { data, error } = await supabase
       .from('messages')
       .select('*')
+      .or(`sender.eq.${currentUser},receiver.eq.${currentUser}`)
+      .or(`sender.eq.${selectedUser},receiver.eq.${selectedUser}`)
       .order('created_at', { ascending: true });
 
     if (error) {
-      console.error('Error fetching messages:', error.message);
-    } else {
-      setMessages(data);
+      throw new Error('Error fetching messages: ' + error.message);
     }
-  };
 
-  // Send a new message
-  export const sendMessage = async () => {
-    if (newMessage.trim() === '') return;
+    return data;
+  } catch (error) {
+    console.error('Error fetching messages:', error);
+    return [];
+  }
+};
 
+
+
+
+export const sendMessage = async (newMessage, senderUsername, receiverUsername) => {
+  if (newMessage.trim() === '') return;
+
+  try {
     const { error } = await supabase
       .from('messages')
-      .insert([{ content: newMessage, sender: username }]);
+      .insert([
+        {
+          content: newMessage,
+          sender: senderUsername,
+          receiver: receiverUsername,
+          created_at: new Date().toISOString(),
+        },
+      ]);
 
     if (error) {
-      console.error('Error sending message:', error.message);
-    } else {
-      setNewMessage('');
+      throw new Error('Error sending message: ' + error.message);
     }
-  };
+  } catch (error) {
+    console.error('Error sending message:', error.message);
+  }
+};
 
-  // Listen for new messages in real-time
-  
+// In Supabase/Messaging/Messaging.js
+export const subscribeToMessages = (currentUser, selectedUser, callback) => {
+  return supabase
+    .channel('realtime:public:messages')
+    .on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'messages' }, (payload) => {
+      const newMessage = payload.new;
+
+      // Only trigger the callback if the new message is relevant to the current chat (either sender or receiver)
+      if (
+        (newMessage.sender === currentUser && newMessage.receiver === selectedUser) ||
+        (newMessage.sender === selectedUser && newMessage.receiver === currentUser)
+      ) {
+        callback(newMessage);
+      }
+    })
+    .subscribe();
+};

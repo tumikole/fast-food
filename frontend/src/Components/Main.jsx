@@ -30,21 +30,22 @@ const Main = () => {
 
 
     const loginTabs = ["Login", "Forgot password"];
-    const userToken = JSON.parse(localStorage.getItem('sb-ccovgcyugrypthfgduxm-auth-token'));
+    const userToken = JSON.parse(localStorage.getItem('auth-token'));
+    const user = JSON.parse(localStorage.getItem('user'));
+
 
     const navigate = useNavigate();
 
     const loginUser = async e => {
         e.preventDefault();
         const userData = await login(email, password);
-        if (userData.session.access_token) {
+        console.log({ userData })
+        if (userToken && user) {
             Swal.fire({
-                title: `Hi, ${userData.user.user_metadata.username}, Welcome to Olieven Kota and Grills`,
+                title: `Hi, ${user.username}, Welcome to Olieven Kota and Grills`,
                 icon: "success",
                 draggable: true
             });
-            const userRole = userData.session.user.role || "user"; // assuming role info is available
-            localStorage.setItem('userRole', JSON.stringify(userRole)); // Store role in localStorage
             navigate('/administrator');
         } else {
             Swal.fire({
@@ -72,6 +73,7 @@ const Main = () => {
             });
             return;
         }
+        console.log({ email })
 
         const result = await signUp(email, password, username, role);
         if (result.error) {
@@ -126,7 +128,7 @@ const Main = () => {
 
 
                 <Route element={<PrivateRoutes userToken={userToken} />}>
-                    <Route path="/administrator" element={<Adminstrator handleAddUserSubmit={handleAddUserSubmit} setEmail={setEmail} setPassword={setPassword} email={email} password={password} username={username} setUsername={setUsername} setRole={setRole} role={role} />} />
+                <Route path="/administrator" element={<Adminstrator handleAddUserSubmit={handleAddUserSubmit} setEmail={setEmail} setPassword={setPassword} email={email} password={password} username={username} setUsername={setUsername} setRole={setRole} role={role} user={user}/>} />
                 </Route>
 
 

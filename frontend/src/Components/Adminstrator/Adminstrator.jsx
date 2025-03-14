@@ -33,7 +33,7 @@ import './Administrator.scss';
 import Settings from "../Settings/Settings";
 // import { getAllUsers } from "../../Supabase/Login/AllUsers";
 
-const Administrator = ({ handleAddUserSubmit, setEmail, setPassword, email, password, username, setUsername, setRole, role }) => {
+const Administrator = ({ handleAddUserSubmit, setEmail, setPassword, email, password, username, setUsername, setRole, role, user }) => {
     const [selectedTab, setSelectedTab] = useState("");
     const [openModal, setOpenModal] = useState(false);
     const [category, setCategory] = useState('');
@@ -54,12 +54,7 @@ const Administrator = ({ handleAddUserSubmit, setEmail, setPassword, email, pass
 
     ];
 
-    const userDetails = JSON.parse(localStorage.getItem('sb-ccovgcyugrypthfgduxm-auth-token')) || {};
-    const user = userDetails.user.user_metadata.username;
-    const userId = userDetails.user.id;
-    const userRole = userDetails.user.user_metadata.userSystemRole;
-
-
+    const userDetails = user || {};
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -101,12 +96,12 @@ const Administrator = ({ handleAddUserSubmit, setEmail, setPassword, email, pass
                 <Box className="user-profile">
                     <Avatar sx={{ width: 60, height: 60, marginBottom: 2 }} />
                     <Typography variant="h6" color="#1976d2" className="welcome-text">
-                        Hi {user}, <br />Welcome to Kota and Grills admin portal!
+                        Hi {userDetails.username}, <br />Welcome to Kota and Grills admin portal!
                     </Typography>
                 </Box>
                 <Box className="user-profile" mt={2}>
                     <Typography variant="h6" color="#1976d2" className="welcome-text">
-                        Role: {userRole && userRole}
+                        Role: {userDetails && userDetails.role}
                     </Typography>
                 </Box>
                 <Grid item className="sidebar">
@@ -119,6 +114,9 @@ const Administrator = ({ handleAddUserSubmit, setEmail, setPassword, email, pass
                                         key={item.tab}
                                         onClick={() => handleTabClick(item.tab)}
                                         className={`tab-button ${selectedTab === item.tab ? 'active' : ''}`}
+                                        style={{
+                                            display: user.role === "Admin" || (item.tab !== "Notifications") ? "block" : "none"
+                                        }}
                                     >
                                         <Box display="flex" alignItems="center" gap={2}>
                                             {item.icon}
@@ -126,6 +124,7 @@ const Administrator = ({ handleAddUserSubmit, setEmail, setPassword, email, pass
                                         </Box>
                                     </ListItemButton>
                                 ))}
+
                             </List>
                             <Grid container justifyContent="flex-end" className="signout-container">
                                 <IconButton onClick={handleSignOutClick} className="signout-button">
@@ -141,7 +140,7 @@ const Administrator = ({ handleAddUserSubmit, setEmail, setPassword, email, pass
             <Dialog open={openModal} onClose={handleCloseModal} fullScreen className="dialog-container">
                 <DialogTitle className="dialog-title">{selectedTab}</DialogTitle>
                 <DialogContent sx={{ p: 0 }}>
-                    {selectedTab === "Users" && userRole === "Admin" && (
+                    {selectedTab === "Users" && (
                         <>
                             <Card className="form-card">
                                 <CardContent>
@@ -196,7 +195,7 @@ const Administrator = ({ handleAddUserSubmit, setEmail, setPassword, email, pass
 
                         </>
                     )}
-                    {selectedTab === "Menu" && userRole === "Admin" && (
+                    {selectedTab === "Menu" && (
                         <form onSubmit={handleSubmit}>
                             <Typography variant="h6" className="form-title">Add a New Menu Item</Typography>
                             <Card className="form-card">
@@ -260,8 +259,8 @@ const Administrator = ({ handleAddUserSubmit, setEmail, setPassword, email, pass
                             </Card>
                         </form>
                     )}
-                    {selectedTab === "Messages" && userRole === "Admin" && <Messaging />}
-                    {selectedTab === "Notifications" && userRole === "Admin" && <Notifications />}
+                    {selectedTab === "Messages" && <Messaging userDetails={userDetails}/>}
+                    {selectedTab === "Notifications" && <Notifications />}
                     {selectedTab === "Orders" && (
                         <Typography variant="body1">
                             <h2>Orders</h2>
@@ -276,7 +275,7 @@ const Administrator = ({ handleAddUserSubmit, setEmail, setPassword, email, pass
                         </Typography>
                     )}
                     {selectedTab === "Settings" && (
-                        <Settings user={user} userId={userId} />
+                        <Settings userDetails={userDetails} />
                     )}
                 </DialogContent>
                 <DialogActions>
