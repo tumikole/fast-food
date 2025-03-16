@@ -17,9 +17,7 @@ export const addOrdererInformation = async (name, phoneNumber, address, notes) =
         if (error) {
             console.error('Error inserting orderer information:', error);
             throw error;
-        }
-        console.log('Orderer information saved successfully:', data);
-        return data;
+        }        return data;
     } catch (error) {
         console.error('Error in addOrdererInformation:', error);
         throw error;

@@ -19,7 +19,6 @@ export const addMenuItems = async (menuItems) => {
           if (error) {
             console.error(`Error adding ${item.itemName}:`, error.message);
           } else {
-            console.log(`Successfully added ${item.itemName}`, data);
           }
         }
       }

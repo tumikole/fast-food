@@ -13,6 +13,10 @@ const Cart = ({ cart, removeItem }) => {
   const calculateTotal = () => {
     return cart.reduce((total, item) => total + Object.values(item.price)[0], 0);
   };
+  const handleSaveCartToLocastorage = _ => {
+    localStorage.setItem('userOrdering', JSON.stringify(cart));
+
+  }
 
   return (
     <Box className="cart">
@@ -48,7 +52,7 @@ const Cart = ({ cart, removeItem }) => {
         <>
           <Box className="cart-items">
             {cart.map((item, index) => (
-              <Card key={index} className="cart-item" sx={{ ml:2,mr:2, my: 2, p: 2, position: "relative" }}>
+              <Card key={index} className="cart-item" sx={{ ml: 2, mr: 2, my: 2, p: 2, position: "relative" }}>
                 <CardContent>
                   <Typography variant="h6">{item.itemName}</Typography>
                   <Typography variant="body2">Category: {item.category}</Typography>
@@ -71,7 +75,7 @@ const Cart = ({ cart, removeItem }) => {
             <Typography variant="h5" fontWeight="bold" color="#ffffff">
               Grand Total: R{calculateTotal()}
             </Typography>
-            <Link to="/place_an_order" style={{ textDecoration: "none", display: "flex", alignItems: "center", gap: 1, mt: 2, justifyContent: "center" }} color="#ffffff">
+            <Link to="/place_an_order" style={{ textDecoration: "none", display: "flex", alignItems: "center", gap: 1, mt: 2, justifyContent: "center" }} color="#ffffff" onClick={handleSaveCartToLocastorage}>
               <Button
                 variant="contained"
                 color="#ffffff"

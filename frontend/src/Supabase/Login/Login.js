@@ -25,8 +25,6 @@ export async function login(email, password) {
       return { error: 'Invalid password' };
     }
 
-    console.log('User data:', data);
-
     // Store the user details in localStorage
     localStorage.setItem('user', JSON.stringify({
       id: data.id,
@@ -38,9 +36,6 @@ export async function login(email, password) {
       userToken
     }));
 
-
-
-    console.log('Logged in successfully:', data);
     return { data };
   } catch (error) {
     console.error('Error during login:', error.message);

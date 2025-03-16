@@ -2,7 +2,6 @@ import supabase from '../supabase.config';
 import bcrypt from 'bcryptjs'; // Import bcrypt
 
 export async function signUp(email, password, username, role) {
-  console.log({ email, password, username, role });
 
   try {
     // Hash the password before saving it
@@ -24,7 +23,6 @@ export async function signUp(email, password, username, role) {
       console.error('Error saving admin user:', error.message);
       return { error: error.message };
     } else {
-      console.log('Admin user saved successfully:', data);
       return { data }; // Return the inserted data
     }
   } catch (error) {

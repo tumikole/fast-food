@@ -27,6 +27,16 @@ const Main = () => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [role, setRole] = useState("");
+    const [paymentMethod, setPaymentMethod] = useState('');
+    const [name, setName] = useState('');
+    const [phoneNumber, setPhoneNumber] = useState('');
+    const [address, setAddress] = useState('');
+    const [notes, setNotes] = useState('');
+    const [orderData, setOrderData] = useState(null);
+    const [loading, setLoading] = useState(false); 
+    const [orderNumber, setOrderNumber] = useState('');
+
+    
 
 
     const loginTabs = ["Login", "Forgot password"];
@@ -39,7 +49,6 @@ const Main = () => {
     const loginUser = async e => {
         e.preventDefault();
         const userData = await login(email, password);
-        console.log({ userData })
         if (userData) {
             Swal.fire({
                 title: `Hi, ${user.username}, Welcome to Olieven Kota and Grills`,
@@ -128,11 +137,30 @@ const Main = () => {
                 <Route path="/cart" element={<Cart cart={cart} removeItem={removeItem} />} />
                 <Route path="/review" element={<Reviews />} />
                 <Route path="/faq" element={<FAQ />} />
-                <Route path="/place_an_order" element={<PlaceAnOrder />} />
+                <Route path="/place_an_order" element={
+                    <PlaceAnOrder
+                        paymentMethod={paymentMethod}
+                        setPaymentMethod={setPaymentMethod}
+                        name={name}
+                        setName={setName}
+                        phoneNumber={phoneNumber}
+                        setPhoneNumber={setPhoneNumber}
+                        address={address}
+                        setAddress={setAddress}
+                        notes={notes}
+                        setNotes={setNotes}
+                        orderData={orderData}
+                        setOrderData={setOrderData}
+                        loading={loading}
+                        setLoading={setLoading}
+                        setOrderNumber={setOrderNumber}
+                        orderNumber={orderNumber}
+                    />
+                } />
                 <Route path="/login" element={<Login loginTabs={loginTabs} setLoginTab={setLoginTab} loginTab={loginTab} loginUser={loginUser} setEmail={setEmail} setPassword={setPassword} email={email} password={password} />} />
                 <Route path="/forgot_password" element={<ForgotPassword loginTabs={loginTabs} setLoginTab={setLoginTab} loginTab={loginTab} />} /> {/* Fixed typo */}
                 <Route path="/Guest" element={<GuestLogin loginTabs={loginTabs} setLoginTab={setLoginTab} loginTab={loginTab} />} />
-                <Route path="/order_tracking" element={<OrderTracking />} />
+                <Route path="/order_tracking" element={<OrderTracking orderNumber={orderNumber} setOrderNumber={setOrderNumber}/>} />
                 <Route path="/settings" element={<Settings />} />
 
 

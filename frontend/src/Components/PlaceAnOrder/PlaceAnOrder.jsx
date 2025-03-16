@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Swal from 'sweetalert2';
 import { v4 as uuidv4 } from 'uuid';
@@ -17,24 +17,52 @@ import {
     CircularProgress,
     TextField
 } from '@mui/material';
-import { addOrdererInformation } from '../../Supabase/OrdererInformation/OrdererInformation'; // Fixed import
-import BankCard from '../BankCard/BankCard';
+import { addOrder } from '../../Supabase/PlaceAnOrder/PlaceAnOrder'; // Fixed import
 
-const PlaceAnOrder = () => {
-    const [paymentMethod, setPaymentMethod] = useState('online');
-    const [collectionType, setCollectionType] = useState('delivery');
-    const [name, setName] = useState('');
-    const [phoneNumber, setPhoneNumber] = useState('');
-    const [address, setAddress] = useState('');
-    const [notes, setNotes] = useState('');
-    const [orderData, setOrderData] = useState(null);
-    const [loading, setLoading] = useState(false); // State for loading
+const PlaceAnOrder = ({ paymentMethod,
+    setPaymentMethod,
+    name,
+    setName,
+    phoneNumber,
+    setPhoneNumber,
+    address,
+    setAddress,
+    notes,
+    setNotes,
+    orderData,
+    setOrderData,
+    loading,
+    setLoading,
+    setOrderNumber,
+    orderNumber
+}) => {
+
     const navigate = useNavigate();
 
     // Handle orderer information submission
-    const handleOrdererInformation = async () => {
-        if (name && phoneNumber && address) {
-            await addOrdererInformation(name, phoneNumber, address, notes);
+    // Handle orderer information submission
+    const handleOrdererInformation = async (finalOrder, orderNumber) => {
+        try {
+            const response = await addOrder(
+                finalOrder,
+                orderNumber,
+                paymentMethod,
+                name,
+                phoneNumber,
+                address,
+                notes
+            );
+
+
+            if (response.success) {
+                Swal.fire("Order successfully saved!", "Your order has been placed successfully.", "success");
+                navigate("/order_tracking");
+            } else {
+                Swal.fire("Failed to save order", response.error, "error");
+            }
+        } catch (error) {
+            console.error("Unexpected error while saving order:", error.message);
+            Swal.fire("Error", "An unexpected error occurred while saving the order.", "error");
         }
     };
 
@@ -43,7 +71,7 @@ const PlaceAnOrder = () => {
         if (storedOrder) {
             setOrderData(JSON.parse(storedOrder));
         }
-    }, []);
+    }, [setOrderData]);
 
     const handleSubmit = (event) => {
         event.preventDefault();
@@ -52,13 +80,13 @@ const PlaceAnOrder = () => {
             return;
         }
 
-        if (!name || !phoneNumber || !address) {
-            Swal.fire("Please fill in all required fields!", "Name, Phone Number, and Address are required.", "error");
+        if (!paymentMethod || !name || !phoneNumber || !address) {
+            Swal.fire("Please fill in all required fields!", "Payment Method, Name, Phone Number, and Address are required.", "error");
             return;
         }
 
         Swal.fire({
-            title: `Are you sure about ${paymentMethod === "online" ? `Online payment - ${collectionType}` : paymentMethod}?`,
+            title: `Are you sure about ${paymentMethod}?`,
             showDenyButton: true,
             showCancelButton: true,
             confirmButtonText: "Confirm Order",
@@ -66,25 +94,37 @@ const PlaceAnOrder = () => {
         }).then(async (result) => {
             if (result.isConfirmed) {
                 setLoading(true); // Start loading
-                const orderNumber = uuidv4().slice(0, 12);
+                const userOrderNumber = uuidv4().slice(0, 12);
+                const orderNumber = userOrderNumber
+                setOrderNumber(userOrderNumber);
                 const finalOrder = {
-                    ...orderData,
-                    paymentMethod: paymentMethod === "online" ? `Online payment - ${collectionType}` : paymentMethod,
-                    collectionType,
-                    orderNumber,
+                    order: orderData,
+                    
                 };
-                localStorage.setItem('userOrdering', JSON.stringify(finalOrder));
 
-                await handleOrdererInformation(); // Save the orderer information
+
+                await handleOrdererInformation(finalOrder, orderNumber); // Save the orderer information
                 setLoading(false); // Stop loading after saving information
+                Swal.fire({
+                    position: "top-end",
+                    icon: "success",
+                    title: "Order successfully placed! You will be redirected to the order tracking page.",
+                    showConfirmButton: false,
+                    timer: 1500
+                });
+                setPaymentMethod("")
+                setName("")
+                setPhoneNumber("")
+                setAddress("")
+                setNotes("")
 
-                Swal.fire("Order successfully placed!", "You will be redirected to the order tracking page.", "success");
                 navigate("/order_tracking");
             } else if (result.isDenied) {
                 Swal.fire("Order not saved", "You can modify your details and try again.", "info");
             }
         });
     };
+
 
     return (
         <div>
@@ -101,26 +141,10 @@ const PlaceAnOrder = () => {
                                 value={paymentMethod}
                                 onChange={(event) => setPaymentMethod(event.target.value)}
                             >
-                                <FormControlLabel value="online" control={<Radio />} label="Online Payment" />
+                                <FormControlLabel value="pick-up" control={<Radio />} label="Cash on Pick-up" />
                                 <FormControlLabel value="delivery" control={<Radio />} label="Cash on Delivery" />
                             </RadioGroup>
                         </FormControl>
-
-                        {paymentMethod === 'online' && (
-                            <Box mt={2}>
-                                <FormControl component="fieldset" fullWidth>
-                                    <FormLabel component="legend">Choose Collection Type</FormLabel>
-                                    <RadioGroup
-                                        value={collectionType}
-                                        onChange={(event) => setCollectionType(event.target.value)}
-                                    >
-                                        <FormControlLabel value="delivery" control={<Radio />} label="Home Delivery" />
-                                        <FormControlLabel value="pickup" control={<Radio />} label="Pickup from Store" />
-                                    </RadioGroup>
-                                </FormControl>
-                                <BankCard />
-                            </Box>
-                        )}
 
                         <Box mt={2}>
                             <TextField

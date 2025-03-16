@@ -2,17 +2,14 @@ import supabase from '../supabase.config';
 
 export const addNotification = async (note, user, userId) => {
     try {
-        const { data, error } = await supabase
+        const { error } = await supabase
             .from('notifications')
             .insert([{ note, author: user, authorId: userId }]);
 
-        console.log({ data })
         if (error) {
             console.error('Error adding notification:', error.message);
             return;
         }
-
-        console.log('Notification added:', data);
     } catch (err) {
         console.error('Unexpected error:', err);
     }
@@ -59,7 +56,7 @@ export const getNotifications = async () => {
 
 export const deleteNotification = async (id) => {
     try {
-        const { data, error } = await supabase
+        const { error } = await supabase
             .from('notifications')
             .delete()
             .eq('id', id);
@@ -69,7 +66,6 @@ export const deleteNotification = async (id) => {
             return;
         }
 
-        console.log('Notification deleted:', data);
     } catch (err) {
         console.error('Unexpected error:', err);
     }

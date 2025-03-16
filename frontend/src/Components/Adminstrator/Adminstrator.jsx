@@ -31,6 +31,7 @@ import SettingsIcon from "@mui/icons-material/Settings";  // Import the Settings
 import './Administrator.scss';
 import Settings from "../Settings/Settings";
 // import { getAllUsers } from "../../Supabase/Login/AllUsers";
+import OrdersList from '../OrdersList/OrdersList'
 
 const Administrator = ({ handleAddUserSubmit, setEmail, setPassword, email, password, username, setUsername, setRole, role, user }) => {
     const [selectedTab, setSelectedTab] = useState("");
@@ -57,7 +58,6 @@ const Administrator = ({ handleAddUserSubmit, setEmail, setPassword, email, pass
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        console.log("Submitting menu item:", { category, itemName, imageUrl, ingredients, totalAmount });
     };
 
     const handleTabClick = (tab) => {
@@ -75,19 +75,6 @@ const Administrator = ({ handleAddUserSubmit, setEmail, setPassword, email, pass
         localStorage.clear();
         navigate('/');
     };
-
-    // useEffect(() => {
-    //     const fetchAllUsers = async () => {
-    //         const users = await getAllUsers()
-    //         console.log({ users })
-    //     }
-
-    //     if (allUsers.length <= 0) {
-    //         fetchAllUsers()
-    //     }
-    // }, [allUsers.length])
-
-
 
     return (
         <div className="administrator-container">
@@ -259,20 +246,11 @@ const Administrator = ({ handleAddUserSubmit, setEmail, setPassword, email, pass
                             </Card>
                         </form>
                     )}
-                    {selectedTab === "Messages" && <Messaging userDetails={userDetails}/>}
+                    {selectedTab === "Messages" && <Messaging userDetails={userDetails} />}
                     {selectedTab === "Notifications" && <Notifications />}
                     {selectedTab === "Orders" && (
-                        <Typography variant="body1">
-                            <h2>Orders</h2>
-                            <List>
-                                <ListItemButton>
-                                    <ListItemText primary="Order #1001 - Pending" />
-                                </ListItemButton>
-                                <ListItemButton>
-                                    <ListItemText primary="Order #1002 - Completed" />
-                                </ListItemButton>
-                            </List>
-                        </Typography>
+
+                        <OrdersList user={user}/>
                     )}
                     {selectedTab === "Settings" && (
                         <Settings userDetails={userDetails} />
