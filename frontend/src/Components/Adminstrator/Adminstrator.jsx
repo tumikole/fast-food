@@ -18,8 +18,11 @@ import {
     DialogContent,
     IconButton,
     Divider,
-    Avatar
+    Avatar,
+    FormControl,
+    InputLabel
 } from "@mui/material";
+import { v4 as uuidv4 } from 'uuid';
 import InboxIcon from "@mui/icons-material/Inbox";
 import MailIcon from "@mui/icons-material/Mail";
 import PersonIcon from "@mui/icons-material/Person";
@@ -33,7 +36,7 @@ import Settings from "../Settings/Settings";
 // import { getAllUsers } from "../../Supabase/Login/AllUsers";
 import OrdersList from '../OrdersList/OrdersList'
 
-const Administrator = ({ handleAddUserSubmit, setEmail, setPassword, email, password, username, setUsername, setRole, role, user }) => {
+const Administrator = ({ handleAddUserSubmit, setEmail, setPassword, email, password, username, setUsername, setRole, role, user, userCode, setUserCode }) => {
     const [selectedTab, setSelectedTab] = useState("");
     const [openModal, setOpenModal] = useState(false);
     const [category, setCategory] = useState('');
@@ -41,6 +44,7 @@ const Administrator = ({ handleAddUserSubmit, setEmail, setPassword, email, pass
     const [imageUrl, setImageUrl] = useState('');
     const [ingredients, setIngredients] = useState('');
     const [totalAmount, setTotalAmount] = useState('');
+
     // const [allUsers, setAllUsers] = useState([])
 
     const navigate = useNavigate();
@@ -75,6 +79,10 @@ const Administrator = ({ handleAddUserSubmit, setEmail, setPassword, email, pass
         localStorage.clear();
         navigate('/');
     };
+    const handleGenerateCustomerAccessCode = () => {
+        const generateCode = uuidv4()
+        setUserCode(generateCode)
+    }
 
     return (
         <div className="administrator-container">
@@ -129,7 +137,22 @@ const Administrator = ({ handleAddUserSubmit, setEmail, setPassword, email, pass
                         <>
                             <Card className="form-card">
                                 <CardContent>
-                                    <Typography variant="h6" className="form-title">Add New User</Typography>
+                                    <Typography variant="h6" mb={2} className="form-title">Add New User</Typography>
+
+                                    <FormControl fullWidth>
+                                        <InputLabel>Role</InputLabel>
+                                        <Select
+                                            value={role}
+                                            onChange={(e) => setRole(e.target.value)}
+                                            label="Role"
+                                            fullWidth
+                                            margin="normal"
+                                        >
+                                            <MenuItem value="Admin">Admin</MenuItem>
+                                            <MenuItem value="User">User</MenuItem>
+                                            <MenuItem value="Customer">Customer</MenuItem>
+                                        </Select>
+                                    </FormControl>
                                     <TextField
                                         label="Username"
                                         fullWidth
@@ -144,26 +167,41 @@ const Administrator = ({ handleAddUserSubmit, setEmail, setPassword, email, pass
                                         value={email}
                                         onChange={(e) => setEmail(e.target.value)}
                                     />
-                                    <TextField
-                                        label="Password"
-                                        fullWidth
-                                        margin="normal"
-                                        type="password"
-                                        value={password}
-                                        onChange={(e) => setPassword(e.target.value)}
-                                    />
-                                    <Select
-                                        fullWidth
-                                        label="Role"
-                                        value={role}
-                                        onChange={(e) => setRole(e.target.value)}
-                                        margin="normal"
-                                    >
-                                        <MenuItem value="Admin">Admin</MenuItem>
-                                        <MenuItem value="User">User</MenuItem>
-                                        <MenuItem value="User">Customer</MenuItem>
+                                    {role !== "Customer" &&
+                                        <>
+                                            <TextField
+                                                label="Password"
+                                                fullWidth
+                                                margin="normal"
+                                                type="password"
+                                                value={password}
+                                                onChange={(e) => setPassword(e.target.value)}
+                                            />
+                                        </>
+                                    }
 
-                                    </Select>
+                                    {role === "Customer" &&
+                                        <>
+                                            <Button
+                                                fullWidth
+                                                variant="contained"
+                                                color="primary"
+                                                onClick={handleGenerateCustomerAccessCode}
+                                                sx={{ mt: 2 }}
+                                            >
+                                                Generate customer auth
+                                            </Button>
+                                            <TextField
+                                                label="Access code"
+                                                fullWidth
+                                                margin="normal"
+                                                type="text"
+                                                value={userCode}
+                                                disabled
+                                            />
+                                        </>
+                                    }
+
                                     <Button
                                         fullWidth
                                         variant="contained"
@@ -250,7 +288,7 @@ const Administrator = ({ handleAddUserSubmit, setEmail, setPassword, email, pass
                     {selectedTab === "Notifications" && <Notifications />}
                     {selectedTab === "Orders" && (
 
-                        <OrdersList user={user}/>
+                        <OrdersList user={user} />
                     )}
                     {selectedTab === "Settings" && (
                         <Settings userDetails={userDetails} />

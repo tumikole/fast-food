@@ -1,22 +1,21 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
 import { Box, Button, TextField, Typography, Grid } from '@mui/material';
 import Background from '../../Asserts/download (4).jpeg';
 import Navbar from '../Navbar/Navbar';
 import ForgotPassword from '../ForgotPassword/ForgotPassword';
-import GuestLogin from '../GuestLogin/GuestLogin';
+import CustomerLogin from './CustomerLogin/CustomerLogin';
 
 const Login = ({ loginTabs, setLoginTab, loginTab, loginUser, setEmail, setPassword, email, password }) => {
 
-    if (loginTab && loginTab === "Login") {
+    if (loginTab === "Login") {
         return (
             <Box className="Login">
                 <Navbar />
                 <Box sx={{ position: "relative", height: "100vh" }}>
                     <img src={Background} alt="background Kota" style={{ width: "100%", height: "100%", objectFit: "cover", position: "absolute", top: 0, left: 0 }} />
-                    <Box sx={{ position: "absolute", top: "50%", left: "50%", transform: "translate(-50%, -50%)", textAlign: "center", color: "white" }}>
+                    {/* <Box sx={{ position: "absolute", top: "50%", left: "50%", transform: "translate(-50%, -50%)", textAlign: "center", color: "white" }}>
                         <Typography variant="h2" sx={{ fontWeight: "bold" }}>Sign In</Typography>
-                    </Box>
+                    </Box> */}
                 </Box>
 
                 <Box sx={{ padding: 4 }}>
@@ -46,7 +45,7 @@ const Login = ({ loginTabs, setLoginTab, loginTab, loginUser, setEmail, setPassw
                                 <Grid item xs={12}>
                                     <Box className="login-form-guest-forgotPassword">
                                         {loginTabs.map((tab) => (
-                                            <Link to={`/${tab === "Forgot password" ? "forgot_password" : tab}`} key={tab}>
+                                            // <Link to={`/${tab === "Forgot password" ? "forgot_password" : tab}`} key={tab}>
                                                 <Typography 
                                                     sx={{ 
                                                         display: tab === loginTab && "none", 
@@ -58,7 +57,7 @@ const Login = ({ loginTabs, setLoginTab, loginTab, loginUser, setEmail, setPassw
                                                 >
                                                     {tab}
                                                 </Typography>
-                                            </Link>
+                                            // </Link>
                                         ))}
                                     </Box>
                                 </Grid>
@@ -81,8 +80,8 @@ const Login = ({ loginTabs, setLoginTab, loginTab, loginUser, setEmail, setPassw
         );
     } else if (loginTab === "Forgot password") {
         return <ForgotPassword />;
-    } else if (loginTab && loginTab === "Guest") {
-        return <GuestLogin />;
+    } else if (loginTab === "Customer Login") {
+        return <CustomerLogin loginTabs={loginTabs} setLoginTab={setLoginTab} loginTab={loginTab} />;
     }
 
     return null; // In case no login tab is selected

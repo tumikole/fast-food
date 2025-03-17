@@ -1,7 +1,7 @@
 import supabase from '../supabase.config';
 import bcrypt from 'bcryptjs'; // Import bcrypt
 
-export async function signUp(email, password, username, role) {
+export const signUp = async (email, password, username, role) => {
 
   try {
     // Hash the password before saving it
@@ -31,4 +31,29 @@ export async function signUp(email, password, username, role) {
   }
 }
 
-export default signUp;
+export const  clientSignUp = async (email, userCode, username, role) => {
+
+  try {
+    const { data, error } = await supabase
+      .from('admin_users')
+      .insert([
+        {
+          username,
+          email,
+          client_auth_code: userCode, // Store the hashed password
+          role,
+          active: true
+        },
+      ]);
+
+    if (error) {
+      console.error('Error saving admin user:', error.message);
+      return { error: error.message };
+    } else {
+      return { data }; // Return the inserted data
+    }
+  } catch (error) {
+    console.error('Error in sign up process:', error.message);
+    return { error: error.message };
+  }
+}

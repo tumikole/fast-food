@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect } from 'react';
 import supabase from '../../Supabase/supabase.config';
 import {
   Box,
@@ -38,9 +38,12 @@ const Settings = ({userDetails}) => {
     { label: 'Password', content: 'Update your password.' },
   ];
 
-  const getProfile = useCallback(async () => {
+  useEffect(() => {
+    getProfile();
+  }, []);
+
+  const getProfile = async () => {
     try {
-      setLoading(true);
       const { data: { user } } = await supabase.auth.getUser();
       if (user) {
         const { data, error } = await supabase
@@ -60,14 +63,8 @@ const Settings = ({userDetails}) => {
       }
     } catch (error) {
       setMessage({ text: 'Error loading profile: ' + error.message, type: 'error' });
-    } finally {
-      setLoading(false);
     }
-  }, [PROFILE_TABLE]);
-
-  useEffect(() => {
-    getProfile();
-  }, [getProfile]);
+  };
 
   const updateProfile = async (e) => {
     if (e) e.preventDefault();
