@@ -2,8 +2,30 @@ import supabase from '../supabase.config';
 import bcrypt from 'bcryptjs'; // Import bcrypt
 
 export const signUp = async (email, password, username, role) => {
-
   try {
+    // Check if a user already exists with the same email or username
+    const { data: existingUserByEmail, error: emailError } = await supabase
+      .from('admin_users')
+      .select('email')
+      .eq('email', email)
+      .single(); // Get single result, if any
+    if (emailError) throw emailError;
+
+    if (existingUserByEmail) {
+      return { error: 'Email already exists' };
+    }
+
+    const { data: existingUserByUsername, error: usernameError } = await supabase
+      .from('admin_users')
+      .select('username')
+      .eq('username', username)
+      .single(); // Get single result, if any
+    if (usernameError) throw usernameError;
+
+    if (existingUserByUsername) {
+      return { error: 'Username already exists' };
+    }
+
     // Hash the password before saving it
     const hashedPassword = await bcrypt.hash(password, 10); // 10 is the salt rounds
 
@@ -18,6 +40,7 @@ export const signUp = async (email, password, username, role) => {
           role,
         },
       ]);
+    console.log({ data, error });
 
     if (error) {
       console.error('Error saving admin user:', error.message);
@@ -31,23 +54,49 @@ export const signUp = async (email, password, username, role) => {
   }
 }
 
-export const  clientSignUp = async (email, userCode, username, role) => {
 
+export const clientSignUp = async (email, userCode, username, role) => {
   try {
+    // Check if a client already exists with the same email or username
+    const { data: existingClientByEmail, error: emailError } = await supabase
+      .from('client_users')
+      .select('email')
+      .eq('email', email)
+      .single(); // Get single result, if any
+    if (emailError) throw emailError;
+
+    if (existingClientByEmail) {
+      return { error: 'Email already exists' };
+    }
+
+    const { data: existingClientByUsername, error: usernameError } = await supabase
+      .from('client_users')
+      .select('username')
+      .eq('username', username)
+      .single(); // Get single result, if any
+    if (usernameError) throw usernameError;
+
+    if (existingClientByUsername) {
+      return { error: 'Username already exists' };
+    }
+
+    // Insert the client details into the 'client_users' table
     const { data, error } = await supabase
-      .from('admin_users')
+      .from('client_users')
       .insert([
         {
           username,
           email,
-          client_auth_code: userCode, // Store the hashed password
+          client_auth_code: userCode, // Store the user code
           role,
-          active: true
+          active: true,
         },
       ]);
+    console.log({ email, userCode, username, role });
 
+    console.log({ data, error });
     if (error) {
-      console.error('Error saving admin user:', error.message);
+      console.error('Error saving client user:', error.message);
       return { error: error.message };
     } else {
       return { data }; // Return the inserted data
@@ -57,3 +106,4 @@ export const  clientSignUp = async (email, userCode, username, role) => {
     return { error: error.message };
   }
 }
+  

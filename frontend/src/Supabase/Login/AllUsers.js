@@ -11,3 +11,15 @@ export const fetchUsers = async () => {
     }
     return data;
   };
+
+  export const fetchClientsUsers = async () => {
+    const { data, error } = await supabase
+      .from('client_users')
+      .select('*');
+  
+    if (error) {
+      console.error('Error fetching users:', error.message);
+      return [];
+    }
+    return data;
+  };

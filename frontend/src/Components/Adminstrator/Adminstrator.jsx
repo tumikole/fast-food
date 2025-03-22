@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from 'react-router-dom';
 import {
     List,
@@ -20,7 +20,9 @@ import {
     Divider,
     Avatar,
     FormControl,
-    InputLabel
+    InputLabel,
+    ListItem,
+    ListItemAvatar
 } from "@mui/material";
 import { v4 as uuidv4 } from 'uuid';
 import InboxIcon from "@mui/icons-material/Inbox";
@@ -35,8 +37,21 @@ import './Administrator.scss';
 import Settings from "../Settings/Settings";
 // import { getAllUsers } from "../../Supabase/Login/AllUsers";
 import OrdersList from '../OrdersList/OrdersList'
+import { fetchClientsUsers, fetchUsers } from "../../Supabase/Login/AllUsers";
 
-const Administrator = ({ handleAddUserSubmit, setEmail, setPassword, email, password, username, setUsername, setRole, role, user, userCode, setUserCode }) => {
+const Administrator = ({ 
+    handleAddUserSubmit, 
+    setEmail, setPassword, 
+    email, password, 
+    username, 
+    setUsername, 
+    setRole, 
+    role, 
+    user, 
+    userCode, 
+    setUserCode 
+}) => {
+
     const [selectedTab, setSelectedTab] = useState("");
     const [openModal, setOpenModal] = useState(false);
     const [category, setCategory] = useState('');
@@ -44,8 +59,10 @@ const Administrator = ({ handleAddUserSubmit, setEmail, setPassword, email, pass
     const [imageUrl, setImageUrl] = useState('');
     const [ingredients, setIngredients] = useState('');
     const [totalAmount, setTotalAmount] = useState('');
-
-    // const [allUsers, setAllUsers] = useState([])
+    const [users, setUsers] = useState([]);
+    const [selectedUsersTab, setSelectedUsersTab] = useState('Admin users');
+    const [loading, setLoading] = useState(false);
+    const [selectedUserPageTab, setSelectedUserPageTab] = useState("Users");
 
     const navigate = useNavigate();
     const administratorTabs = [
@@ -57,6 +74,10 @@ const Administrator = ({ handleAddUserSubmit, setEmail, setPassword, email, pass
         { tab: "Settings", icon: <SettingsIcon /> },  // Add the Settings icon here
 
     ];
+
+    const userTabs = ["Admin users", "Customers"]
+    const tabs = ["Users", "Add users"]
+
 
     const userDetails = user || {};
 
@@ -83,6 +104,43 @@ const Administrator = ({ handleAddUserSubmit, setEmail, setPassword, email, pass
         const generateCode = uuidv4()
         setUserCode(generateCode)
     }
+
+    const fetchAllAdminUsers = async () => {
+        const userData = await fetchUsers();
+        if (userData) {
+            setUsers(userData);
+        }
+    };
+
+    const fetchAllClientsUsers = async () => {
+        const userData = await fetchClientsUsers();
+        if (userData) {
+            setUsers(userData);
+        }
+    };
+
+
+
+
+    useEffect(() => {
+        const fetchUsers = async () => {
+            setLoading(true);
+            try {
+                if (selectedUsersTab === "Admin users") {
+                    await fetchAllAdminUsers();
+                } else if (selectedUsersTab === "Customers") {
+                    await fetchAllClientsUsers();
+                }
+            } catch (error) {
+                console.error("Error fetching users:", error);
+            } finally {
+                setLoading(false);
+            }
+        };
+        fetchUsers();
+    }, [selectedUsersTab]);
+
+
 
     return (
         <div className="administrator-container">
@@ -135,89 +193,159 @@ const Administrator = ({ handleAddUserSubmit, setEmail, setPassword, email, pass
                 <DialogContent sx={{ p: 0 }}>
                     {selectedTab === "Users" && (
                         <>
-                            <Card className="form-card">
-                                <CardContent>
-                                    <Typography variant="h6" mb={2} className="form-title">Add New User</Typography>
 
-                                    <FormControl fullWidth>
-                                        <InputLabel>Role</InputLabel>
-                                        <Select
-                                            value={role}
-                                            onChange={(e) => setRole(e.target.value)}
-                                            label="Role"
+                            <Box display="flex">
+                                {tabs.map((item, idx) => (
+                                    <Button
+                                        // key={idx}
+                                        // variant={selectedUsersTab === item ? "contained" : "outlined"}
+                                        // color={selectedUsersTab === item ? "primary" : "default"}
+                                        onClick={() => setSelectedUserPageTab(item)}
+                                        sx={{ margin: "0 8px" }}
+                                    >
+                                        {item.charAt(0).toUpperCase() + item.slice(1)}
+                                    </Button>
+                                ))}
+                            </Box>
+
+                            {selectedUserPageTab === "Add users" &&
+
+                                <Card className="form-card">
+                                    <CardContent>
+                                        <Typography variant="h6" mb={2} className="form-title">Add New User</Typography>
+
+                                        <FormControl fullWidth>
+                                            <InputLabel>Role</InputLabel>
+                                            <Select
+                                                value={role}
+                                                onChange={(e) => setRole(e.target.value)}
+                                                label="Role"
+                                                fullWidth
+                                                margin="normal"
+                                            >
+                                                <MenuItem value="Admin">Admin</MenuItem>
+                                                <MenuItem value="User">User</MenuItem>
+                                                <MenuItem value="Customer">Customer</MenuItem>
+                                            </Select>
+                                        </FormControl>
+                                        <TextField
+                                            label="Username"
                                             fullWidth
                                             margin="normal"
+                                            value={username}
+                                            onChange={(e) => setUsername(e.target.value)}
+                                            style={{ display: role ? "block" : "none" }}
+                                        />
+                                        <TextField
+                                            label="Email"
+                                            fullWidth
+                                            margin="normal"
+                                            value={email}
+                                            onChange={(e) => setEmail(e.target.value)}
+                                            style={{ display: username ? "block" : "none" }}
+
+                                        />
+                                        {role !== "Customer" &&
+                                            <>
+                                                <TextField
+                                                    label="Password"
+                                                    fullWidth
+                                                    margin="normal"
+                                                    type="password"
+                                                    value={password}
+                                                    onChange={(e) => setPassword(e.target.value)}
+                                                    style={{ display: email ? "block" : "none" }}
+
+                                                />
+                                            </>
+                                        }
+
+                                        {role === "Customer" &&
+                                            <>
+                                                <Button
+                                                    fullWidth
+                                                    variant="contained"
+                                                    color="primary"
+                                                    onClick={handleGenerateCustomerAccessCode}
+                                                    sx={{ mt: 2 }}
+                                                    style={{ display: email ? "block" : "none" }}
+
+                                                >
+                                                    Generate customer auth
+                                                </Button>
+                                                <TextField
+                                                    label="Access code"
+                                                    fullWidth
+                                                    margin="normal"
+                                                    type="text"
+                                                    value={userCode}
+                                                    disabled
+                                                    style={{ display: userCode ? "block" : "none" }}
+
+                                                />
+                                            </>
+                                        }
+
+                                        <Button
+                                            fullWidth
+                                            variant="contained"
+                                            color="primary"
+                                            onClick={handleAddUserSubmit}
+                                            sx={{ mt: 2 }}
+                                            style={{ display: userCode || password ? "block" : "none" }}
                                         >
-                                            <MenuItem value="Admin">Admin</MenuItem>
-                                            <MenuItem value="User">User</MenuItem>
-                                            <MenuItem value="Customer">Customer</MenuItem>
-                                        </Select>
-                                    </FormControl>
-                                    <TextField
-                                        label="Username"
-                                        fullWidth
-                                        margin="normal"
-                                        value={username}
-                                        onChange={(e) => setUsername(e.target.value)}
-                                    />
-                                    <TextField
-                                        label="Email"
-                                        fullWidth
-                                        margin="normal"
-                                        value={email}
-                                        onChange={(e) => setEmail(e.target.value)}
-                                    />
-                                    {role !== "Customer" &&
-                                        <>
-                                            <TextField
-                                                label="Password"
-                                                fullWidth
-                                                margin="normal"
-                                                type="password"
-                                                value={password}
-                                                onChange={(e) => setPassword(e.target.value)}
-                                            />
-                                        </>
-                                    }
+                                            Add {role}
+                                        </Button>
+                                    </CardContent>
+                                </Card>
+                            }
+                            {
+                                selectedUserPageTab === "Users" &&
 
-                                    {role === "Customer" &&
-                                        <>
+                                <CardContent marginBottom={2} marginLeft={2} marginRight={2}>
+                                    {JSON.stringify(user)}
+                                    <Typography variant="h6">User list</Typography>
+                                    <br />
+                                    <Box display="flex">
+                                        {userTabs.map((item, idx) => (
                                             <Button
-                                                fullWidth
-                                                variant="contained"
-                                                color="primary"
-                                                onClick={handleGenerateCustomerAccessCode}
-                                                sx={{ mt: 2 }}
+                                                key={idx}
+                                                variant={selectedUsersTab === item ? "contained" : "outlined"}
+                                                color={selectedUsersTab === item ? "primary" : "default"}
+                                                onClick={() => setSelectedUsersTab(item)}
+                                                sx={{ margin: "0 8px" }}
                                             >
-                                                Generate customer auth
+                                                {item.charAt(0).toUpperCase() + item.slice(1)}
                                             </Button>
-                                            <TextField
-                                                label="Access code"
-                                                fullWidth
-                                                margin="normal"
-                                                type="text"
-                                                value={userCode}
-                                                disabled
-                                            />
-                                        </>
-                                    }
+                                        ))}
+                                    </Box>
 
-                                    <Button
-                                        fullWidth
-                                        variant="contained"
-                                        color="primary"
-                                        onClick={handleAddUserSubmit}
-                                        sx={{ mt: 2 }}
-                                    >
-                                        Add User
-                                    </Button>
+                                    <br />
+                                    {loading ? (
+                                        <Typography>Loading users...</Typography>
+                                    ) : users.length > 0 ? (
+                                        <List>
+                                            {users.map((item, idx) => (
+                                                <ListItem key={idx} sx={{backgroundColor: item.email === user.email ? "#eee" : "white",  borderBottom: item.email === user.email ? "1px solid #eee" : "1px solid green", padding: "8px 16px" }}>
+                                                    <ListItemAvatar>
+                                                        <Avatar>{item.username.charAt(0)}</Avatar>
+                                                    </ListItemAvatar>
+                                                    <ListItemText
+                                                        primary={item.username}
+                                                        secondary={`Role: ${item.role} ${item.email === user.email ? "| Me" : ""}`}
+                                                        sx={{
+                                                            fontWeight: "bold",
+                                                            marginBottom: "4px"
+                                                        }}
+                                                    />
+                                                </ListItem>
+                                            ))}
+                                        </List>
+                                    ) : (
+                                        <Typography>No users found</Typography>
+                                    )}
                                 </CardContent>
-                            </Card>
-                            {/* <br />
-                            <Typography>User list</Typography>
-                            <br /> */}
-
-
+                            }
                         </>
                     )}
                     {selectedTab === "Menu" && (

@@ -50,6 +50,7 @@ const Main = () => {
     const loginUser = async e => {
         e.preventDefault();
         const userData = await login(email, password);
+        console.log({userData})
         try {
             if (userData) {
                 Swal.fire({
@@ -125,6 +126,7 @@ const Main = () => {
             }
 
             const result = await clientSignUp(email, userCode, username, role);
+            console.log({result})
             if (result.error) {
                 Swal.fire({
                     icon: "error",
