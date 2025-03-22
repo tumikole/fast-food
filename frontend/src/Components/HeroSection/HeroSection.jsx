@@ -12,7 +12,7 @@ const HeroSection = () => {
         Olieven Kota & Grills
       </Typography> */}
       <div>  
-        <img src={Logo} alt="logo" style={{width:"350px", height:"350px", borderRadius: "50%", padding:"-1rem", }}/>
+        <img src={Logo} alt="logo" style={{width:"350px", height:"350px", borderRadius: "50%" }}/>
       </div>
 
       <div className="text">
