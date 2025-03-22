@@ -6,7 +6,7 @@ const Footer = () => {
   return (
     <Box component="footer" sx={{ backgroundColor: "#222", color: "#fff" }}>
       <Box sx={{ maxWidth: "1200px", mx: "auto", px: 3 }}>
-        <Grid container spacing={4}>
+        <Grid container spacing={4} mt={4}>
           {/* About Section */}
           <Grid item xs={12} md={3}>
             <Typography variant="h6" sx={{ borderBottom: "2px solid #e74c3c", pb: 1 }}>

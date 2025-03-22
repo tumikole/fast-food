@@ -3,6 +3,7 @@ import "./Menu.scss";
 import Navbar from "../Navbar/Navbar";
 import { Link } from "react-router-dom";
 import Footer from "../Footer/Footer";
+import { Container } from "@mui/material";
 
 const Menu = ({ addToCart, cart, setCart }) => {
     const [activeCategory] = useState("All");
@@ -646,7 +647,7 @@ const Menu = ({ addToCart, cart, setCart }) => {
         <div>
             <Navbar />
             <div className="section-menu" id="menu">
-                <div className="menu-container">
+                <Container className="menu-container" maxWidth="md" sx={{ mt: 12 }}>
                     <h2 className="menu-header">
                         🔥 Kasi Flavors, Straight from the Streets! 🍗
                     </h2>
@@ -856,7 +857,7 @@ const Menu = ({ addToCart, cart, setCart }) => {
                             );
                         })}
                     </div>
-                </div>
+                </Container>
             </div>
             <Footer />
 

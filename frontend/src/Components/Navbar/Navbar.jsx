@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import './Navbar.scss'
 import { AppBar, Toolbar, Typography, IconButton, Drawer, List, ListItem, ListItemButton, ListItemIcon, ListItemText, Modal, Box, Button, Badge } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
 import HomeIcon from "@mui/icons-material/Home";
@@ -82,7 +83,7 @@ const Navbar = () => {
 
   return (
     <>
-      <AppBar position="static" sx={{ backgroundColor: "#e74c3c" }}>
+      <AppBar className="AppBar" position="static" sx={{ backgroundColor: "#e74c3c" }}>
         <Toolbar>
           <IconButton edge="start" color="inherit" aria-label="menu" onClick={handleDrawerToggle}>
             <MenuIcon />
