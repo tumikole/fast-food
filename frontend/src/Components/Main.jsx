@@ -36,6 +36,10 @@ const Main = () => {
     const [orderData, setOrderData] = useState(null);
     const [loading, setLoading] = useState(false);
     const [orderNumber, setOrderNumber] = useState('');
+    const [message, setMessage] = useState({});
+
+
+
 
 
 
@@ -50,7 +54,7 @@ const Main = () => {
     const loginUser = async e => {
         e.preventDefault();
         const userData = await login(email, password);
-        console.log({userData})
+        console.log({ userData })
         try {
             if (userData) {
                 Swal.fire({
@@ -85,60 +89,60 @@ const Main = () => {
                     text: "Please fill in all fields.",
                     icon: "question"
                 });
+                setMessage({ warning: "Please fill in all fields." })
+                setTimeout(() => {
+                    setMessage("")
+                }, 5000);
                 return;
             }
 
             const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
             if (!emailPattern.test(email)) {
-                Swal.fire({
-                    text: "Please enter a valid email address.",
-                    icon: "question"
-                });
+                setMessage({ warning: "Please enter a valid email address." })
+                setTimeout(() => {
+                    setMessage("")
+                }, 5000);
                 return;
             }
 
             const result = await signUp(email, password, username, role);
+            console.log({ result })
             if (result.error) {
-                Swal.fire({
-                    icon: "error",
-                    title: "Oops...",
-                    text: result.error,
-                });
+                setMessage({ danger: result.message })
+                setTimeout(() => {
+                    setMessage("")
+                }, 5000);
             } else {
-                Swal.fire({
-                    title: "Good job!",
-                    text: "User added successfully!",
-                    icon: "success"
-                });
-                // Optionally reset the form
+                setMessage({ success: result.message })
                 setUsername("");
                 setEmail("");
                 setPassword("");
                 setRole("");
+                setTimeout(() => {
+                    setMessage("")
+                }, 5000);
             }
         } else {
             if (!email || !userCode || !username) {
-                Swal.fire({
-                    text: "Please fill in all fields.",
-                    icon: "question"
-                });
+                setMessage({ warning: "Please fill in all fields." })
+                setTimeout(() => {
+                    setMessage("")
+                }, 5000);
                 return;
             }
 
             const result = await clientSignUp(email, userCode, username, role);
-            console.log({result})
+            console.log({ result })
             if (result.error) {
-                Swal.fire({
-                    icon: "error",
-                    title: "Oops...",
-                    text: result.error,
-                });
+                setMessage({ danger: "Something went wrong, try again..." })
+                setTimeout(() => {
+                    setMessage("")
+                }, 5000);
             } else {
-                Swal.fire({
-                    title: "Good job!",
-                    text: "User added successfully!",
-                    icon: "success"
-                });
+                setMessage({ danger: result.message })
+                setTimeout(() => {
+                    setMessage("")
+                }, 5000);
                 // Optionally reset the form
                 setUsername("");
                 setEmail("");
@@ -221,6 +225,7 @@ const Main = () => {
                             user={user}
                             userCode={userCode}
                             setUserCode={setUserCode}
+                            message={message}
                         />
                     }
                     />

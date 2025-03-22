@@ -3,27 +3,26 @@ import bcrypt from 'bcryptjs'; // Import bcrypt
 
 export const signUp = async (email, password, username, role) => {
   try {
-    // Check if a user already exists with the same email or username
+    // Check if a user already exists with the same email
     const { data: existingUserByEmail, error: emailError } = await supabase
       .from('admin_users')
       .select('email')
-      .eq('email', email)
-      .single(); // Get single result, if any
+      .eq('email', email); // No .single() here
     if (emailError) throw emailError;
 
-    if (existingUserByEmail) {
-      return { error: 'Email already exists' };
+    if (existingUserByEmail.length > 0) {
+      return { error: 'This email is already registered. Please try a different email.', message: "This email is already registered. Please try a different email." };
     }
 
+    // Check if a user already exists with the same username
     const { data: existingUserByUsername, error: usernameError } = await supabase
       .from('admin_users')
       .select('username')
-      .eq('username', username)
-      .single(); // Get single result, if any
+      .eq('username', username); // No .single() here
     if (usernameError) throw usernameError;
 
-    if (existingUserByUsername) {
-      return { error: 'Username already exists' };
+    if (existingUserByUsername.length > 0) {
+      return { error: 'This username is already taken. Please choose a different username.', message: "This username is already taken. Please choose a different username." };
     }
 
     // Hash the password before saving it
@@ -44,40 +43,40 @@ export const signUp = async (email, password, username, role) => {
 
     if (error) {
       console.error('Error saving admin user:', error.message);
-      return { error: error.message };
+      return { error: 'There was an issue while creating your account. Please try again.' };
     } else {
-      return { data }; // Return the inserted data
+      return { data, message: 'Account created successfully!' }; // Success message
     }
   } catch (error) {
     console.error('Error in sign up process:', error.message);
-    return { error: error.message };
+    return { error: 'An unexpected error occurred. Please try again later.' };
   }
-}
+};
+
 
 
 export const clientSignUp = async (email, userCode, username, role) => {
   try {
-    // Check if a client already exists with the same email or username
+    // Check if a client already exists with the same email
     const { data: existingClientByEmail, error: emailError } = await supabase
       .from('client_users')
       .select('email')
-      .eq('email', email)
-      .single(); // Get single result, if any
+      .eq('email', email); // No .single() here
     if (emailError) throw emailError;
 
-    if (existingClientByEmail) {
-      return { error: 'Email already exists' };
+    if (existingClientByEmail.length > 0) {
+      return { error: 'This email is already registered. Please try a different email.', message: "This email is already registered. Please try a different email." };
     }
 
+    // Check if a client already exists with the same username
     const { data: existingClientByUsername, error: usernameError } = await supabase
       .from('client_users')
       .select('username')
-      .eq('username', username)
-      .single(); // Get single result, if any
+      .eq('username', username); // No .single() here
     if (usernameError) throw usernameError;
 
-    if (existingClientByUsername) {
-      return { error: 'Username already exists' };
+    if (existingClientByUsername.length > 0) {
+      return { error: 'This username is already taken. Please choose a different username.', message: "This username is already taken. Please choose a different username." };
     }
 
     // Insert the client details into the 'client_users' table
@@ -87,23 +86,21 @@ export const clientSignUp = async (email, userCode, username, role) => {
         {
           username,
           email,
-          client_auth_code: userCode, // Store the user code
+          client_auth_code: userCode, // Store the provided user code
           role,
           active: true,
         },
       ]);
-    console.log({ email, userCode, username, role });
-
     console.log({ data, error });
+
     if (error) {
       console.error('Error saving client user:', error.message);
-      return { error: error.message };
+      return { error: 'There was an issue while creating your account. Please try again.', message: "There was an issue while creating your account. Please try again." };
     } else {
-      return { data }; // Return the inserted data
+      return { data, message: 'Client account created successfully!' }; // Success message
     }
   } catch (error) {
-    console.error('Error in sign up process:', error.message);
-    return { error: error.message };
+    console.error('Error in client sign up process:', error.message);
+    return { error: 'An unexpected error occurred. Please try again later.' };
   }
-}
-  
+};

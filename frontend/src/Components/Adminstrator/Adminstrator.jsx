@@ -22,7 +22,7 @@ import {
     FormControl,
     InputLabel,
     ListItem,
-    ListItemAvatar
+    ListItemAvatar,
 } from "@mui/material";
 import { v4 as uuidv4 } from 'uuid';
 import InboxIcon from "@mui/icons-material/Inbox";
@@ -39,17 +39,18 @@ import Settings from "../Settings/Settings";
 import OrdersList from '../OrdersList/OrdersList'
 import { fetchClientsUsers, fetchUsers } from "../../Supabase/Login/AllUsers";
 
-const Administrator = ({ 
-    handleAddUserSubmit, 
-    setEmail, setPassword, 
-    email, password, 
-    username, 
-    setUsername, 
-    setRole, 
-    role, 
-    user, 
-    userCode, 
-    setUserCode 
+const Administrator = ({
+    handleAddUserSubmit,
+    setEmail, setPassword,
+    email, password,
+    username,
+    setUsername,
+    setRole,
+    role,
+    user,
+    userCode,
+    setUserCode,
+    message
 }) => {
 
     const [selectedTab, setSelectedTab] = useState("");
@@ -63,6 +64,8 @@ const Administrator = ({
     const [selectedUsersTab, setSelectedUsersTab] = useState('Admin users');
     const [loading, setLoading] = useState(false);
     const [selectedUserPageTab, setSelectedUserPageTab] = useState("Users");
+    const [isDropdownOpen, setIsDropdownOpen] = useState(false); // Initialize dropdown state
+
 
     const navigate = useNavigate();
     const administratorTabs = [
@@ -80,6 +83,11 @@ const Administrator = ({
 
 
     const userDetails = user || {};
+
+
+    const toggleDropdown = () => {
+        setIsDropdownOpen(!isDropdownOpen);
+    };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -193,20 +201,37 @@ const Administrator = ({
                 <DialogContent sx={{ p: 0 }}>
                     {selectedTab === "Users" && (
                         <>
+                            <ul
+                                className="nav nav-pills nav-fill gap-2 p-1 small bg-primary rounded-5 shadow-sm"
+                                id="pillNav2"
+                                role="tablist"
+                                style={{
+                                    '--bs-nav-link-color': 'var(--bs-white)',
+                                    '--bs-nav-pills-link-active-color': 'var(--bs-primary)',
+                                    '--bs-nav-pills-link-active-bg': 'var(--bs-white)',
+                                    marginTop: "2rem",
+                                    marginLeft: "1.1rem",
+                                    marginRight: "1.1rem",
 
-                            <Box display="flex">
+                                }}
+                            >
                                 {tabs.map((item, idx) => (
-                                    <Button
-                                        // key={idx}
-                                        // variant={selectedUsersTab === item ? "contained" : "outlined"}
-                                        // color={selectedUsersTab === item ? "primary" : "default"}
-                                        onClick={() => setSelectedUserPageTab(item)}
-                                        sx={{ margin: "0 8px" }}
-                                    >
-                                        {item.charAt(0).toUpperCase() + item.slice(1)}
-                                    </Button>
+                                    <li className="nav-item" role="presentation">
+                                        <button
+                                            className={`nav-link ${selectedUserPageTab === item ? "active" : ""} rounded-5`}
+                                            id="home-tab2"
+                                            data-bs-toggle="tab"
+                                            type="button"
+                                            role="tab"
+                                            aria-selected="true"
+                                            onClick={() => setSelectedUserPageTab(item)}
+
+                                        >
+                                            {item}
+                                        </button>
+                                    </li>
                                 ))}
-                            </Box>
+                            </ul>
 
                             {selectedUserPageTab === "Add users" &&
 
@@ -297,28 +322,59 @@ const Administrator = ({
                                             Add {role}
                                         </Button>
                                     </CardContent>
+                                    {message.success && (
+                                        <div className="alert alert-success" role="alert">
+                                            {message.success}
+                                        </div>
+                                    )}
+
+                                    {message.danger && (
+                                        <div className="alert alert-danger" role="alert">
+                                            {message.danger}
+                                        </div>
+                                    )}
+
+                                    {message.warning && (
+                                        <div className="alert alert-warning" role="alert">
+                                            {message.warning}
+                                        </div>
+                                    )}
+
                                 </Card>
                             }
                             {
                                 selectedUserPageTab === "Users" &&
 
                                 <CardContent marginBottom={2} marginLeft={2} marginRight={2}>
-                                    {JSON.stringify(user)}
                                     <Typography variant="h6">User list</Typography>
                                     <br />
-                                    <Box display="flex">
+                                    <ul
+                                        className="nav nav-pills nav-fill gap-2 p-1 small bg-primary rounded-5 shadow-sm"
+                                        id="pillNav2"
+                                        role="tablist"
+                                        style={{
+                                            '--bs-nav-link-color': 'var(--bs-white)',
+                                            '--bs-nav-pills-link-active-color': 'var(--bs-primary)',
+                                            '--bs-nav-pills-link-active-bg': 'var(--bs-white)',
+                                        }}
+                                    >
                                         {userTabs.map((item, idx) => (
-                                            <Button
-                                                key={idx}
-                                                variant={selectedUsersTab === item ? "contained" : "outlined"}
-                                                color={selectedUsersTab === item ? "primary" : "default"}
-                                                onClick={() => setSelectedUsersTab(item)}
-                                                sx={{ margin: "0 8px" }}
-                                            >
-                                                {item.charAt(0).toUpperCase() + item.slice(1)}
-                                            </Button>
+                                            <li className="nav-item" role="presentation">
+                                                <button
+                                                    className={`nav-link ${selectedUsersTab === item ? "active" : ""} rounded-5`}
+                                                    id="home-tab2"
+                                                    data-bs-toggle="tab"
+                                                    type="button"
+                                                    role="tab"
+                                                    aria-selected="true"
+                                                    onClick={() => setSelectedUsersTab(item)}
+
+                                                >
+                                                    {item}
+                                                </button>
+                                            </li>
                                         ))}
-                                    </Box>
+                                    </ul>
 
                                     <br />
                                     {loading ? (
@@ -326,20 +382,54 @@ const Administrator = ({
                                     ) : users.length > 0 ? (
                                         <List>
                                             {users.map((item, idx) => (
-                                                <ListItem key={idx} sx={{backgroundColor: item.email === user.email ? "#eee" : "white",  borderBottom: item.email === user.email ? "1px solid #eee" : "1px solid green", padding: "8px 16px" }}>
+                                                <ListItem key={idx} sx={{ backgroundColor: item.email === user.email ? "#eee" : "white", borderBottom: item.email === user.email ? "1px solid #0d6efd" : "1px solid green", padding: "8px 16px" }}>
                                                     <ListItemAvatar>
                                                         <Avatar>{item.username.charAt(0)}</Avatar>
                                                     </ListItemAvatar>
                                                     <ListItemText
                                                         primary={item.username}
-                                                        secondary={`Role: ${item.role} ${item.email === user.email ? "| Me" : ""}`}
+                                                        secondary={`Role: ${item.role}`}
                                                         sx={{
                                                             fontWeight: "bold",
                                                             marginBottom: "4px"
                                                         }}
                                                     />
+                                                    {selectedUsersTab === "Customers" &&
+                                                        <>
+                                                            {/* <box-icon name='edit-alt' ></box-icon> */}
+                                                            {/* <box-icon name='checkbox-checked' color='#008000' ></box-icon>
+                                                            <box-icon name='checkbox' color='#FFA500' ></box-icon> */}
+                                                            {/* <box-icon name='trash' type='solid' color='#ff0000' ></box-icon> */}
+                                                        </>
+                                                    }
+
+
+                                                    {item.email === user.email ? (
+                                                        <box-icon color="#0d6efd" name="user-circle"></box-icon>
+                                                    ) : (
+                                                        <>
+                                                            <div className="dropdown">
+                                                                <box-icon onClick={toggleDropdown} name="dots-vertical-rounded"></box-icon>
+                                                                {isDropdownOpen && (
+                                                                    <ul className="dropdown-menu" style={{ listStyleType: 'none', padding: 0, marginTop: '10px' }}>
+                                                                        <li style={{ padding: '5px 10px' }}>
+                                                                            <box-icon name="edit-alt"></box-icon> Edit
+                                                                        </li>
+                                                                        <li style={{ padding: '5px 10px', color: '#008000' }}>
+                                                                            <box-icon name="checkbox-checked" color="#008000"></box-icon> Active
+                                                                        </li>
+                                                                        <li style={{ padding: '5px 10px', color: '#FFA500' }}>
+                                                                            <box-icon name="checkbox" color="#FFA500"></box-icon> Pending
+                                                                        </li>
+                                                                    </ul>
+                                                                )}
+                                                            </div>
+                                                        </>
+                                                    )}
                                                 </ListItem>
-                                            ))}
+
+                                            ))
+                                            }
                                         </List>
                                     ) : (
                                         <Typography>No users found</Typography>
