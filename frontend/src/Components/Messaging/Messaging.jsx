@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { Box, Typography, Avatar, IconButton, Divider, TextField, Paper } from '@mui/material';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import SendIcon from '@mui/icons-material/Send';
-// import AttachFileIcon from '@mui/icons-material/AttachFile';
+import AttachFileIcon from '@mui/icons-material/AttachFile';
 // import MicIcon from '@mui/icons-material/Mic';
 // import StopIcon from '@mui/icons-material/Stop';
 import { v4 as uuidv4 } from 'uuid';
@@ -17,16 +17,6 @@ const Messaging = ({ userDetails }) => {
   const [users, setUsers] = useState([]);
   const [unreadMessages, setUnreadMessages] = useState({});
   const [selectedImage, setSelectedImage] = useState(null);
-  // const [isRecording, 
-  //   // setIsRecording
-  // ] = useState(false);
-  const [audioBlob, setAudioBlob] = useState(null);
-  const [
-    // audioUrl, 
-    setAudioUrl] = useState(null);
-  // const mediaRecorder = useRef(null);
-  // const audioChunks = useRef([]);
-
   // Ref for auto-scrolling
   const messagesEndRef = useRef(null);
 
@@ -71,40 +61,13 @@ const Messaging = ({ userDetails }) => {
     loadMessages();
   }, [selectedUser, userDetails]);
 
-  // const startRecording = async () => {
-  //   try {
-  //     const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
-  //     mediaRecorder.current = new MediaRecorder(stream);
-  //     mediaRecorder.current.ondataavailable = (event) => {
-  //       audioChunks.current.push(event.data);
-  //     };
-
-  //     mediaRecorder.current.onstop = () => {
-  //       const blob = new Blob(audioChunks.current, { type: 'audio/wav' });
-  //       setAudioBlob(blob);
-  //       setAudioUrl(URL.createObjectURL(blob));
-  //       audioChunks.current = [];
-  //     };
-
-  //     mediaRecorder.current.start();
-  //     setIsRecording(true);
-  //   } catch (error) {
-  //     console.error('Error accessing the microphone: ', error);
-  //   }
-  // };
-
-  // const stopRecording = () => {
-  //   mediaRecorder.current.stop();
-  //   setIsRecording(false);
-  // };
 
   const handleSendMessage = async () => {
-    if (message.trim() || selectedImage || audioBlob) {
+    if (message.trim() || selectedImage) {
       const senderUsername = userDetails.username;
       const receiverUsername = selectedUser.username;
 
       let imageUrl = null;
-      let audioUrl = null;
 
       if (selectedImage) {
         const imagePath = `chat_images/${uuidv4()}-${selectedImage.name}`;
@@ -120,26 +83,10 @@ const Messaging = ({ userDetails }) => {
         imageUrl = data?.path;
       }
 
-      if (audioBlob) {
-        const audioPath = `chat_audio/${uuidv4()}.wav`;
-        const { data, error } = await supabase.storage
-          .from('chat-uploads')
-          .upload(audioPath, audioBlob);
-
-        if (error) {
-          console.error('Audio upload failed:', error);
-          return;
-        }
-
-        audioUrl = data?.path;
-      }
-
-      await sendMessage(message, senderUsername, receiverUsername, imageUrl, audioUrl);
+      await sendMessage(message, senderUsername, receiverUsername, imageUrl);
 
       setMessage('');
       setSelectedImage(null);
-      setAudioBlob(null);
-      setAudioUrl(null);
     }
   };
 
@@ -170,7 +117,7 @@ const Messaging = ({ userDetails }) => {
   }, [messages]);
 
   return (
-<Box  >
+    <Box  >
       {!selectedUser ? (
         <Box sx={{ flex: 1, overflowY: 'auto' }}>
           <Box
@@ -239,7 +186,7 @@ const Messaging = ({ userDetails }) => {
               top: 0,
               zIndex: 1,
             }}
-            
+
           >
             <IconButton onClick={handleBackClick} sx={{ color: '#fff' }}>
               <ArrowBackIcon />
@@ -249,7 +196,9 @@ const Messaging = ({ userDetails }) => {
             </Typography>
           </Box>
           <Divider />
+          <div></div>
           <Box sx={{ flex: 1, overflowY: 'auto', padding: 2 }}>
+            
             {messages.map((msg, index) => (
               <Box
                 key={index}
@@ -274,7 +223,17 @@ const Messaging = ({ userDetails }) => {
             <div ref={messagesEndRef} /> {/* This is the reference to the last message */}
           </Box>
           <Divider />
-          <Box sx={{ display: 'flex', gap:1, padding: 2, alignItems: 'center', backgroundColor: '#fff', position: 'sticky', bottom: 0, zIndex: 2 }}>
+          <Box sx={{ display: 'flex', gap: 1, padding: 2, alignItems: 'center', backgroundColor: '#fff', position: 'sticky', bottom: 0, zIndex: 2 }}>
+          <input
+              type="file"
+              accept="image/*"
+              style={{ display: 'none' }}
+              id="image-upload"
+            // onChange={handleImageChange}
+            />
+            <label htmlFor="image-upload">
+                <AttachFileIcon />
+            </label>
             <TextField
               fullWidth
               variant="outlined"
@@ -283,26 +242,9 @@ const Messaging = ({ userDetails }) => {
               value={message}
               onChange={(e) => setMessage(e.target.value)}
             />
-            <IconButton sx={{ backgroundColor: '#007BFF', color: 'black' }} onClick={handleSendMessage}>
+            <IconButton onClick={handleSendMessage}>
               <SendIcon />
             </IconButton>
-            {/* <input
-              type="file"
-              accept="image/*"
-              style={{ display: 'none' }}
-              id="image-upload"
-              // onChange={handleImageChange}
-            /> */}
-            {/* <label htmlFor="image-upload">
-              <IconButton sx={{ backgroundColor: '#007BFF', color: 'black' }}>
-                <AttachFileIcon />
-              </IconButton>
-            </label>
-            <IconButton sx={{ backgroundColor: '#007BFF', color: 'black' }} 
-            // onClick={isRecording ? stopRecording : startRecording}
-            >
-              {isRecording ? <StopIcon /> : <MicIcon />}
-            </IconButton> */}
           </Box>
         </Box>
       )}

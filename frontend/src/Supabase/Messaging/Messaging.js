@@ -24,11 +24,11 @@ export const fetchMessages = async (currentUser, selectedUser) => {
 
 
 
-export const sendMessage = async (newMessage, senderUsername, receiverUsername) => {
+export const sendMessage = async (newMessage, senderUsername, receiverUsername, imageUrl = null) => {
   if (newMessage.trim() === '') return;
-
+console.log({newMessage, senderUsername, receiverUsername, imageUrl})
   try {
-    const { error } = await supabase
+    const { data, error } = await supabase
       .from('messages')
       .insert([
         {
@@ -38,6 +38,8 @@ export const sendMessage = async (newMessage, senderUsername, receiverUsername) 
           created_at: new Date().toISOString(),
         },
       ]);
+
+      console.log({data, error})
 
     if (error) {
       throw new Error('Error sending message: ' + error.message);

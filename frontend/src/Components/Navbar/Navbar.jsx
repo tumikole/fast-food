@@ -12,6 +12,7 @@ import QuestionAnswerIcon from "@mui/icons-material/QuestionAnswer";
 import { Link } from "react-router-dom";
 import supabase from "../../Supabase/supabase.config";
 import { getNotifications } from "../../Supabase/Notifications/Notifications";
+import Logo from '../../Asserts/Logo.jpeg'
 
 // Import custom icons for each time category
 import AnnouncementIcon from "@mui/icons-material/Announcement";
@@ -88,8 +89,11 @@ const Navbar = () => {
           </IconButton>
 
           <Typography variant="h6" sx={{ flexGrow: 1 }}>
-            <Link to="/" style={{ textDecoration: "none", color: "inherit" }}>
-              Olieven Kota & Grills
+            <Link to="/" style={{ textDecoration: "none", color: "inherit", display: "flex", alignItems:"center", gap:"1rem" }}>
+            <Typography>|</Typography>
+
+              <img  src={Logo} alt="Logo" style={{ width: 40, height: 40, borderRadius: "50%" }}/>
+              <Typography>Olieven Kota & Grills</Typography>
             </Link>
           </Typography>
 
@@ -157,7 +161,7 @@ const Navbar = () => {
               Information
             </Typography>
             <Typography variant="body1" color="textSecondary" align="center" sx={{ marginBottom: 3 }}>
-              {notifications.length} {notifications.length > 1 ? "messages" : "message"}  
+              {notifications.length} {notifications.length > 1 ? "messages" : "message"}
             </Typography>
 
             <Box sx={{ maxHeight: "60vh", overflowY: "auto", marginBottom: 3 }}>
