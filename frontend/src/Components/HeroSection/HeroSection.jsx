@@ -17,7 +17,9 @@ const HeroSection = () => {
 
       <div className="text">
         <Typography variant="h4" className="primary">
-          Olieven’s Best Kotas & It's an <span>Flame-Grilled Goodness!</span>
+          Olieven’s Best Kotas
+          <br />
+          <span>Flame-Grilled Goodness!</span>
         </Typography>
         <Typography variant="h6" className="tertiary">
           Satisfy Your Kasi Cravings!

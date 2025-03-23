@@ -38,6 +38,42 @@ export async function login(email, password) {
 
     return { data };
   } catch (error) {
+
+    console.error('Error during login:', error.message);
+    return { error: error.message };
+  }
+}
+
+export async function clientLogin(userCode) {
+  const userToken = uuidv4();
+  try {
+    // Query the admin_users table to check if the user exists
+    const { data, error } = await supabase
+      .from('client_users')
+      .select('id, username, email, client_auth_code, active, role')
+      .eq('client_auth_code', userCode)
+      .single();  // Fetches a single user
+
+    if (error) {
+      console.error('Error fetching user:', error.message);
+      return { error: 'User not found' };
+    }
+    console.log({ data })
+    // Store the user details in localStorage
+    localStorage.setItem('user', JSON.stringify({
+      id: data.id,
+      username: data.username,
+      email: data.email,
+      authorized: data.active,
+      role: data.role,
+    }));
+
+    localStorage.setItem('auth-token', JSON.stringify({
+      userToken
+    }));
+
+    return { data };
+  } catch (error) {
     console.error('Error during login:', error.message);
     return { error: error.message };
   }

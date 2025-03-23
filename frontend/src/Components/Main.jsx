@@ -14,14 +14,13 @@ import ForgotPassword from './ForgotPassword/ForgotPassword'; // Fixed typo
 import GuestLogin from './GuestLogin/GuestLogin';
 import Adminstrator from './Adminstrator/Adminstrator';
 import OrderTracking from './Tracking/OrderTracking';
-import { login } from '../Supabase/Login/Login'
+import { clientLogin, login } from '../Supabase/Login/Login'
 import { signUp, clientSignUp } from '../Supabase/Login/SignUp'
 import PrivateRoutes from '../PrivateRoutes/PrivateRoutes';
 import Settings from './Settings/Settings';
 
 const Main = () => {
     const [cart, setCart] = useState([]);
-    // const [totalPrice, setTotalPrice] = useState(0);
     const [loginTab, setLoginTab] = useState("Login");
     const [username, setUsername] = useState("");
     const [email, setEmail] = useState("");
@@ -39,11 +38,6 @@ const Main = () => {
     const [message, setMessage] = useState({});
 
 
-
-
-
-
-
     const loginTabs = ["Login", "Forgot password", "Customer Login"];
     const userToken = JSON.parse(localStorage.getItem('auth-token'));
     const user = JSON.parse(localStorage.getItem('user'));
@@ -53,33 +47,63 @@ const Main = () => {
 
     const loginUser = async e => {
         e.preventDefault();
-        const userData = await login(email, password);
-        console.log({ userData })
-        try {
-            if (userData) {
-                Swal.fire({
-                    title: `Hi, ${userData.data.username && userData.data.username}, Welcome to Olieven Kota and Grills`,
-                    icon: "success",
-                    draggable: true
-                });
-                navigate('/administrator');
-                setEmail("")
-                setPassword("")
-            } else {
+        if (loginTab === "Login") {
+            const userData = await login(email, password);
+            console.log({ userData })
+            try {
+                if (userData) {
+                    Swal.fire({
+                        title: `Hi, ${userData.data.username && userData.data.username}, Welcome to Olieven Kota and Grills`,
+                        icon: "success",
+                        draggable: true
+                    });
+                    navigate('/administrator');
+                    setEmail("")
+                    setPassword("")
+                } else {
+                    Swal.fire({
+                        icon: "error",
+                        title: "Oops...",
+                        text: "Something went wrong!",
+                    });
+                }
+
+            } catch (error) {
                 Swal.fire({
                     icon: "error",
                     title: "Oops...",
                     text: "Something went wrong!",
                 });
             }
+        } else if (loginTab === "Customer Login") {
+            const userData = await clientLogin(userCode);
+            try {
+                if (userData) {
+                    Swal.fire({
+                        title: `Hi, ${userData.data.username && userData.data.username}, Welcome to Olieven Kota and Grills client portal`,
+                        icon: "success",
+                        draggable: true
+                    });
+                    navigate('/administrator');
+                    setEmail("")
+                    setPassword("")
+                } else {
+                    Swal.fire({
+                        icon: "error",
+                        title: "Oops...",
+                        text: "Something went wrong!",
+                    });
+                }
 
-        } catch (error) {
-            Swal.fire({
-                icon: "error",
-                title: "Oops...",
-                text: "Something went wrong!",
-            });
+            } catch (error) {
+                Swal.fire({
+                    icon: "error",
+                    title: "Oops...",
+                    text: "Something went wrong!",
+                });
+            }
         }
+
     };
 
     const handleAddUserSubmit = async () => {
@@ -203,7 +227,20 @@ const Main = () => {
                         orderNumber={orderNumber}
                     />
                 } />
-                <Route path="/login" element={<Login loginTabs={loginTabs} setLoginTab={setLoginTab} loginTab={loginTab} loginUser={loginUser} setEmail={setEmail} setPassword={setPassword} email={email} password={password} />} />
+                <Route path="/login" element={
+                    <Login
+                        loginTabs={loginTabs}
+                        setLoginTab={setLoginTab}
+                        loginTab={loginTab}
+                        loginUser={loginUser}
+                        setEmail={setEmail}
+                        setPassword={setPassword}
+                        email={email}
+                        password={password}
+                        userCode={userCode}
+                        setUserCode={setUserCode}
+                    />}
+                />
                 <Route path="/forgot_password" element={<ForgotPassword loginTabs={loginTabs} setLoginTab={setLoginTab} loginTab={loginTab} />} /> {/* Fixed typo */}
                 <Route path="/Guest" element={<GuestLogin loginTabs={loginTabs} setLoginTab={setLoginTab} loginTab={loginTab} />} />
                 <Route path="/order_tracking" element={<OrderTracking orderNumber={orderNumber} setOrderNumber={setOrderNumber} />} />

@@ -38,7 +38,7 @@ const Menu = ({ addToCart, cart, setCart }) => {
                 {
                     imageId: 2,
                     itemName: "BEE",
-                    imageItem: "https://tb-static.uber.com/prod/image-proc/processed_images/a175223c84ce9e9464b879d9ecc28014/7f4ae9ca0446cbc23e71d8d395a98428.jpeg  ",
+                    imageItem: "https://tb-static.uber.com/prod/image-proc/processed_images/a175223c84ce9e9464b879d9ecc28014/7f4ae9ca0446cbc23e71d8d395a98428.jpeg",
                     ingredients: [
                         { name: "QUARTER OF BREAD", itemPrice: 5.00 },
                         { name: "CHIPS", itemPrice: 5.00 },

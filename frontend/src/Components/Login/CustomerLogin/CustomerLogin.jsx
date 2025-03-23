@@ -1,64 +1,36 @@
-import React, { useState } from 'react';
+import React from 'react';
 import {
     Box,
     TextField,
     Button,
     Typography,
-    Alert,
     Grid
 } from '@mui/material';
 import '../Login.scss'
-// import supabase from '../../../Supabase/supabase.config';
 import Background from '../../../Asserts/download (4).jpeg';
 import Navbar from '../../Navbar/Navbar';
 
-const CustomerLogin = ({ loginTabs, setLoginTab, loginTab }) => {
-    const [email, setEmail] = useState('');
-    const [loading, setLoading] = useState(false);
-    const [error, setError] = useState('');
+const CustomerLogin = ({ loginTabs, setLoginTab, loginTab, userCode, setUserCode, loginUser }) => {
 
-
-    const handleLogin = async (e) => {
-        e.preventDefault();
-        setLoading(true);
-        setError('');
-
-        // try {
-        //     const { data, error } = await supabase.auth.signInWithPassword({
-        //         email,
-        //         // Add password field if needed
-        //     });
-
-        //     if (error) throw error;
-
-        // } catch (error) {
-        //     setError(error.message);
-        // } finally {
-        //     setLoading(false);
-        // }
-    };
 
     return (
         <Box className="Login">
             <Navbar />
             <Box sx={{ position: "relative", height: "100vh" }}>
                 <img src={Background} alt="background Kota" style={{ width: "100%", height: "100%", objectFit: "cover", position: "absolute", top: 0, left: 0 }} />
-                {/* <Box sx={{ position: "absolute", top: "50%", left: "50%", transform: "translate(-50%, -50%)", textAlign: "center", color: "white" }}>
-                    <Typography variant="h2" sx={{ fontWeight: "bold" }}>Sign In</Typography>
-                </Box> */}
             </Box>
 
             <Box sx={{ padding: 4 }}>
                 <Box className="login-form" sx={{ background: 'rgba(255, 255, 255, 0.8)', padding: 3, borderRadius: 2 }}>
-                    <form onSubmit={handleLogin}>
+                    <form onSubmit={loginUser}>
                         <Grid container spacing={2}>
                             <Grid item xs={12}>
                                 <TextField
-                                    label="Email"
+                                    label="Enter client code..."
                                     fullWidth
                                     variant="outlined"
-                                    onChange={(e) => setEmail(e.target.value)}
-                                    value={email}
+                                    onChange={(e) => setUserCode(e.target.value)}
+                                    value={userCode}
                                 />
                             </Grid>
 
@@ -82,13 +54,13 @@ const CustomerLogin = ({ loginTabs, setLoginTab, loginTab }) => {
                                 </Box>
                             </Grid>
 
-                            {error && (
+                            {/* {error && (
                                 <Grid item xs={12}>
                                     <Alert severity="error">
                                         {error}
                                     </Alert>
                                 </Grid>
-                            )}
+                            )} */}
 
                             <Grid item xs={12}>
                                 <Button
@@ -96,9 +68,10 @@ const CustomerLogin = ({ loginTabs, setLoginTab, loginTab }) => {
                                     color="primary"
                                     fullWidth
                                     type="submit"
-                                    disabled={loading}
+                                    // disabled={loading}
                                 >
-                                    {loading ? 'Authorizing...' : 'Authorize'}
+                                    Authorize
+                                    {/* {loading ? 'Authorizing...' : 'Authorize'} */}
                                 </Button>
                             </Grid>
                         </Grid>

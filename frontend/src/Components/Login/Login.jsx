@@ -5,7 +5,7 @@ import Navbar from '../Navbar/Navbar';
 import ForgotPassword from '../ForgotPassword/ForgotPassword';
 import CustomerLogin from './CustomerLogin/CustomerLogin';
 
-const Login = ({ loginTabs, setLoginTab, loginTab, loginUser, setEmail, setPassword, email, password }) => {
+const Login = ({ loginTabs, setLoginTab, loginTab, loginUser, setEmail, setPassword, email, password, userCode, setUserCode }) => {
 
     if (loginTab === "Login") {
         return (
@@ -81,7 +81,7 @@ const Login = ({ loginTabs, setLoginTab, loginTab, loginUser, setEmail, setPassw
     } else if (loginTab === "Forgot password") {
         return <ForgotPassword />;
     } else if (loginTab === "Customer Login") {
-        return <CustomerLogin loginTabs={loginTabs} setLoginTab={setLoginTab} loginTab={loginTab} />;
+        return <CustomerLogin loginTabs={loginTabs} setLoginTab={setLoginTab} loginTab={loginTab} userCode={userCode} setUserCode={setUserCode} loginUser={loginUser} />;
     }
 
     return null; // In case no login tab is selected
