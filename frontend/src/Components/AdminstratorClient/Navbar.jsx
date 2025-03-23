@@ -1,7 +1,7 @@
 import React from 'react';
 import {Grid, Box } from '@mui/material';
 
-const Navbar = ({ clientAdministratorTabs }) => {
+const Navbar = ({ clientAdministratorTabs, handleSignOutClick }) => {
   return (
     <Grid item xs={12} style={{position:"absolute", bottom:"1rem", left:"0", right:"0"}}>
     <Box display="flex" justifyContent="space-around" mt={2}>
@@ -11,6 +11,11 @@ const Navbar = ({ clientAdministratorTabs }) => {
                 {/* <Typography variant="body2" color="textSecondary">{tab.tab}</Typography> */}
             </Box>
         ))}
+        <Box onClick={handleSignOutClick}>
+        <Box color="white">
+          <box-icon color="white" name='upload' >
+            </box-icon></Box>
+        </Box>
     </Box>
 </Grid>
   );

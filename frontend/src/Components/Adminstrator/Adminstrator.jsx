@@ -520,7 +520,7 @@ const Administrator = ({
     } else if (userDetails && userDetails.role === "Customer") {
         return (
             <div className="administrator-container">
-                <AdminstratorClient userDetails={userDetails}/>
+                <AdminstratorClient userDetails={userDetails} handleSignOutClick={handleSignOutClick}/>
             </div>
         )
     }

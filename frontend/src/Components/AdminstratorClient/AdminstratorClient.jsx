@@ -13,7 +13,7 @@ import NotificationsIcon from '@mui/icons-material/Notifications';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import SettingsIcon from '@mui/icons-material/Settings';
 
-const AdminstratorClient = ({ userDetails }) => {
+const AdminstratorClient = ({ userDetails, handleSignOutClick }) => {
 
     const clientAdministratorTabs = [
         { tab: "Home", icon: <HomeIcon /> },
@@ -53,7 +53,7 @@ const AdminstratorClient = ({ userDetails }) => {
 
 
             {/* Render tabs with icons */}
-            <Navbar clientAdministratorTabs={clientAdministratorTabs}/>
+            <Navbar clientAdministratorTabs={clientAdministratorTabs} handleSignOutClick={handleSignOutClick}/>
         </Grid>
     );
 };
