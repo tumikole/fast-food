@@ -104,8 +104,6 @@ const Administrator = ({
     };
 
     const handleSignOutClick = () => {
-        localStorage.removeItem("user");
-        localStorage.removeItem("token");
         localStorage.clear();
         navigate('/');
     };
