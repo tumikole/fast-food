@@ -37,7 +37,6 @@ const OrderTracking = ({ orderNumber, setOrderNumber }) => {
     setLoading(true);
     setError('');
     const userOrder = await getOrderByNumber(orderNumber = inputTracking);
-    console.log({ userOrder })
     if (userOrder.success && userOrder.data && userOrder.data.order_status !== "Canceled") {
       setOrder(userOrder.data); // Fix: Set the order to the data itself
       setOrderNumber(userOrder.data.order_number)
@@ -72,7 +71,6 @@ const OrderTracking = ({ orderNumber, setOrderNumber }) => {
 
   const handleCancelOrder = async () => {
     setOrder(null);
-    console.log({ orderNumber })
     await updateOrderStatus(orderNumber, "Canceled")
   };
 

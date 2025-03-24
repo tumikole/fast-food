@@ -39,7 +39,6 @@ export const signUp = async (email, password, username, role) => {
           role,
         },
       ]);
-    console.log({ data, error });
 
     if (error) {
       console.error('Error saving admin user:', error.message);
@@ -91,7 +90,6 @@ export const clientSignUp = async (email, userCode, username, role) => {
           active: true,
         },
       ]);
-    console.log({ data, error });
 
     if (error) {
       console.error('Error saving client user:', error.message);

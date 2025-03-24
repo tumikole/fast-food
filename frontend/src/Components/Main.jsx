@@ -49,7 +49,6 @@ const Main = () => {
         e.preventDefault();
         if (loginTab === "Login") {
             const userData = await login(email, password);
-            console.log({ userData })
             try {
                 if (userData) {
                     Swal.fire({
@@ -130,7 +129,6 @@ const Main = () => {
             }
 
             const result = await signUp(email, password, username, role);
-            console.log({ result })
             if (result.error) {
                 setMessage({ danger: result.message })
                 setTimeout(() => {
@@ -156,7 +154,6 @@ const Main = () => {
             }
 
             const result = await clientSignUp(email, userCode, username, role);
-            console.log({ result })
             if (result.error) {
                 setMessage({ danger: "Something went wrong, try again..." })
                 setTimeout(() => {
@@ -263,6 +260,7 @@ const Main = () => {
                             userCode={userCode}
                             setUserCode={setUserCode}
                             message={message}
+                            setMessage={setMessage}
                         />
                     }
                     />

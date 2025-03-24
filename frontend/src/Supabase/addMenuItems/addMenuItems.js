@@ -10,9 +10,7 @@ const convertToBase64 = (file) => {
 };
 
 export const addMenuItems = async (category, itemName, imageUrl, ingredients, totalAmount) => {
-  console.log({category, itemName, imageUrl, ingredients, totalAmount})
   const base64Image = await convertToBase64(imageUrl);
-console.log({base64Image})
   try {
     const { data, error } = await supabase
       .from('menu_items')
@@ -24,15 +22,11 @@ console.log({base64Image})
         totalAmount,
       }]);
 
-      console.log({data, error})
-
     if (error) {
       console.error(`Error adding ${itemName}:`, error.message);
       alert(`Failed to add ${itemName}: ${error.message}`);
     } else {
-      console.log(`Successfully added ${itemName}`);
-      alert(`Successfully added ${itemName}`);
-      return data;
+      return { data, message: `Successfully added ${itemName}`, status: 'Ok' };
     }
   } catch (err) {
     console.error('Error adding menu items:', err);
@@ -51,7 +45,6 @@ export const getAllMenuItems = async () => {
       alert(`Failed to fetch menu items: ${error.message}`);
       return [];
     } else {
-      console.log('Successfully fetched menu items:', data);
       return data;
     }
   } catch (err) {
@@ -62,4 +55,40 @@ export const getAllMenuItems = async () => {
 };
 
 
+export const deleteMenuItem = async (id) => {
+  try {
+    const { data, error } = await supabase
+      .from('menu_items')
+      .delete()
+      .eq('id', id);
 
+    if (error) {
+      console.error(`Error deleting menu item with ID ${id}:`, error.message);
+      alert(`Failed to delete menu item: ${error.message}`);
+    } else {
+      return { data, message: `Successfully deleted`, status: 'Ok' };
+    }
+  } catch (err) {
+    console.error('Error deleting menu item:', err);
+    alert('An unexpected error occurred while deleting menu item.');
+  }
+};
+
+export const editMenuItem = async (id, updatedData) => {
+  try {
+    const { data, error } = await supabase
+      .from('menu_items')
+      .update(updatedData)
+      .eq('id', id);
+
+    if (error) {
+      console.error(`Error updating menu item with ID ${id}:`, error.message);
+      alert(`Failed to update menu item: ${error.message}`);
+    } else {
+      return { data, message: `Successfully updated`, status: 'Ok' };
+    }
+  } catch (err) {
+    console.error('Error updating menu item:', err);
+    alert('An unexpected error occurred while updating menu item.');
+  }
+};

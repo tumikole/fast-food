@@ -29,7 +29,6 @@ export const addOrder = async (order, orderNumber, paymentMethod, name, phoneNum
 };
 
 export const getOrderByNumber = async (orderNumber) => {
-    console.log({ getOrderByNumber: orderNumber });
     const { data, error } = await supabase
         .from('orders') // Your table name
         .select('*') // Select all columns
@@ -83,7 +82,6 @@ export const updateOrderStatus = async (orderNumber, status) => {
 };
 
 export const updateOrderChef = async (orderId, username, updatedStatus) => {
-    console.log({orderId, username, updatedStatus})
     try {
         // Step 1: Update the order's chef to the provided username
         const { error: updateError } = await supabase

@@ -58,7 +58,6 @@ export async function clientLogin(userCode) {
       console.error('Error fetching user:', error.message);
       return { error: 'User not found' };
     }
-    console.log({ data })
     // Store the user details in localStorage
     localStorage.setItem('user', JSON.stringify({
       id: data.id,

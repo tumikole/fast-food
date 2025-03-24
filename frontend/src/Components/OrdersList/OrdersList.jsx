@@ -12,7 +12,6 @@ const FoodOrdersList = ({ user }) => {
   // Function to fetch orders from Supabase
   const fetchAllUserOrders = async () => {
     const orders = await getAllOrders();
-    console.log({ orders });
     if (orders.success) {
       setAllOrders(orders.data);
     } else {

@@ -40,7 +40,9 @@ import Settings from "../Settings/Settings";
 import OrdersList from '../OrdersList/OrdersList'
 import { fetchClientsUsers, fetchUsers } from "../../Supabase/Login/AllUsers";
 import AdminstratorClient from "../AdminstratorClient/AdminstratorClient";
-import { addMenuItems, getAllMenuItems } from "../../Supabase/addMenuItems/addMenuItems";
+import { addMenuItems, getAllMenuItems} from "../../Supabase/addMenuItems/addMenuItems";
+import EditDeleteModal from "./EditDeleteModal/EditDeleteModal";
+import Spinner from "../Spinner/Spinner";
 
 const Administrator = ({
     handleAddUserSubmit,
@@ -53,7 +55,8 @@ const Administrator = ({
     user,
     userCode,
     setUserCode,
-    message
+    message,
+    setMessage
 }) => {
 
     const [selectedTab, setSelectedTab] = useState("");
@@ -63,34 +66,69 @@ const Administrator = ({
     const [itemName, setItemName] = useState('');
     const [imageUrl, setImageUrl] = useState('');
     const [ingredient, setIngredient] = useState('');
-    const [totalAmount, setTotalAmount] = useState('00.00');
+    const [totalAmount, setTotalAmount] = useState('0.00');
     const [users, setUsers] = useState([]);
     const [selectedUsersTab, setSelectedUsersTab] = useState('Admin users');
     const [selectedMenuTab, setSelectedMenuTab] = useState('Menu list');
-
     const [loading, setLoading] = useState(false);
     const [selectedUserPageTab, setSelectedUserPageTab] = useState("Users");
     const [isDropdownOpen, setIsDropdownOpen] = useState(false); // Initialize dropdown state
     const [allMenuItems, setAllMenuItems] = useState([]);
+    const [openEditDeleteModal, setOpenEditDeleteModal] = useState(false);
+    const [selectedItem, setSelectedItem] = useState(null);
+    const [categoryList, setCategoriesList] = useState([]);
+
+
+
 
 
     const fetchAllMenuItems = async () => {
         const userData = await getAllMenuItems();
+
         if (userData) {
             setAllMenuItems(userData);
+            const list = [...new Set(userData.map(item => item.category))];
+            setCategoriesList(list);
         }
+
     };
 
     const filterByCategory = async (item) => {
-        if (item === "All") {
-            await fetchAllMenuItems();
-        } else {
-            const dataItems = allMenuItems.filter(items => items.category === item);
-            setAllMenuItems(dataItems);
-            console.log({ dataItems });
+
+        // Ensure that allMenuItems is not undefined or null before proceeding
+        if (!Array.isArray(allMenuItems)) {
+            console.error("allMenuItems is not an array or not initialized correctly.");
+            return;
         }
+
+        // Fetch all menu items once and filter them based on the category
+        setLoading(true);
+        await fetchAllMenuItems();
+
+        // Filter items based on category selection
+        let dataItems;
+        if (item === "All") {
+            dataItems = allMenuItems; // Use allMenuItems directly for "All" category
+        } else if (item === "Kota" || item === "Kota") {
+            dataItems = allMenuItems.filter(items => items.category === "Kota");
+        } else if (item === "Chips" || item === "Chips") {
+            dataItems = allMenuItems.filter(items => items.category === "Chips");
+        } else if (item === "Extras" || item === "Extras") {
+            dataItems = allMenuItems.filter(items => items.category === "Extras");
+        } else if (item === "Beverages" || item === "Beverages") {
+            dataItems = allMenuItems.filter(items => items.category === "Beverages");
+        } else {
+            // If an invalid category is selected, return early
+            console.error(`Category '${item}' is invalid.`);
+            return;
+        }
+
+        // Update state with filtered items
+        setAllMenuItems(dataItems);
+        setLoading(false);
     };
-    
+
+
 
     const handleAddIngredient = () => {
         if (category === "Kota") {
@@ -103,25 +141,31 @@ const Administrator = ({
             if (ingredient.trim() !== "") {
                 setIngredients((prev) => [...prev, { ingredient, totalAmount }]);
                 setIngredient(""); // Clear the input field after adding]
-                setTotalAmount("")
+                setTotalAmount("0.00")
             }
         }
     };
 
     const addMenu = async (e) => {
         e.preventDefault()
-        if (itemName && imageUrl && ingredients && totalAmount) {
+        if (itemName && imageUrl && ingredients) {
 
             try {
                 const result = await addMenuItems(category, itemName, imageUrl, ingredients, totalAmount);
-                if (result) {
-                    alert('Menu item added successfully!');
+                if (result.status === "Ok") {
+                    setAllMenuItems("Menu list")
                     setCategory('');
                     setItemName('');
                     setImageUrl('');
-                    setIngredients('');
-                    setTotalAmount('');
-                    fetchAllMenuItems()
+                    setIngredients([]);
+                    setTotalAmount('00.00');
+                    setMessage({ success: 'Menu item added successfully!' })
+                    setTimeout(async () => {
+                        setMessage("")
+                        await fetchAllMenuItems()
+                        setSelectedMenuTab("Menu list")
+                    }, 3000);
+
                 }
             } catch (err) {
                 console.error('Error adding menu item:', err);
@@ -130,6 +174,16 @@ const Administrator = ({
         } else {
             alert('Please fill in all the fields.');
         }
+    };
+
+    const handleEditDeleteOpenModalClose = () => {
+        setOpenEditDeleteModal(false);
+        setSelectedItem(null);
+    };
+
+    const handleViewItem = (item) => {
+        setSelectedItem(item);
+        setOpenEditDeleteModal(true);
     };
 
 
@@ -442,7 +496,8 @@ const Administrator = ({
 
                                         <br />
                                         {loading ? (
-                                            <Typography>Loading users...</Typography>
+                                            <Spinner />
+
                                         ) : users.length > 0 ? (
                                             <List>
                                                 {users.map((item, idx) => (
@@ -681,7 +736,7 @@ const Administrator = ({
                                                                 color="primary"
                                                                 type="submit"
                                                                 sx={{ mt: 2 }}
-                                                                disabled={!category || !itemName || !imageUrl || ingredients.length === 0 || !totalAmount}
+                                                                disabled={ingredients.length <= 0}
                                                                 onClick={addMenu}
                                                             >
                                                                 Add Menu Item
@@ -689,11 +744,15 @@ const Administrator = ({
                                                         </>
                                                     }
                                                 </CardContent>
+                                                {message.success && (
+                                                    <div className="alert alert-success" role="alert">
+                                                        {message.success}
+                                                    </div>
+                                                )}
                                             </Card>
                                         </form>
                                     }
-                                    {selectedMenuTab === "Menu list" &&
-
+                                    {selectedMenuTab === "Menu list" && (
                                         <Box sx={{ padding: "8px 16px" }}>
                                             <Typography variant="h6">Menu List</Typography>
                                             <Box sx={{ mt: 2, mb: 2 }}>
@@ -701,106 +760,137 @@ const Administrator = ({
                                                 <Select
                                                     label="Category"
                                                     fullWidth
-                                                    // value={selectedMenuTab}
                                                     onChange={(e) => filterByCategory(e.target.value)}
                                                     margin="normal"
                                                     required
                                                 >
                                                     <MenuItem value="All">All</MenuItem>
-                                                    <MenuItem value="Kota">Kota</MenuItem>
-                                                    <MenuItem value="Extras">Extras</MenuItem>
-                                                    <MenuItem value="Chips">Chips</MenuItem>
-                                                    <MenuItem value="Beverages">Beverages</MenuItem>
+
+                                                    {categoryList && categoryList.map((item, idx) => {
+                                                        return (
+                                                            <MenuItem key={idx} value={item}>{item}</MenuItem>
+                                                        )
+                                                    })}
+
                                                 </Select>
                                             </Box>
-                                            <List sx={{ display: "flex", flexWrap: "wrap", gap: "16px", padding: "16px" }}>
-                                                {allMenuItems && allMenuItems.map((item) => (
-                                                    <Card
-                                                        key={item.id}
-                                                        sx={{
-                                                            margin: "8px",
-                                                            width: "100%",
-                                                            boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)",
-                                                            borderRadius: "8px",
-                                                            transition: "transform 0.2s ease-in-out",
-                                                            "&:hover": { transform: "scale(1.05)" },
-                                                        }}
-                                                    >
-                                                        <CardMedia
-                                                            component="img"
-                                                            height="350"
-                                                            image={item.imageUrl}
-                                                            alt={item.itemName}
-                                                            sx={{ borderTopLeftRadius: "8px", borderTopRightRadius: "8px" }}
-                                                        />
-                                                        <CardContent>
-                                                            <Typography
-                                                                variant="h5"
-                                                                sx={{ fontWeight: "bold", mb: 1 }}
+                                            {message.success && (
+                                                    <div className="alert alert-success" role="alert">
+                                                        {message.success}
+                                                    </div>
+                                                )}
+                                            <List
+                                                sx={{
+                                                    display: "flex",
+                                                    flexWrap: "wrap",
+                                                    // padding: "16px",
+                                                }}
+                                            >
+                                                {
+                                                    loading ?
+                                                        <Spinner />
+                                                        :
+                                                        allMenuItems &&
+                                                        allMenuItems.map((item) => (
+                                                            <Card
+                                                                key={item.id}
+                                                                sx={{
+                                                                    margin: "8px",
+                                                                    width: "100%",
+                                                                    boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)",
+                                                                    borderRadius: "8px",
+                                                                }}
                                                             >
-                                                                {item.itemName}
-                                                            </Typography>
-                                                            <Typography
-                                                                variant="body2"
-                                                                color="text.secondary"
-                                                                sx={{ mb: 1 }}
-                                                            >
-                                                                Category: {item.category}
-                                                            </Typography>
+                                                                <CardMedia
+                                                                    component="img"
+                                                                    height="350"
+                                                                    image={item.imageUrl}
+                                                                    alt={item.itemName}
+                                                                    sx={{
+                                                                        borderTopLeftRadius: "8px",
+                                                                        borderTopRightRadius: "8px",
+                                                                    }}
+                                                                />
+                                                                <CardContent>
+                                                                    <Typography variant="h5" sx={{ fontWeight: "bold", mb: 1 }}>
+                                                                        {item.itemName}
+                                                                    </Typography>
+                                                                    <Typography variant="body2" color="text.secondary" sx={{ mb: 1 }}>
+                                                                        Category: {item.category}
+                                                                    </Typography>
 
-                                                            {Array.isArray(item.ingredients) && item.ingredients.length > 0 && (
-                                                                <Box sx={{ mt: 1 }}>
-                                                                    <Typography variant="h6" sx={{ fontWeight: "bold" }}>Ingredients:</Typography>
-                                                                    <ul style={{ paddingLeft: "20px", margin: 0 }}>
-                                                                        {item.category === "Kota" ? (
-                                                                            item.ingredients.map((ingredient, idx) => (
-                                                                                <Typography
-                                                                                    key={idx}
-                                                                                    variant="body2"
-                                                                                    color="text.secondary"
-                                                                                    sx={{ mb: 0.5, listStyleType: "circle" }}
-                                                                                    component="li"
-                                                                                >
-                                                                                    {ingredient}
-                                                                                </Typography>
-                                                                            ))
-                                                                        ) : (
-                                                                            item.ingredients.map((ingredientObj, idx) => (
-                                                                                <Typography
-                                                                                    key={idx}
-                                                                                    variant="body2"
-                                                                                    color="text.secondary"
-                                                                                    sx={{ mb: 0.5, listStyleType: "circle" }}
-                                                                                    component="li"
-                                                                                >
-                                                                                    {ingredientObj.ingredient} - R{ingredientObj.totalAmount}
-                                                                                </Typography>
-                                                                            ))
-                                                                        )}
-                                                                    </ul>
-                                                                </Box>
-                                                            )}
+                                                                    {Array.isArray(item.ingredients) && item.ingredients.length > 0 && (
+                                                                        <Box sx={{ mt: 1 }}>
+                                                                            <Typography variant="h6" sx={{ fontWeight: "bold" }}>
+                                                                                Ingredients:
+                                                                            </Typography>
+                                                                            <ul style={{ paddingLeft: "20px", margin: 0 }}>
+                                                                                {item.category === "Kota" ? (
+                                                                                    item.ingredients.map((ingredient, idx) => (
+                                                                                        <Typography
+                                                                                            key={idx}
+                                                                                            variant="body2"
+                                                                                            color="text.secondary"
+                                                                                            sx={{ mb: 0.5, listStyleType: "circle" }}
+                                                                                            component="li"
+                                                                                        >
+                                                                                            {ingredient}
+                                                                                        </Typography>
+                                                                                    ))
+                                                                                ) : (
+                                                                                    item.ingredients.map((ingredientObj, idx) => (
+                                                                                        <Typography
+                                                                                            key={idx}
+                                                                                            variant="body2"
+                                                                                            color="text.secondary"
+                                                                                            sx={{ mb: 0.5, listStyleType: "circle" }}
+                                                                                            component="li"
+                                                                                        >
+                                                                                            {ingredientObj.ingredient} - R{ingredientObj.totalAmount}
+                                                                                        </Typography>
+                                                                                    ))
+                                                                                )}
+                                                                            </ul>
+                                                                        </Box>
+                                                                    )}
 
-                                                            {item.category === "Kota" &&
-                                                                <Typography
-                                                                    variant="body2"
-                                                                    color="text.secondary"
-                                                                    sx={{ fontWeight: "bold", mt: 1 }}
+                                                                    {item.category === "Kota" && (
+                                                                        <Typography
+                                                                            variant="body2"
+                                                                            color="text.secondary"
+                                                                            sx={{ fontWeight: "bold", mt: 1 }}
+                                                                        >
+                                                                            Total Price: R{item.totalAmount}
+                                                                        </Typography>
+                                                                    )}
+                                                                </CardContent>
+                                                                <hr />
+                                                                <Box
+                                                                    marginBottom="1rem"
+                                                                    marginLeft="1rem"
                                                                 >
-                                                                    Total Price: R{item.totalAmount}
-                                                                </Typography>
-                                                            }
-                                                        </CardContent>
-                                                        <hr />
-                                                        <Box display="flex" gap=".8rem" marginBottom="1rem" marginLeft="1rem">
-                                                            <box-icon color="green" name='edit-alt' ></box-icon>
-                                                            <box-icon color="red" name='trash' ></box-icon>
-                                                        </Box>
-                                                    </Card>
-                                                ))}
+                                                                    <box-icon
+                                                                        name='low-vision'
+                                                                        color='#969DF8'
+                                                                        onClick={() => handleViewItem(item)}
+                                                                    >
+                                                                    </box-icon>
+                                                                </Box>
+                                                            </Card>
+                                                        ))}
+                                                
                                             </List>
+
+                                            <EditDeleteModal
+                                                open={openEditDeleteModal}
+                                                onClose={handleEditDeleteOpenModalClose}
+                                                item={selectedItem}
+                                                fetchAllMenuItems={fetchAllMenuItems}
+                                                setMessage={setMessage}
+                                            />
                                         </Box>
-                                    }
+                                    )}
+
                                 </CardContent>
 
                             </>
