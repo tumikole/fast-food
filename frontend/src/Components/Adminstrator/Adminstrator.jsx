@@ -23,6 +23,7 @@ import {
     InputLabel,
     ListItem,
     ListItemAvatar,
+    CardMedia
 } from "@mui/material";
 import { v4 as uuidv4 } from 'uuid';
 import InboxIcon from "@mui/icons-material/Inbox";
@@ -39,6 +40,7 @@ import Settings from "../Settings/Settings";
 import OrdersList from '../OrdersList/OrdersList'
 import { fetchClientsUsers, fetchUsers } from "../../Supabase/Login/AllUsers";
 import AdminstratorClient from "../AdminstratorClient/AdminstratorClient";
+import { addMenuItems, getAllMenuItems } from "../../Supabase/addMenuItems/addMenuItems";
 
 const Administrator = ({
     handleAddUserSubmit,
@@ -57,15 +59,78 @@ const Administrator = ({
     const [selectedTab, setSelectedTab] = useState("");
     const [openModal, setOpenModal] = useState(false);
     const [category, setCategory] = useState('');
+    const [ingredients, setIngredients] = useState([]);
     const [itemName, setItemName] = useState('');
     const [imageUrl, setImageUrl] = useState('');
-    const [ingredients, setIngredients] = useState('');
-    const [totalAmount, setTotalAmount] = useState('');
+    const [ingredient, setIngredient] = useState('');
+    const [totalAmount, setTotalAmount] = useState('00.00');
     const [users, setUsers] = useState([]);
     const [selectedUsersTab, setSelectedUsersTab] = useState('Admin users');
+    const [selectedMenuTab, setSelectedMenuTab] = useState('Menu list');
+
     const [loading, setLoading] = useState(false);
     const [selectedUserPageTab, setSelectedUserPageTab] = useState("Users");
     const [isDropdownOpen, setIsDropdownOpen] = useState(false); // Initialize dropdown state
+    const [allMenuItems, setAllMenuItems] = useState([]);
+
+
+    const fetchAllMenuItems = async () => {
+        const userData = await getAllMenuItems();
+        if (userData) {
+            setAllMenuItems(userData);
+        }
+    };
+
+    const filterByCategory = async (item) => {
+        if (item === "All") {
+            await fetchAllMenuItems();
+        } else {
+            const dataItems = allMenuItems.filter(items => items.category === item);
+            setAllMenuItems(dataItems);
+            console.log({ dataItems });
+        }
+    };
+    
+
+    const handleAddIngredient = () => {
+        if (category === "Kota") {
+
+            if (ingredient.trim() !== "") {
+                setIngredients((prev) => [...prev, ingredient]);
+                setIngredient(""); // Clear the input field after adding
+            }
+        } else {
+            if (ingredient.trim() !== "") {
+                setIngredients((prev) => [...prev, { ingredient, totalAmount }]);
+                setIngredient(""); // Clear the input field after adding]
+                setTotalAmount("")
+            }
+        }
+    };
+
+    const addMenu = async (e) => {
+        e.preventDefault()
+        if (itemName && imageUrl && ingredients && totalAmount) {
+
+            try {
+                const result = await addMenuItems(category, itemName, imageUrl, ingredients, totalAmount);
+                if (result) {
+                    alert('Menu item added successfully!');
+                    setCategory('');
+                    setItemName('');
+                    setImageUrl('');
+                    setIngredients('');
+                    setTotalAmount('');
+                    fetchAllMenuItems()
+                }
+            } catch (err) {
+                console.error('Error adding menu item:', err);
+                alert('Failed to add menu item');
+            }
+        } else {
+            alert('Please fill in all the fields.');
+        }
+    };
 
 
     const navigate = useNavigate();
@@ -79,8 +144,11 @@ const Administrator = ({
 
     ];
 
+
     const userTabs = ["Admin users", "Customers"]
     const tabs = ["Users", "Add users"]
+    const menuTabs = ["Menu list", "Add menu"]
+
 
 
     const userDetails = user || {};
@@ -88,10 +156,6 @@ const Administrator = ({
 
     const toggleDropdown = () => {
         setIsDropdownOpen(!isDropdownOpen);
-    };
-
-    const handleSubmit = async (e) => {
-        e.preventDefault();
     };
 
     const handleTabClick = (tab) => {
@@ -127,8 +191,6 @@ const Administrator = ({
     };
 
 
-
-
     useEffect(() => {
         const fetchUsers = async () => {
             setLoading(true);
@@ -144,8 +206,12 @@ const Administrator = ({
                 setLoading(false);
             }
         };
+
+        if (allMenuItems.length === 0) {
+            fetchAllMenuItems()
+        }
         fetchUsers();
-    }, [selectedUsersTab]);
+    }, [selectedUsersTab, allMenuItems]);
 
 
     if (userDetails && userDetails.role !== "Customer") {
@@ -436,68 +502,308 @@ const Administrator = ({
                             </>
                         )}
                         {selectedTab === "Menu" && (
-                            <form onSubmit={handleSubmit}>
-                                <Typography variant="h6" className="form-title">Add a New Menu Item</Typography>
-                                <Card className="form-card">
-                                    <CardContent>
-                                        <Select
-                                            label="Category"
-                                            fullWidth
-                                            value={category}
-                                            onChange={(e) => setCategory(e.target.value)}
-                                            margin="normal"
-                                            required
-                                        >
-                                            <MenuItem value="">Select a Category</MenuItem>
-                                            <MenuItem value="Kota">Kota</MenuItem>
-                                            <MenuItem value="Extras">Extras</MenuItem>
-                                            <MenuItem value="Chips">Chips</MenuItem>
-                                            <MenuItem value="Beverages">Beverages</MenuItem>
-                                        </Select>
+                            <>
+                                <CardContent marginBottom={2} marginLeft={2} marginRight={2} >
+                                    <ul
+                                        className="nav nav-pills nav-fill gap-2 p-1 small bg-primary rounded-5 shadow-sm"
+                                        id="pillNav2"
+                                        role="tablist"
+                                        style={{
+                                            '--bs-nav-link-color': 'var(--bs-white)',
+                                            '--bs-nav-pills-link-active-color': 'var(--bs-primary)',
+                                            '--bs-nav-pills-link-active-bg': 'var(--bs-white)',
+                                        }}
 
-                                        <TextField
-                                            label="Item Name"
-                                            fullWidth
-                                            value={itemName}
-                                            onChange={(e) => setItemName(e.target.value)}
-                                            margin="normal"
-                                            required
-                                        />
-                                        <input
-                                            type="file"
-                                            onChange={(e) => setImageUrl(URL.createObjectURL(e.target.files[0]))}
-                                            required
-                                        />
-                                        <TextField
-                                            label="Ingredients (comma separated)"
-                                            fullWidth
-                                            value={ingredients}
-                                            onChange={(e) => setIngredients(e.target.value)}
-                                            margin="normal"
-                                            required
-                                        />
-                                        <TextField
-                                            label="Total Amount"
-                                            fullWidth
-                                            type="number"
-                                            value={totalAmount}
-                                            onChange={(e) => setTotalAmount(e.target.value)}
-                                            margin="normal"
-                                            required
-                                        />
-                                        <Button
-                                            fullWidth
-                                            variant="contained"
-                                            color="primary"
-                                            type="submit"
-                                            sx={{ mt: 2 }}
-                                            disabled={!category || !itemName || !imageUrl || !ingredients || !totalAmount}
-                                        >
-                                            Add Menu Item
-                                        </Button>
-                                    </CardContent>
-                                </Card>
-                            </form>
+                                    >
+                                        {menuTabs.map((item, idx) => (
+                                            <li className="nav-item" role="presentation">
+                                                <button
+                                                    className={`nav-link ${selectedMenuTab === item ? "active" : ""} rounded-5`}
+                                                    id="home-tab2"
+                                                    data-bs-toggle="tab"
+                                                    type="button"
+                                                    role="tab"
+                                                    aria-selected="true"
+                                                    onClick={() => setSelectedMenuTab(item)}
+
+                                                >
+                                                    {item}
+                                                </button>
+                                            </li>
+                                        ))}
+                                    </ul>
+                                    {
+                                        selectedMenuTab === "Add menu" &&
+
+                                        <form>
+                                            <Typography marginTop={2} className="form-title">Add a New Menu Item</Typography>
+                                            <Card className="form-card">
+                                                <CardContent>
+                                                    <Select
+                                                        label="Category"
+                                                        fullWidth
+                                                        value={category}
+                                                        onChange={(e) => setCategory(e.target.value)}
+                                                        margin="normal"
+                                                        required
+                                                    >
+                                                        <MenuItem value="">Select a Category</MenuItem>
+                                                        <MenuItem value="Kota">Kota</MenuItem>
+                                                        <MenuItem value="Extras">Extras</MenuItem>
+                                                        <MenuItem value="Chips">Chips</MenuItem>
+                                                        <MenuItem value="Beverages">Beverages</MenuItem>
+                                                    </Select>
+                                                    {category &&
+                                                        <>
+                                                            <TextField
+                                                                label="Item Name"
+                                                                fullWidth
+                                                                value={itemName}
+                                                                onChange={(e) => setItemName(e.target.value)}
+                                                                margin="normal"
+                                                                required
+                                                            />
+                                                            <label htmlFor="">Upload menu image</label>
+                                                            <Box display="flex" gap="2rem" mt="1rem">
+                                                                {/* File input for selecting an image */}
+                                                                <input
+                                                                    type="file"
+                                                                    id="file-input"  // Unique id for file selection
+                                                                    accept="image/*"
+                                                                    onChange={(e) => setImageUrl(e.target.files[0])}
+                                                                    required
+                                                                    style={{ display: "none" }}
+                                                                />
+                                                                <input
+                                                                    type="file"
+                                                                    id="camera-input"  // Unique id for camera capture
+                                                                    accept="image/*"
+                                                                    capture="camera"  // Opens the camera on mobile devices
+                                                                    onChange={(e) => setImageUrl(e.target.files[0])}
+                                                                    required
+                                                                    style={{ display: "none" }}
+                                                                />
+
+                                                                {/* Labels that trigger the file input */}
+                                                                <label htmlFor="file-input">
+                                                                    <box-icon size="md" name="upload"></box-icon>
+                                                                </label>
+
+                                                                <label htmlFor="camera-input">
+                                                                    <box-icon size="md" name="camera"></box-icon>
+                                                                </label>
+                                                            </Box>
+
+
+                                                            <>
+                                                                <Box display="flex" gap="1rem">
+                                                                    <TextField
+                                                                        label="Ingredient"
+                                                                        fullWidth
+                                                                        value={ingredient}
+                                                                        onChange={(e) => setIngredient(e.target.value)}
+                                                                        margin="normal"
+                                                                    />
+                                                                    {category !== "Kota" &&
+                                                                        <TextField
+                                                                            type="number"
+                                                                            label="Price"
+                                                                            fullWidth
+                                                                            value={totalAmount}
+                                                                            onChange={(e) => setTotalAmount(e.target.value)}
+                                                                            margin="normal"
+                                                                            required
+                                                                        />
+                                                                    }
+                                                                </Box>
+                                                                <Box mb="1rem">
+                                                                    <label htmlFor="">Add ingridient to list...</label>
+                                                                </Box>
+                                                                <Box onClick={handleAddIngredient}>
+                                                                    <box-icon size="md" name='add-to-queue'></box-icon>
+                                                                </Box>
+
+                                                                {ingredients.length > 0 && (
+                                                                    <Box sx={{ mt: 2 }}>
+                                                                        <Typography
+                                                                            variant="h6"
+                                                                            color="text.primary"
+                                                                            sx={{ mb: 1, fontWeight: "bold" }}
+                                                                        >
+                                                                            Ingredients:
+                                                                        </Typography>
+                                                                        <ul style={{ paddingLeft: "20px", margin: 0 }}>
+                                                                            {category === "Kota" ? (
+                                                                                ingredients.map((item, idx) => (
+                                                                                    <Typography
+                                                                                        key={idx}
+                                                                                        variant="body2"
+                                                                                        color="text.secondary"
+                                                                                        sx={{ mb: 0.5, listStyleType: "circle" }}
+                                                                                        component="li"
+                                                                                    >
+                                                                                        Menu item: {item}
+                                                                                    </Typography>
+                                                                                ))
+                                                                            ) : (
+                                                                                ingredients.map((item, idx) => (
+                                                                                    <Typography
+                                                                                        key={idx}
+                                                                                        variant="body2"
+                                                                                        color="text.secondary"
+                                                                                        sx={{ mb: 0.5, listStyleType: "circle" }}
+                                                                                        component="li"
+                                                                                    >
+                                                                                        Menu item: {item.ingredient} - Price: R {item.totalAmount}
+                                                                                    </Typography>
+                                                                                ))
+                                                                            )}
+                                                                        </ul>
+                                                                    </Box>
+                                                                )}
+
+
+                                                                <TextField
+                                                                    style={{ display: category === "Kota" ? "block" : "none" }}
+                                                                    type="number"
+                                                                    label="Total Price"
+                                                                    fullWidth
+                                                                    value={totalAmount}
+                                                                    onChange={(e) => setTotalAmount(e.target.value)}
+                                                                    margin="normal"
+                                                                    required
+                                                                />
+                                                            </>
+
+                                                            <Button
+                                                                fullWidth
+                                                                variant="contained"
+                                                                color="primary"
+                                                                type="submit"
+                                                                sx={{ mt: 2 }}
+                                                                disabled={!category || !itemName || !imageUrl || ingredients.length === 0 || !totalAmount}
+                                                                onClick={addMenu}
+                                                            >
+                                                                Add Menu Item
+                                                            </Button>
+                                                        </>
+                                                    }
+                                                </CardContent>
+                                            </Card>
+                                        </form>
+                                    }
+                                    {selectedMenuTab === "Menu list" &&
+
+                                        <Box sx={{ padding: "8px 16px" }}>
+                                            <Typography variant="h6">Menu List</Typography>
+                                            <Box sx={{ mt: 2, mb: 2 }}>
+                                                <Typography sx={{ mt: 2, mb: 2 }}>Filter by category</Typography>
+                                                <Select
+                                                    label="Category"
+                                                    fullWidth
+                                                    // value={selectedMenuTab}
+                                                    onChange={(e) => filterByCategory(e.target.value)}
+                                                    margin="normal"
+                                                    required
+                                                >
+                                                    <MenuItem value="All">All</MenuItem>
+                                                    <MenuItem value="Kota">Kota</MenuItem>
+                                                    <MenuItem value="Extras">Extras</MenuItem>
+                                                    <MenuItem value="Chips">Chips</MenuItem>
+                                                    <MenuItem value="Beverages">Beverages</MenuItem>
+                                                </Select>
+                                            </Box>
+                                            <List sx={{ display: "flex", flexWrap: "wrap", gap: "16px", padding: "16px" }}>
+                                                {allMenuItems && allMenuItems.map((item) => (
+                                                    <Card
+                                                        key={item.id}
+                                                        sx={{
+                                                            margin: "8px",
+                                                            width: "100%",
+                                                            boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)",
+                                                            borderRadius: "8px",
+                                                            transition: "transform 0.2s ease-in-out",
+                                                            "&:hover": { transform: "scale(1.05)" },
+                                                        }}
+                                                    >
+                                                        <CardMedia
+                                                            component="img"
+                                                            height="350"
+                                                            image={item.imageUrl}
+                                                            alt={item.itemName}
+                                                            sx={{ borderTopLeftRadius: "8px", borderTopRightRadius: "8px" }}
+                                                        />
+                                                        <CardContent>
+                                                            <Typography
+                                                                variant="h5"
+                                                                sx={{ fontWeight: "bold", mb: 1 }}
+                                                            >
+                                                                {item.itemName}
+                                                            </Typography>
+                                                            <Typography
+                                                                variant="body2"
+                                                                color="text.secondary"
+                                                                sx={{ mb: 1 }}
+                                                            >
+                                                                Category: {item.category}
+                                                            </Typography>
+
+                                                            {Array.isArray(item.ingredients) && item.ingredients.length > 0 && (
+                                                                <Box sx={{ mt: 1 }}>
+                                                                    <Typography variant="h6" sx={{ fontWeight: "bold" }}>Ingredients:</Typography>
+                                                                    <ul style={{ paddingLeft: "20px", margin: 0 }}>
+                                                                        {item.category === "Kota" ? (
+                                                                            item.ingredients.map((ingredient, idx) => (
+                                                                                <Typography
+                                                                                    key={idx}
+                                                                                    variant="body2"
+                                                                                    color="text.secondary"
+                                                                                    sx={{ mb: 0.5, listStyleType: "circle" }}
+                                                                                    component="li"
+                                                                                >
+                                                                                    {ingredient}
+                                                                                </Typography>
+                                                                            ))
+                                                                        ) : (
+                                                                            item.ingredients.map((ingredientObj, idx) => (
+                                                                                <Typography
+                                                                                    key={idx}
+                                                                                    variant="body2"
+                                                                                    color="text.secondary"
+                                                                                    sx={{ mb: 0.5, listStyleType: "circle" }}
+                                                                                    component="li"
+                                                                                >
+                                                                                    {ingredientObj.ingredient} - R{ingredientObj.totalAmount}
+                                                                                </Typography>
+                                                                            ))
+                                                                        )}
+                                                                    </ul>
+                                                                </Box>
+                                                            )}
+
+                                                            {item.category === "Kota" &&
+                                                                <Typography
+                                                                    variant="body2"
+                                                                    color="text.secondary"
+                                                                    sx={{ fontWeight: "bold", mt: 1 }}
+                                                                >
+                                                                    Total Price: R{item.totalAmount}
+                                                                </Typography>
+                                                            }
+                                                        </CardContent>
+                                                        <hr />
+                                                        <Box display="flex" gap=".8rem" marginBottom="1rem" marginLeft="1rem">
+                                                            <box-icon color="green" name='edit-alt' ></box-icon>
+                                                            <box-icon color="red" name='trash' ></box-icon>
+                                                        </Box>
+                                                    </Card>
+                                                ))}
+                                            </List>
+                                        </Box>
+                                    }
+                                </CardContent>
+
+                            </>
                         )}
                         {selectedTab === "Messages" && <Messaging userDetails={userDetails} />}
                         {selectedTab === "Notifications" && <Notifications />}
@@ -520,7 +826,7 @@ const Administrator = ({
     } else if (userDetails && userDetails.role === "Customer") {
         return (
             <div className="administrator-container">
-                <AdminstratorClient userDetails={userDetails} handleSignOutClick={handleSignOutClick}/>
+                <AdminstratorClient userDetails={userDetails} handleSignOutClick={handleSignOutClick} />
             </div>
         )
     }
