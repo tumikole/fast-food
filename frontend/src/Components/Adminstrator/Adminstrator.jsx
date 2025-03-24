@@ -40,7 +40,7 @@ import Settings from "../Settings/Settings";
 import OrdersList from '../OrdersList/OrdersList'
 import { fetchClientsUsers, fetchUsers } from "../../Supabase/Login/AllUsers";
 import AdminstratorClient from "../AdminstratorClient/AdminstratorClient";
-import { addMenuItems, getAllMenuItems} from "../../Supabase/addMenuItems/addMenuItems";
+import { addMenuItems, getAllMenuItems } from "../../Supabase/addMenuItems/addMenuItems";
 import EditDeleteModal from "./EditDeleteModal/EditDeleteModal";
 import Spinner from "../Spinner/Spinner";
 
@@ -62,9 +62,10 @@ const Administrator = ({
     const [selectedTab, setSelectedTab] = useState("");
     const [openModal, setOpenModal] = useState(false);
     const [category, setCategory] = useState('');
-    const [ingredients, setIngredients] = useState([]);
+    const [ingredients, setIngredients] = useState("");
     const [itemName, setItemName] = useState('');
     const [imageUrl, setImageUrl] = useState('');
+    const [nutrition, setNutrition] = useState('');
     const [ingredient, setIngredient] = useState('');
     const [totalAmount, setTotalAmount] = useState('0.00');
     const [users, setUsers] = useState([]);
@@ -77,9 +78,6 @@ const Administrator = ({
     const [openEditDeleteModal, setOpenEditDeleteModal] = useState(false);
     const [selectedItem, setSelectedItem] = useState(null);
     const [categoryList, setCategoriesList] = useState([]);
-
-
-
 
 
     const fetchAllMenuItems = async () => {
@@ -151,7 +149,7 @@ const Administrator = ({
         if (itemName && imageUrl && ingredients) {
 
             try {
-                const result = await addMenuItems(category, itemName, imageUrl, ingredients, totalAmount);
+                const result = await addMenuItems(category, itemName, imageUrl, nutrition, ingredients, totalAmount);
                 if (result.status === "Ok") {
                     setAllMenuItems("Menu list")
                     setCategory('');
@@ -618,7 +616,7 @@ const Administrator = ({
                                                                 margin="normal"
                                                                 required
                                                             />
-                                                            <label htmlFor="">Upload menu image</label>
+                                                            <label htmlFor="" style={{ marginTop: "1rem" }}>Upload menu image</label>
                                                             <Box display="flex" gap="2rem" mt="1rem">
                                                                 {/* File input for selecting an image */}
                                                                 <input
@@ -639,6 +637,8 @@ const Administrator = ({
                                                                     style={{ display: "none" }}
                                                                 />
 
+
+
                                                                 {/* Labels that trigger the file input */}
                                                                 <label htmlFor="file-input">
                                                                     <box-icon size="md" name="upload"></box-icon>
@@ -649,6 +649,42 @@ const Administrator = ({
                                                                 </label>
                                                             </Box>
 
+                                                            {category === "Kota" &&
+                                                                <>
+                                                                    <label htmlFor="" style={{ marginTop: "1rem" }}>Nutrition</label>
+
+                                                                    <Box mt="1rem" mb="1rem">
+                                                                        <div className="form-check">
+                                                                            <input
+                                                                                className="form-check-input"
+                                                                                type="radio"
+                                                                                name="nutritionType"
+                                                                                id="vegOption"
+                                                                                value="Veg"
+                                                                                onChange={(e) => setNutrition(e.target.value)}
+                                                                                checked={nutrition === "Veg"}
+                                                                            />
+                                                                            <label className="form-check-label" htmlFor="vegOption">
+                                                                                Veg
+                                                                            </label>
+                                                                        </div>
+                                                                        <div className="form-check">
+                                                                            <input
+                                                                                className="form-check-input"
+                                                                                type="radio"
+                                                                                name="nutritionType"
+                                                                                id="nonVegOption"
+                                                                                value="Non-veg"
+                                                                                onChange={(e) => setNutrition(e.target.value)}
+                                                                                checked={nutrition === "Non-veg"}
+                                                                            />
+                                                                            <label className="form-check-label" htmlFor="nonVegOption">
+                                                                                Non-veg
+                                                                            </label>
+                                                                        </div>
+                                                                    </Box>
+                                                                </>
+                                                            }
 
                                                             <>
                                                                 <Box display="flex" gap="1rem">
@@ -775,10 +811,10 @@ const Administrator = ({
                                                 </Select>
                                             </Box>
                                             {message.success && (
-                                                    <div className="alert alert-success" role="alert">
-                                                        {message.success}
-                                                    </div>
-                                                )}
+                                                <div className="alert alert-success" role="alert">
+                                                    {message.success}
+                                                </div>
+                                            )}
                                             <List
                                                 sx={{
                                                     display: "flex",
@@ -878,7 +914,7 @@ const Administrator = ({
                                                                 </Box>
                                                             </Card>
                                                         ))}
-                                                
+
                                             </List>
 
                                             <EditDeleteModal

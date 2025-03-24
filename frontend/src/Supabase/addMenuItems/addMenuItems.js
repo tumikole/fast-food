@@ -9,7 +9,7 @@ const convertToBase64 = (file) => {
   });
 };
 
-export const addMenuItems = async (category, itemName, imageUrl, ingredients, totalAmount) => {
+export const addMenuItems = async (category, itemName, imageUrl, nutrition, ingredients, totalAmount) => {
   const base64Image = await convertToBase64(imageUrl);
   try {
     const { data, error } = await supabase
@@ -18,6 +18,7 @@ export const addMenuItems = async (category, itemName, imageUrl, ingredients, to
         category,
         itemName,
         imageUrl: base64Image,
+        nutrition,
         ingredients, // Store ingredients as JSON
         totalAmount,
       }]);
