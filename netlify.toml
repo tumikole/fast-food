@@ -9,6 +9,6 @@
   node_bundler = "esbuild"                 # Use esbuild for bundling functions
 
 [[redirects]]
-  from = "/api/*"
-  to = "/.netlify/functions/:splat"
+  from = "/*"
+  to = "/index.html"
   status = 200
