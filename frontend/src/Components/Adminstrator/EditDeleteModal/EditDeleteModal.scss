@@ -1,0 +1,86 @@
+.MuiDialog-paper {
+    .MuiDialogTitle-root {
+        background: linear-gradient(to right, rgba(255, 255, 255, 0.95), rgba(255, 255, 255, 0.85));
+        backdrop-filter: blur(10px);
+    }
+
+    .MuiDialogContent-root {
+        &::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        &::-webkit-scrollbar-track {
+            background: rgba(0, 0, 0, 0.05);
+            border-radius: 4px;
+        }
+
+        &::-webkit-scrollbar-thumb {
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 4px;
+            
+            &:hover {
+                background: rgba(0, 0, 0, 0.3);
+            }
+        }
+    }
+
+    .MuiTextField-root {
+        .MuiOutlinedInput-root {
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(5px);
+            transition: all 0.3s ease;
+
+            &:hover {
+                background: rgba(255, 255, 255, 0.9);
+            }
+
+            &.Mui-focused {
+                background: white;
+            }
+        }
+    }
+
+    .MuiButton-root {
+        text-transform: none;
+        border-radius: 8px;
+        padding: 8px 16px;
+        transition: all 0.3s ease;
+
+        &:hover {
+            transform: translateY(-2px);
+        }
+
+        &.MuiButton-contained {
+            background: linear-gradient(45deg, #FF6B6B, #FF8E53);
+            box-shadow: 0 4px 15px rgba(255, 107, 107, 0.2);
+
+            &:hover {
+                background: linear-gradient(45deg, #FF8E53, #FF6B6B);
+            }
+
+            &.Mui-disabled {
+                background: #ccc;
+            }
+        }
+
+        &.MuiButton-outlined {
+            border-color: #FF6B6B;
+            color: #FF6B6B;
+
+            &:hover {
+                background: rgba(255, 107, 107, 0.1);
+            }
+        }
+    }
+}
+
+@keyframes slideIn {
+    from {
+        transform: translateY(100%);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+} 

@@ -105,6 +105,7 @@ const Main = () => {
 
     };
 
+console.log({cart})
     const handleAddUserSubmit = async () => {
         if (role !== "Customer") {
             if (!email || !password || !username) {
@@ -186,12 +187,14 @@ const Main = () => {
 
     // Update this to allow adding the same item multiple times to the cart
     const addToCart = (item) => {
+        console.log({item})
         setCart((prevCart) => [...prevCart, { ...item }]);
     };
 
     // Handle item removal by index
     const removeItem = (index) => {
-        setCart((prevCart) => prevCart.filter((_, i) => i !== index));
+        console.log({index})
+        setCart((prevCart) => prevCart.filter((item) => item.id !== index));
     };
 
     return (
@@ -201,7 +204,7 @@ const Main = () => {
                 <Route path="/about" element={<About />} />
                 <Route path="/how_it_works" element={<HowItWorks />} />
                 <Route path="/menu" element={<Menu addToCart={addToCart} cart={cart} setCart={setCart} />} />
-                <Route path="/cart" element={<Cart cart={cart} removeItem={removeItem} />} />
+                <Route path="/cart" element={<Cart cart={cart} removeItem={removeItem} cartLength={cart.length}/>} />
                 <Route path="/review" element={<Reviews />} />
                 <Route path="/faq" element={<FAQ />} />
                 <Route path="/place_an_order" element={
@@ -222,6 +225,7 @@ const Main = () => {
                         setLoading={setLoading}
                         setOrderNumber={setOrderNumber}
                         orderNumber={orderNumber}
+                        setCart={setCart}
                     />
                 } />
                 <Route path="/login" element={

@@ -75,7 +75,8 @@ export const deleteMenuItem = async (id) => {
   }
 };
 
-export const editMenuItem = async (id, updatedData) => {
+export const updateMenuItem = async (id, updatedData) => {
+  console.log({id, updatedData})
   try {
     const { data, error } = await supabase
       .from('menu_items')

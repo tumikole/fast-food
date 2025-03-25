@@ -23,7 +23,11 @@ import {
     InputLabel,
     ListItem,
     ListItemAvatar,
-    CardMedia
+    CardMedia,
+    RadioGroup,
+    FormControlLabel,
+    Radio,
+    Chip
 } from "@mui/material";
 import { v4 as uuidv4 } from 'uuid';
 import InboxIcon from "@mui/icons-material/Inbox";
@@ -78,6 +82,7 @@ const Administrator = ({
     const [openEditDeleteModal, setOpenEditDeleteModal] = useState(false);
     const [selectedItem, setSelectedItem] = useState(null);
     const [categoryList, setCategoriesList] = useState([]);
+    const [filteredCategory, setFilteredCategory] = useState("All")
 
 
     const fetchAllMenuItems = async () => {
@@ -93,6 +98,7 @@ const Administrator = ({
 
     const filterByCategory = async (item) => {
 
+        setFilteredCategory(item)
         // Ensure that allMenuItems is not undefined or null before proceeding
         if (!Array.isArray(allMenuItems)) {
             console.error("allMenuItems is not an array or not initialized correctly.");
@@ -654,34 +660,34 @@ const Administrator = ({
                                                                     <label htmlFor="" style={{ marginTop: "1rem" }}>Nutrition</label>
 
                                                                     <Box mt="1rem" mb="1rem">
-                                                                        <div className="form-check">
-                                                                            <input
-                                                                                className="form-check-input"
-                                                                                type="radio"
+                                                                        <FormControl component="fieldset">
+                                                                            <Typography variant="subtitle2" sx={{ mb: 1 }}>Nutrition Type</Typography>
+                                                                            <RadioGroup
                                                                                 name="nutritionType"
-                                                                                id="vegOption"
-                                                                                value="Veg"
+                                                                                value={nutrition}
                                                                                 onChange={(e) => setNutrition(e.target.value)}
-                                                                                checked={nutrition === "Veg"}
-                                                                            />
-                                                                            <label className="form-check-label" htmlFor="vegOption">
-                                                                                Veg
-                                                                            </label>
-                                                                        </div>
-                                                                        <div className="form-check">
-                                                                            <input
-                                                                                className="form-check-input"
-                                                                                type="radio"
-                                                                                name="nutritionType"
-                                                                                id="nonVegOption"
-                                                                                value="Non-veg"
-                                                                                onChange={(e) => setNutrition(e.target.value)}
-                                                                                checked={nutrition === "Non-veg"}
-                                                                            />
-                                                                            <label className="form-check-label" htmlFor="nonVegOption">
-                                                                                Non-veg
-                                                                            </label>
-                                                                        </div>
+                                                                                row
+                                                                            >
+                                                                                <FormControlLabel
+                                                                                    value="Veg"
+                                                                                    control={<Radio color="success" />}
+                                                                                    label={
+                                                                                        <Typography sx={{ color: 'success.main' }}>
+                                                                                            Veg
+                                                                                        </Typography>
+                                                                                    }
+                                                                                />
+                                                                                <FormControlLabel
+                                                                                    value="Non-veg"
+                                                                                    control={<Radio color="error" />}
+                                                                                    label={
+                                                                                        <Typography sx={{ color: 'error.main' }}>
+                                                                                            Non-veg
+                                                                                        </Typography>
+                                                                                    }
+                                                                                />
+                                                                            </RadioGroup>
+                                                                        </FormControl>
                                                                     </Box>
                                                                 </>
                                                             }
@@ -715,37 +721,101 @@ const Administrator = ({
                                                                 </Box>
 
                                                                 {ingredients.length > 0 && (
-                                                                    <Box sx={{ mt: 2 }}>
+                                                                    <Box
+                                                                        sx={{
+                                                                            mt: 1,
+                                                                            background: 'rgba(255, 255, 255, 0.1)',
+                                                                            backdropFilter: 'blur(10px)',
+                                                                            borderRadius: '16px',
+                                                                            padding: '20px',
+                                                                            border: '1px solid rgba(255, 255, 255, 0.2)',
+                                                                            boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)',
+                                                                            transition: 'all 0.3s ease',
+                                                                            '&:hover': {
+                                                                                transform: 'translateY(-2px)',
+                                                                                boxShadow: '0 6px 12px rgba(0, 0, 0, 0.15)',
+                                                                                background: 'rgba(255, 255, 255, 0.15)',
+                                                                            }
+                                                                        }}
+                                                                    >
                                                                         <Typography
                                                                             variant="h6"
-                                                                            color="text.primary"
-                                                                            sx={{ mb: 1, fontWeight: "bold" }}
+                                                                            sx={{
+                                                                                fontWeight: "bold",
+                                                                                color: 'rgba(255, 255, 255, 0.9)',
+                                                                                marginBottom: '12px',
+                                                                                textShadow: '0 2px 4px rgba(0, 0, 0, 0.1)'
+                                                                            }}
                                                                         >
                                                                             Ingredients:
                                                                         </Typography>
-                                                                        <ul style={{ paddingLeft: "20px", margin: 0 }}>
+                                                                        <ul style={{
+                                                                            paddingLeft: "20px",
+                                                                            margin: 0,
+                                                                            listStyle: 'none'
+                                                                        }}>
                                                                             {category === "Kota" ? (
-                                                                                ingredients.map((item, idx) => (
+                                                                                ingredients.map((ingredient, idx) => (
                                                                                     <Typography
                                                                                         key={idx}
                                                                                         variant="body2"
-                                                                                        color="text.secondary"
-                                                                                        sx={{ mb: 0.5, listStyleType: "circle" }}
+                                                                                        sx={{
+                                                                                            mb: 1,
+                                                                                            color: 'rgba(255, 255, 255, 0.8)',
+                                                                                            display: 'flex',
+                                                                                            alignItems: 'center',
+                                                                                            '&:before': {
+                                                                                                content: '""',
+                                                                                                width: '6px',
+                                                                                                height: '6px',
+                                                                                                borderRadius: '50%',
+                                                                                                backgroundColor: 'rgba(255, 255, 255, 0.6)',
+                                                                                                marginRight: '10px',
+                                                                                                display: 'inline-block'
+                                                                                            },
+                                                                                            transition: 'all 0.2s ease',
+                                                                                            '&:hover': {
+                                                                                                color: 'rgba(255, 255, 255, 1)',
+                                                                                                transform: 'translateX(5px)',
+                                                                                                '&:before': {
+                                                                                                    backgroundColor: 'rgba(255, 255, 255, 0.9)',
+                                                                                                }
+                                                                                            }
+                                                                                        }}
                                                                                         component="li"
                                                                                     >
-                                                                                        Menu item: {item}
+                                                                                        {ingredient}
                                                                                     </Typography>
                                                                                 ))
                                                                             ) : (
-                                                                                ingredients.map((item, idx) => (
+                                                                                ingredients.map((ingredientObj, idx) => (
                                                                                     <Typography
                                                                                         key={idx}
                                                                                         variant="body2"
-                                                                                        color="text.secondary"
-                                                                                        sx={{ mb: 0.5, listStyleType: "circle" }}
+                                                                                        sx={{
+                                                                                            mb: 1,
+                                                                                            color: 'rgba(255, 255, 255, 0.8)',
+                                                                                            display: 'flex',
+                                                                                            alignItems: 'center',
+                                                                                            justifyContent: 'space-between',
+                                                                                            padding: '8px 12px',
+                                                                                            borderRadius: '8px',
+                                                                                            background: 'rgba(255, 255, 255, 0.05)',
+                                                                                            '&:hover': {
+                                                                                                background: 'rgba(255, 255, 255, 0.1)',
+                                                                                                transform: 'translateX(5px)',
+                                                                                            },
+                                                                                            transition: 'all 0.2s ease'
+                                                                                        }}
                                                                                         component="li"
                                                                                     >
-                                                                                        Menu item: {item.ingredient} - Price: R {item.totalAmount}
+                                                                                        <span>{ingredientObj.ingredient}</span>
+                                                                                        <span style={{
+                                                                                            color: '#ffcc00',
+                                                                                            fontWeight: '500'
+                                                                                        }}>
+                                                                                            R{ingredientObj.totalAmount}
+                                                                                        </span>
                                                                                     </Typography>
                                                                                 ))
                                                                             )}
@@ -799,6 +869,7 @@ const Administrator = ({
                                                     onChange={(e) => filterByCategory(e.target.value)}
                                                     margin="normal"
                                                     required
+                                                    value={filteredCategory}
                                                 >
                                                     <MenuItem value="All">All</MenuItem>
 
@@ -833,8 +904,19 @@ const Administrator = ({
                                                                 sx={{
                                                                     margin: "8px",
                                                                     width: "100%",
-                                                                    boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)",
-                                                                    borderRadius: "8px",
+                                                                    background: 'rgba(255, 255, 255, 0.8)',
+                                                                    backdropFilter: 'blur(10px)',
+                                                                    borderRadius: '20px',
+                                                                    overflow: 'hidden',
+                                                                    transition: 'all 0.3s ease',
+                                                                    position: 'relative',
+                                                                    '&:hover': {
+                                                                        transform: 'translateY(-5px)',
+                                                                        boxShadow: '0 12px 20px rgba(0, 0, 0, 0.2)',
+                                                                        '& .card-media': {
+                                                                            transform: 'scale(1.05)'
+                                                                        }
+                                                                    }
                                                                 }}
                                                             >
                                                                 <CardMedia
@@ -842,75 +924,181 @@ const Administrator = ({
                                                                     height="350"
                                                                     image={item.imageUrl}
                                                                     alt={item.itemName}
+                                                                    className="card-media"
                                                                     sx={{
-                                                                        borderTopLeftRadius: "8px",
-                                                                        borderTopRightRadius: "8px",
+                                                                        transition: 'transform 0.5s ease',
+                                                                        objectFit: 'cover'
                                                                     }}
                                                                 />
-                                                                <CardContent>
-                                                                    <Typography variant="h5" sx={{ fontWeight: "bold", mb: 1 }}>
+                                                                <CardContent sx={{
+                                                                    background: 'rgba(255, 255, 255, 0.95)',
+                                                                    borderTop: '1px solid rgba(0, 0, 0, 0.1)',
+                                                                    position: 'relative'
+                                                                }}>
+                                                                    <Box sx={{
+                                                                        position: 'absolute',
+                                                                        top: '-30px',
+                                                                        right: '20px',
+                                                                        background: 'linear-gradient(45deg, #FF6B6B, #FF8E53)',
+                                                                        padding: '8px 16px',
+                                                                        borderRadius: '20px',
+                                                                        color: 'white',
+                                                                        fontWeight: 'bold',
+                                                                        boxShadow: '0 4px 10px rgba(0, 0, 0, 0.2)'
+                                                                    }}>
+                                                                        {item.category}
+                                                                    </Box>
+
+                                                                    <Typography
+                                                                        variant="h5"
+                                                                        sx={{
+                                                                            fontWeight: "bold",
+                                                                            mb: 2,
+                                                                            color: '#2C3E50',
+                                                                            fontSize: '1.8rem'
+                                                                        }}
+                                                                    >
                                                                         {item.itemName}
-                                                                    </Typography>
-                                                                    <Typography variant="body2" color="text.secondary" sx={{ mb: 1 }}>
-                                                                        Category: {item.category}
                                                                     </Typography>
 
                                                                     {Array.isArray(item.ingredients) && item.ingredients.length > 0 && (
-                                                                        <Box sx={{ mt: 1 }}>
-                                                                            <Typography variant="h6" sx={{ fontWeight: "bold" }}>
-                                                                                Ingredients:
+                                                                        <Box sx={{
+                                                                            mt: 2,
+                                                                            background: 'rgba(245, 247, 250, 0.95)',
+                                                                            borderRadius: '16px',
+                                                                            padding: '20px',
+                                                                            boxShadow: 'inset 0 2px 4px rgba(0, 0, 0, 0.05)'
+                                                                        }}>
+                                                                            <Typography
+                                                                                variant="h6"
+                                                                                sx={{
+                                                                                    fontWeight: "600",
+                                                                                    color: '#34495E',
+                                                                                    mb: 2,
+                                                                                    display: 'flex',
+                                                                                    alignItems: 'center',
+                                                                                    gap: '8px',
+                                                                                    '&::before': {
+                                                                                        content: '""',
+                                                                                        width: '4px',
+                                                                                        height: '20px',
+                                                                                        background: 'linear-gradient(45deg, #FF6B6B, #FF8E53)',
+                                                                                        borderRadius: '4px'
+                                                                                    }
+                                                                                }}
+                                                                            >
+                                                                                Ingredients
                                                                             </Typography>
-                                                                            <ul style={{ paddingLeft: "20px", margin: 0 }}>
+                                                                            <Box sx={{
+                                                                                display: 'flex',
+                                                                                flexWrap: 'wrap',
+                                                                                gap: '8px'
+                                                                            }}>
                                                                                 {item.category === "Kota" ? (
                                                                                     item.ingredients.map((ingredient, idx) => (
-                                                                                        <Typography
+                                                                                        <Chip
                                                                                             key={idx}
-                                                                                            variant="body2"
-                                                                                            color="text.secondary"
-                                                                                            sx={{ mb: 0.5, listStyleType: "circle" }}
-                                                                                            component="li"
-                                                                                        >
-                                                                                            {ingredient}
-                                                                                        </Typography>
+                                                                                            label={ingredient}
+                                                                                            sx={{
+                                                                                                background: 'rgba(255, 255, 255, 0.9)',
+                                                                                                border: '1px solid rgba(0, 0, 0, 0.1)',
+                                                                                                borderRadius: '12px',
+                                                                                                transition: 'all 0.2s ease',
+                                                                                                '&:hover': {
+                                                                                                    transform: 'translateY(-2px)',
+                                                                                                    boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)'
+                                                                                                }
+                                                                                            }}
+                                                                                        />
                                                                                     ))
                                                                                 ) : (
                                                                                     item.ingredients.map((ingredientObj, idx) => (
-                                                                                        <Typography
+                                                                                        <Box
                                                                                             key={idx}
-                                                                                            variant="body2"
-                                                                                            color="text.secondary"
-                                                                                            sx={{ mb: 0.5, listStyleType: "circle" }}
-                                                                                            component="li"
+                                                                                            sx={{
+                                                                                                display: 'flex',
+                                                                                                alignItems: 'center',
+                                                                                                gap: '8px',
+                                                                                                background: 'white',
+                                                                                                padding: '8px 16px',
+                                                                                                borderRadius: '12px',
+                                                                                                boxShadow: '0 2px 4px rgba(0, 0, 0, 0.05)',
+                                                                                                transition: 'all 0.2s ease',
+                                                                                                '&:hover': {
+                                                                                                    transform: 'translateY(-2px)',
+                                                                                                    boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)'
+                                                                                                }
+                                                                                            }}
                                                                                         >
-                                                                                            {ingredientObj.ingredient} - R{ingredientObj.totalAmount}
-                                                                                        </Typography>
+                                                                                            <Typography sx={{ color: '#2C3E50' }}>
+                                                                                                {ingredientObj.ingredient}
+                                                                                            </Typography>
+                                                                                            <Typography sx={{
+                                                                                                color: '#FF6B6B',
+                                                                                                fontWeight: '600'
+                                                                                            }}>
+                                                                                                R{ingredientObj.totalAmount}
+                                                                                            </Typography>
+                                                                                        </Box>
                                                                                     ))
                                                                                 )}
-                                                                            </ul>
+                                                                            </Box>
                                                                         </Box>
                                                                     )}
 
                                                                     {item.category === "Kota" && (
-                                                                        <Typography
-                                                                            variant="body2"
-                                                                            color="text.secondary"
-                                                                            sx={{ fontWeight: "bold", mt: 1 }}
-                                                                        >
-                                                                            Total Price: R{item.totalAmount}
-                                                                        </Typography>
+                                                                        <Box sx={{
+                                                                            mt: 2,
+                                                                            display: 'flex',
+                                                                            justifyContent: 'space-between',
+                                                                            alignItems: 'center'
+                                                                        }}>
+                                                                            <Chip
+                                                                                label={`${item.nutrition}`}
+                                                                                sx={{
+                                                                                    background: item.nutrition === "Veg"
+                                                                                        ? 'rgba(46, 213, 115, 0.15)'
+                                                                                        : 'rgba(255, 71, 87, 0.15)',
+                                                                                    color: item.nutrition === "Veg" ? '#2ED573' : '#FF4757',
+                                                                                    fontWeight: '600',
+                                                                                    borderRadius: '8px'
+                                                                                }}
+                                                                            />
+                                                                            <Typography
+                                                                                sx={{
+                                                                                    background: 'linear-gradient(45deg, #FF6B6B, #FF8E53)',
+                                                                                    padding: '8px 16px',
+                                                                                    borderRadius: '8px',
+                                                                                    color: 'white',
+                                                                                    fontWeight: '600'
+                                                                                }}
+                                                                            >
+                                                                                R{item.totalAmount}
+                                                                            </Typography>
+                                                                        </Box>
                                                                     )}
                                                                 </CardContent>
-                                                                <hr />
                                                                 <Box
-                                                                    marginBottom="1rem"
-                                                                    marginLeft="1rem"
+                                                                    sx={{
+                                                                        position: 'absolute',
+                                                                        top: '16px',
+                                                                        right: '16px',
+                                                                        background: 'rgba(255, 255, 255, 0.9)',
+                                                                        borderRadius: '50%',
+                                                                        padding: '8px',
+                                                                        cursor: 'pointer',
+                                                                        transition: 'all 0.2s ease',
+                                                                        '&:hover': {
+                                                                            transform: 'scale(1.1)',
+                                                                            background: 'white'
+                                                                        }
+                                                                    }}
                                                                 >
                                                                     <box-icon
                                                                         name='low-vision'
                                                                         color='#969DF8'
                                                                         onClick={() => handleViewItem(item)}
-                                                                    >
-                                                                    </box-icon>
+                                                                    />
                                                                 </Box>
                                                             </Card>
                                                         ))}
@@ -923,6 +1111,7 @@ const Administrator = ({
                                                 item={selectedItem}
                                                 fetchAllMenuItems={fetchAllMenuItems}
                                                 setMessage={setMessage}
+                                                setFilteredCategory={setFilteredCategory}
                                             />
                                         </Box>
                                     )}

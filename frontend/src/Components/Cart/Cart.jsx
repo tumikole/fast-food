@@ -1,95 +1,214 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { Box, Typography, Button, Card, CardContent, IconButton } from "@mui/material";
-import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
+import { Box, Typography, Button, Card, CardContent, IconButton, Container, CardMedia } from "@mui/material";
+// import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import DeleteIcon from "@mui/icons-material/Delete";
-import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
-import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
-import CheckCircleIcon from "@mui/icons-material/CheckCircle";
+// import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
+// import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
+// import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import Navbar from "../Navbar/Navbar";
 import "./Cart.scss";
 
-const Cart = ({ cart, removeItem }) => {
+const Cart = ({ cart = [], removeItem = () => { }, cartLength }) => {
   const calculateTotal = () => {
-    return cart.reduce((total, item) => total + Object.values(item.price)[0], 0);
+    return cart.reduce((total, item) => total + item.totalAmount, 0);
   };
+
+  console.log({cartComp: cart})
+
   const handleSaveCartToLocastorage = _ => {
     localStorage.setItem('userOrdering', JSON.stringify(cart));
+  };
 
+  if (cart.length === 0) {
+    return (
+      <>
+        <Navbar cartLength={cartLength} />
+        <Container maxWidth="lg" sx={{ py: 4 }}>
+          <Box sx={{
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            gap: 2,
+            background: 'rgba(255, 255, 255, 0.95)',
+            borderRadius: '20px',
+            padding: '2rem',
+            boxShadow: '0 8px 32px rgba(0, 0, 0, 0.1)',
+          }}>
+            <Typography variant="h5" sx={{ color: '#1a1a1a' }}>
+              Your cart is empty
+            </Typography>
+            <Button
+              variant="contained"
+              href="/menu"
+              sx={{
+                background: 'linear-gradient(45deg, #FF6B6B, #FF8E53)',
+                '&:hover': {
+                  background: 'linear-gradient(45deg, #FF8E53, #FF6B6B)',
+                }
+              }}
+            >
+              Go to Menu
+            </Button>
+          </Box>
+        </Container>
+      </>
+
+    );
   }
 
   return (
-    <Box className="cart">
-      <Navbar />
-
-      {/* Header */}
-      <Box className="cart-header" textAlign="center" py={3}>
-        <ShoppingCartIcon sx={{ color: "#ffffff", fontSize: 40 }} />
-        <Typography variant="h4" fontWeight="bold" color="#ffffff">
-          {cart.length > 0 ? "Your Cart" : "Your cart is empty"}
-        </Typography>
-        {cart.length === 0 && (
-          <Typography variant="h6" color="#ffffff">
-            Explore our products and add items to your cart
+    <>
+      <Navbar cartLength={cartLength} />
+      <Container maxWidth="lg" sx={{ py: 4 }}>
+        <Box sx={{
+          display: 'flex',
+          flexDirection: 'column',
+          gap: 3,
+        }}>
+          <Typography
+            variant="h4"
+            sx={{
+              textAlign: 'center',
+              fontWeight: 600,
+              background: 'linear-gradient(45deg, #FF6B6B, #FF8E53)',
+              WebkitBackgroundClip: 'text',
+              WebkitTextFillColor: 'transparent',
+              mb: 4
+            }}
+          >
+            Your Cart
           </Typography>
-        )}
-      </Box>
 
-      {/* View Menu Button */}
-      <Link to="/menu" style={{ textDecoration: "none", display: "flex", alignItems: "center", gap: 1, mt: 2, justifyContent: "center" }}>
-        <Button
-          variant="outlined"
-          sx={{ display: "flex", alignItems: "center", gap: 1, color: "#ffffff", borderColor: "#ffffff", my: 2 }}
-        >
-          <ArrowBackIosIcon sx={{ fontSize: 18 }} />
-          <Typography variant="body1">View Menu</Typography>
-          <ArrowForwardIosIcon sx={{ fontSize: 18 }} />
-        </Button>
-      </Link>
+          {cart.map((item, index) => (
+            <Card key={index} sx={{
+              display: 'flex',
+              background: 'rgba(255, 255, 255, 0.95)',
+              borderRadius: '16px',
+              overflow: 'hidden',
+              boxShadow: '0 4px 12px rgba(0, 0, 0, 0.1)',
+              transition: 'transform 0.3s ease',
+              '&:hover': {
+                transform: 'translateY(-4px)',
+              }
+            }}>
+              <CardMedia
+                component="img"
+                sx={{
+                  width: 200,
+                  objectFit: 'cover',
+                  background: '#f5f5f5'
+                }}
+                image={item.imageUrl}
+                alt={item.itemName}
+              />
+              <Box sx={{
+                display: 'flex',
+                flexDirection: 'column',
+                flexGrow: 1,
+                p: 2
+              }}>
+                <CardContent sx={{ flex: '1 0 auto' }}>
+                  <Box sx={{
+                    display: 'flex',
+                    justifyContent: 'space-between',
+                    alignItems: 'flex-start',
+                    mb: 2
+                  }}>
+                    <Typography variant="h6" sx={{ fontWeight: 600 }}>
+                      {item.itemName}
+                    </Typography>
+                    <IconButton
+                      onClick={() => removeItem(item.id)}
+                      sx={{
+                        color: '#FF6B6B',
+                        '&:hover': {
+                          background: 'rgba(255,107,107,0.1)'
+                        }
+                      }}
+                    >
+                      <DeleteIcon />
+                    </IconButton>
+                  </Box>
 
-      {/* Cart Items */}
-      {cart.length > 0 && (
-        <>
-          <Box className="cart-items">
-            {cart.map((item, index) => (
-              <Card key={index} className="cart-item" sx={{ ml: 2, mr: 2, my: 2, p: 2, position: "relative" }}>
-                <CardContent>
-                  <Typography variant="h6">{item.itemName}</Typography>
-                  <Typography variant="body2">Category: {item.category}</Typography>
-                  <Typography variant="body2">Ingredients: {item.ingredients.join(", ")}</Typography>
-                  <Typography variant="body2">Quantity: {item.quantity}</Typography>
-                  <Typography variant="body2" fontWeight="bold">Price: R{Object.values(item.price)[0]}</Typography>
+                  {/* Ingredients Section */}
+                  <Box sx={{ mb: 2 }}>
+                    <Typography variant="subtitle2" sx={{ color: '#666', mb: 1 }}>
+                      Ingredients:
+                    </Typography>
+                    <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1 }}>
+                      {item.ingredients.map((ing, idx) => (
+                        <Box
+                          key={idx}
+                          sx={{
+                            background: 'rgba(255,107,107,0.1)',
+                            padding: '4px 12px',
+                            borderRadius: '12px',
+                            fontSize: '0.875rem'
+                          }}
+                        >
+                          {item.category === "Kota"
+                            ? ing
+                            : `${ing.ingredient} (${ing.quantity})`
+                          }
+                        </Box>
+                      ))}
+                    </Box>
+                  </Box>
+                  {/* Price and Quantity */}
+                  <Box sx={{
+                    display: 'flex',
+                    justifyContent: 'space-between',
+                    alignItems: 'center'
+                  }}>
+                    <Typography
+                      variant="h6"
+                      sx={{
+                        color: '#FF6B6B',
+                        fontWeight: 600
+                      }}
+                    >
+                      R{item.totalAmount} {item.category === "Kota" && `| Q: ${item.quantity}`}
+                    </Typography>
+                  </Box>
                 </CardContent>
-                <IconButton
-                  onClick={() => removeItem(index)}
-                  sx={{ position: "absolute", bottom: 10, right: 10, color: "red" }}
-                >
-                  <DeleteIcon />
-                </IconButton>
-              </Card>
-            ))}
-          </Box>
+              </Box>
+            </Card>
+          ))}
 
-          {/* Total Price & Checkout */}
-          <Box className="cart-total" textAlign="center" mt={3}>
-            <Typography variant="h5" fontWeight="bold" color="#ffffff">
-              Grand Total: R{calculateTotal()}
+          {/* Total Section */}
+          <Box sx={{
+            background: 'rgba(255, 255, 255, 0.95)',
+            borderRadius: '16px',
+            padding: '1.5rem',
+            marginTop: '2rem',
+            boxShadow: '0 4px 12px rgba(0, 0, 0, 0.1)',
+            display: 'flex',
+            justifyContent: 'space-between',
+            alignItems: 'center'
+          }}>
+            <Typography variant="h5" sx={{ fontWeight: 600 }}>
+              Total: R{calculateTotal()}
             </Typography>
-            <Link to="/place_an_order" style={{ textDecoration: "none", display: "flex", alignItems: "center", gap: 1, mt: 2, justifyContent: "center" }} color="#ffffff" onClick={handleSaveCartToLocastorage}>
+            <Link to="/place_an_order">
               <Button
                 variant="contained"
-                color="#ffffff"
-                sx={{ display: "flex", alignItems: "center", gap: 1, mt: 2, justifyContent: "center" }}
+                sx={{
+                  background: 'linear-gradient(45deg, #FF6B6B, #FF8E53)',
+                  '&:hover': {
+                    background: 'linear-gradient(45deg, #FF8E53, #FF6B6B)',
+                  }
+                }}
+                onClick={handleSaveCartToLocastorage}
               >
-                <CheckCircleIcon />
                 Proceed to Checkout
-                <CheckCircleIcon />
               </Button>
             </Link>
           </Box>
-        </>
-      )}
-    </Box>
+        </Box>
+      </Container>
+    </>
+
   );
 };
 

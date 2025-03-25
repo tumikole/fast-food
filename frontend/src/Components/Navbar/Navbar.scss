@@ -7,4 +7,26 @@
   /* Ensures it stays above other content */
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
   transition: background-color 0.3s ease;
+
+  .notification-button,
+  .cart-button {
+    transition: transform 0.2s ease;
+    
+    &:hover {
+      transform: scale(1.1);
+    }
+
+    .MuiBadge-badge {
+      transition: all 0.3s ease;
+      
+      &:hover {
+        transform: scale(1.1);
+      }
+    }
+  }
+
+  // Remove the box-icon element
+  box-icon {
+    display: none;
+  }
 }

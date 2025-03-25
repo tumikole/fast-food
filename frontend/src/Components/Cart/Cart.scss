@@ -4,3 +4,46 @@
 
    
 }
+
+.cart-page {
+    min-height: 100vh;
+    background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+    padding: 2rem 0;
+
+    .cart-empty {
+        text-align: center;
+        padding: 3rem;
+        background: rgba(255, 255, 255, 0.95);
+        border-radius: 20px;
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+    }
+
+    .cart-item {
+        transition: transform 0.3s ease;
+        
+        &:hover {
+            transform: translateY(-4px);
+        }
+    }
+
+    .ingredient-chip {
+        background: rgba(255,107,107,0.1);
+        color: #1a1a1a;
+        padding: 4px 12px;
+        border-radius: 12px;
+        font-size: 0.875rem;
+        margin: 2px;
+        display: inline-block;
+    }
+
+    .MuiButton-contained {
+        text-transform: none;
+        border-radius: 8px;
+        padding: 8px 24px;
+        transition: all 0.3s ease;
+
+        &:hover {
+            transform: translateY(-2px);
+        }
+    }
+}

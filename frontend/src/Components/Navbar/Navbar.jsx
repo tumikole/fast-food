@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 import './Navbar.scss'
 import { AppBar, Toolbar, Typography, IconButton, Drawer, List, ListItem, ListItemButton, ListItemIcon, ListItemText, Modal, Box, Button, Badge } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
@@ -10,17 +11,17 @@ import ReviewsIcon from "@mui/icons-material/Reviews";
 import InfoIcon from "@mui/icons-material/Info";
 import LocalShippingIcon from "@mui/icons-material/LocalShipping";
 import QuestionAnswerIcon from "@mui/icons-material/QuestionAnswer";
-import { Link } from "react-router-dom";
 import supabase from "../../Supabase/supabase.config";
 import { getNotifications } from "../../Supabase/Notifications/Notifications";
 import Logo from '../../Asserts/Logo.jpeg'
+import { ShoppingCart } from '@mui/icons-material';
 
 // Import custom icons for each time category
 import AnnouncementIcon from "@mui/icons-material/Announcement";
 import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
 import NotificationsNoneIcon from "@mui/icons-material/NotificationsNone";
 
-const Navbar = () => {
+const Navbar = ({ cartLength = 0 }) => {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [activeTab, setActiveTab] = useState("Home");
   const [openModal, setOpenModal] = useState(false);
@@ -90,21 +91,71 @@ const Navbar = () => {
           </IconButton>
 
           <Typography variant="h6" sx={{ flexGrow: 1 }}>
-            <Link to="/" style={{ textDecoration: "none", color: "inherit", display: "flex", alignItems:"center", gap:"1rem" }}>
-            <Typography>|</Typography>
+            <Link to="/" style={{ textDecoration: "none", color: "inherit", display: "flex", alignItems: "center", gap: "1rem" }}>
+              <Typography>|</Typography>
 
-              <img  src={Logo} alt="Logo" style={{ width: 40, height: 40, borderRadius: "50%" }}/>
+              <img src={Logo} alt="Logo" style={{ width: 40, height: 40, borderRadius: "50%" }} />
               <Typography>Olieven Kota & Grills</Typography>
             </Link>
           </Typography>
 
           {notifications.length > 0 && (
-            <div onClick={handleModalToggle} style={{ cursor: "pointer" }}>
-              <Badge badgeContent={notifications.length} color="error">
-                <box-icon name="bell" animation="tada" color="#ffffff"></box-icon>
+            <IconButton
+              onClick={handleModalToggle}
+              className="notification-button"
+              sx={{
+                color: 'white',
+                position: 'relative',
+                marginRight: 1
+              }}
+            >
+              <Badge
+                badgeContent={notifications.length}
+                color="error"
+                sx={{
+                  '& .MuiBadge-badge': {
+                    backgroundColor: '#FF6B6B',
+                    color: 'white',
+                    fontWeight: 'bold',
+                    minWidth: '20px',
+                    height: '20px',
+                    borderRadius: '10px',
+                  }
+                }}
+              >
+                <NotificationsNoneIcon />
               </Badge>
-            </div>
+            </IconButton>
           )}
+
+          {cartLength > 0 &&
+            <Link to="/cart">
+              <IconButton
+                className="cart-button"
+                sx={{
+                  color: 'white',
+                  position: 'relative'
+                }}
+              >
+                <Badge
+                  badgeContent={cartLength}
+                  color="error"
+                  sx={{
+                    '& .MuiBadge-badge': {
+                      backgroundColor: '#FF6B6B',
+                      color: 'white',
+                      fontWeight: 'bold',
+                      minWidth: '20px',
+                      height: '20px',
+                      borderRadius: '10px',
+                    }
+                  }}
+                >
+                  <ShoppingCart />
+                </Badge>
+              </IconButton>
+            </Link>
+          }
         </Toolbar>
       </AppBar>
 

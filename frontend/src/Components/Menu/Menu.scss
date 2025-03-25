@@ -2,11 +2,10 @@
     width: 100%;
     min-height: 100vh;
     background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
-    padding: 2rem 0;
 
     .menu-container {
         margin: 0 auto;
-        padding: 0 1rem;
+        padding: 0;
 
         .menu-item-card {
             position: relative;
@@ -606,10 +605,41 @@
 .menu-page {
     min-height: 100vh;
     background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
-    
+
     .menu-container {
-        padding: 2rem 0;
-        
+        .MuiButton-root {
+            text-transform: none;
+            border-radius: 8px;
+            padding: 8px 16px;
+            transition: all 0.3s ease;
+
+            &:hover {
+                transform: translateY(-2px);
+            }
+
+            &.MuiButton-contained {
+                background: linear-gradient(45deg, #FF6B6B, #FF8E53);
+                box-shadow: 0 4px 15px rgba(255, 107, 107, 0.2);
+
+                &:hover {
+                    background: linear-gradient(45deg, #FF8E53, #FF6B6B);
+                }
+            }
+        }
+
+        .MuiChip-root {
+            transition: all 0.3s ease;
+            
+            &:hover {
+                transform: translateY(-2px);
+            }
+        }
+
+        .MuiIconButton-root {
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
         .menu-title {
             text-align: center;
             margin-bottom: 2rem;
@@ -755,4 +785,112 @@
             }
         }
     }
+}
+
+.menu-content {
+    padding: 24px !important;
+
+    .item-header {
+        margin-bottom: 16px;
+
+        .item-name {
+            font-weight: 600;
+            color: #1a1a1a;
+            position: relative;
+            padding-left: 20px;
+
+            &::before {
+                content: '';
+                position: absolute;
+                left: 0;
+                top: 50%;
+                transform: translateY(-50%);
+                width: 12px;
+                height: 12px;
+                border-radius: 50%;
+                border: 2px solid currentColor;
+            }
+
+            &[data-nutrition='veg']::before {
+                background: #2ECC71;
+                border-color: #27AE60;
+            }
+
+            &[data-nutrition='non-veg']::before {
+                background: #E74C3C;
+                border-color: #C0392B;
+            }
+        }
+    }
+
+    .MuiChip-root {
+        font-size: 0.875rem;
+        height: 32px;
+        transition: all 0.3s ease;
+        
+        &:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+    }
+
+    .item-footer {
+        margin-top: 16px;
+        padding-top: 16px;
+        border-top: 1px solid rgba(0, 0, 0, 0.1);
+
+        .item-price {
+            font-weight: 600;
+            color: #FF6B6B;
+        }
+
+        .item-tags {
+            display: flex;
+            gap: 8px;
+
+            .MuiChip-root {
+                &[data-nutrition='veg'] {
+                    background: linear-gradient(45deg, #2ECC71, #27AE60);
+                }
+
+                &[data-nutrition='non-veg'] {
+                    background: linear-gradient(45deg, #E74C3C, #C0392B);
+                }
+
+                &:hover {
+                    transform: translateY(-2px);
+                    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+                }
+            }
+        }
+    }
+}
+
+.menu-image {
+    object-position: center;
+    background-color: #f5f5f5; // Fallback color while image loads
+    
+    &.MuiCardMedia-root {
+        position: relative;
+        overflow: hidden;
+        
+        &::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 100px;
+            background: linear-gradient(
+                to top,
+                rgba(0,0,0,0.3) 0%,
+                rgba(0,0,0,0) 100%
+            );
+            pointer-events: none;
+        }
+    }
+}
+
+.menu-card {
+    overflow: hidden; // Ensures the zoom effect stays within bounds
 }

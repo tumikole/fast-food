@@ -2,37 +2,30 @@ import React, { useState, useEffect } from 'react';
 import {
     Box,
     Button,
-    Modal,
     TextField,
     Typography,
     IconButton,
-    Divider,
+    Dialog,
+    DialogTitle,
+    DialogContent,
+    DialogActions,
+    Radio,
+    RadioGroup,
+    FormControlLabel,
+    FormControl,
+    Chip,
 } from '@mui/material';
-import DeleteIcon from '@mui/icons-material/Delete';
-import AddIcon from '@mui/icons-material/Add';
-import CloseIcon from '@mui/icons-material/Close';
-import { editMenuItem, deleteMenuItem } from '../../../Supabase/addMenuItems/addMenuItems';
+import { Delete, Add, Close, Save, CameraAlt } from '@mui/icons-material';
+import { updateMenuItem, deleteMenuItem } from '../../../Supabase/addMenuItems/addMenuItems';
+import './EditDeleteModal.scss';
 
-const style = {
-    position: 'absolute',
-    top: '50%',
-    left: '50%',
-    transform: 'translate(-50%, -50%)',
-    width: '90%',
-    maxWidth: 600,
-    maxHeight: '90vh',
-    overflowY: 'auto',
-    bgcolor: 'background.paper',
-    boxShadow: 24,
-    p: 4,
-    borderRadius: 2,
-};
-
-const EditDeleteModal = ({ open, onClose, item, fetchAllMenuItems, setMessage }) => {
+const EditDeleteModal = ({ open, onClose, item, fetchAllMenuItems, setMessage, setFilteredCategory }) => {
     const [itemName, setItemName] = useState('');
     const [totalAmount, setTotalAmount] = useState('0.00');
     const [imageUrl, setImageUrl] = useState('');
     const [ingredients, setIngredients] = useState([]);
+    const [nutrition, setNutrition] = useState('');
+
 
     useEffect(() => {
         if (item) {
@@ -92,15 +85,17 @@ const EditDeleteModal = ({ open, onClose, item, fetchAllMenuItems, setMessage })
     };
 
     const handleEdit = async () => {
-        const updatedData = { itemName, totalAmount, imageUrl, ingredients };
+        const updatedData = { itemName, totalAmount, imageUrl, ingredients, nutrition };
 
         try {
-            const data = await editMenuItem(item.id, updatedData);  // Calling the editMenuItem function
+            const data = await updateMenuItem(item.id, updatedData);  // Calling the editMenuItem function
 
             if (data.status === "Ok") {
                 onClose();  // Close the modal after the update is successful
                 setMessage({ success: `${item.itemName} updated successfully` });  // Show success message
                 await fetchAllMenuItems();  // Refresh the menu items
+        setFilteredCategory("All")
+
                 setTimeout(async () => {
                     setMessage("");  // Clear the message after 5 seconds
                 }, 3000);
@@ -126,136 +121,253 @@ const EditDeleteModal = ({ open, onClose, item, fetchAllMenuItems, setMessage })
     };
 
     return (
-        <Modal
+        <Dialog
             open={open}
             onClose={onClose}
-            aria-labelledby="edit-delete-modal-title"
-            aria-describedby="edit-delete-modal-description"
+            maxWidth="md"
+            fullWidth
+            PaperProps={{
+                sx: {
+                    borderRadius: '20px',
+                    background: 'rgba(255, 255, 255, 0.95)',
+                    backdropFilter: 'blur(10px)',
+                    boxShadow: '0 8px 32px rgba(0, 0, 0, 0.1)',
+                }
+            }}
         >
-            <Box sx={style}>
-                {/* Header */}
-                <Box display="flex" justifyContent="space-between" alignItems="center" mb={2}>
-                    <Typography variant="h6" component="h2">
-                        Edit or Delete {item && item.itemName} | {item && item.category}
-                    </Typography>
-                    <IconButton onClick={onClose}>
-                        <CloseIcon />
-                    </IconButton>
-                </Box>
-                <Divider />
+            <DialogTitle sx={{
+                display: 'flex',
+                justifyContent: 'space-between',
+                alignItems: 'center',
+                borderBottom: '1px solid rgba(0, 0, 0, 0.1)',
+                padding: '20px 24px',
+            }}>
+                <Typography variant="h5" sx={{ fontWeight: 600 }}>
+                    {item?.itemName}
+                </Typography>
+                <Chip
+                    label={item?.category}
+                    sx={{
+                        background: 'linear-gradient(45deg, #FF6B6B, #FF8E53)',
+                        color: 'white',
+                        fontWeight: 'bold',
+                    }}
+                />
+                <IconButton onClick={onClose} size="small">
+                    <Close />
+                </IconButton>
+            </DialogTitle>
 
-                {/* Content */}
-                {item && (
-                    <Box mt={2}>
-                        <Box mt={2} mb={2}>
-                            <img
-                                src={imageUrl ? imageUrl : item.imageUrl}
-                                alt={itemName}
-                                style={{ width: '100%', height: 'auto', marginBottom: 10 }}
-                            />
-                            <Button
-                                variant="contained"
-                                component="label"
-                                sx={{ marginBottom: 2 }}
-                            >
-                                Change Image
-                                <input
-                                    type="file"
-                                    hidden
-                                    accept="image/*"
-                                    onChange={handleImageUpload}
-                                />
-                            </Button>
-                        </Box>
-                        <TextField
-                            fullWidth
-                            label="Item Name"
-                            variant="outlined"
-                            value={itemName}
-                            onChange={(e) => setItemName(e.target.value)}
-                            margin="normal"
+            <DialogContent sx={{ padding: '24px' }}>
+                <Box sx={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
+                    {/* Image Section */}
+                    <Box sx={{ position: 'relative' }}>
+                        <img
+                            src={imageUrl || item?.imageUrl}
+                            alt={itemName}
+                            style={{
+                                width: '100%',
+                                height: '300px',
+                                objectFit: 'cover',
+                                borderRadius: '16px',
+                            }}
                         />
+                        <Button
+                            component="label"
+                            sx={{
+                                position: 'absolute',
+                                bottom: '16px',
+                                right: '16px',
+                                background: 'rgba(255, 255, 255, 0.9)',
+                                borderRadius: '8px',
+                                '&:hover': {
+                                    background: 'rgba(255, 255, 255, 1)',
+                                }
+                            }}
+                            startIcon={<CameraAlt />}
+                        >
+                            Change Image
+                            <input
+                                type="file"
+                                hidden
+                                accept="image/*"
+                                onChange={handleImageUpload}
+                            />
+                        </Button>
+                    </Box>
+
+                    {/* Item Details */}
+                    <TextField
+                        label="Item Name"
+                        value={itemName}
+                        onChange={(e) => setItemName(e.target.value)}
+                        fullWidth
+                        variant="outlined"
+                        sx={{
+                            '& .MuiOutlinedInput-root': {
+                                background: 'rgba(255, 255, 255, 0.8)',
+                            }
+                        }}
+                    />
+
+                    {item?.category === "Kota" &&
                         <TextField
-                            fullWidth
                             label="Total Amount"
-                            variant="outlined"
+                            type="number"
                             value={totalAmount}
                             onChange={(e) => setTotalAmount(e.target.value)}
-                            margin="normal"
-                            type="number"
-                        />
-                        <Typography variant="h6" mt={2}>
-                            Ingredients
+                            fullWidth
+                            variant="outlined"
+                            InputProps={{
+                                startAdornment: <Typography sx={{ mr: 1 }}>R</Typography>
+                            }}
+                        />}
+
+                    {/* Nutrition Section for Kota */}
+                    {item?.category === "Kota" && (
+                        <FormControl component="fieldset">
+                            <Typography variant="subtitle2" sx={{ mb: 1 }}>Nutrition Type</Typography>
+                            <RadioGroup
+                                row
+                                value={nutrition}
+                                onChange={(e) => setNutrition(e.target.value)}
+                            >
+                                <FormControlLabel
+                                    value="Veg"
+                                    control={<Radio color="success" />}
+                                    label={<Typography color="success.main">Veg</Typography>}
+                                />
+                                <FormControlLabel
+                                    value="Non-veg"
+                                    control={<Radio color="error" />}
+                                    label={<Typography color="error.main">Non-veg</Typography>}
+                                />
+                            </RadioGroup>
+                        </FormControl>
+                    )}
+
+                    {/* Ingredients Section */}
+                    <Box sx={{
+                        background: 'rgba(245, 247, 250, 0.95)',
+                        borderRadius: '16px',
+                        padding: '20px',
+                    }}>
+                        <Typography variant="h6" sx={{
+                            fontWeight: 600,
+                            marginBottom: '16px',
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'space-between'
+                        }}>
+                            <span>Ingredients</span>
+                            <Button
+                                variant="contained"
+                                onClick={handleAddIngredient}
+                                startIcon={<Add />}
+                                sx={{
+                                    background: 'linear-gradient(45deg, #FF6B6B, #FF8E53)',
+                                    color: 'white',
+                                }}
+                            >
+                                Add Ingredient
+                            </Button>
                         </Typography>
-                        {ingredients.map((ingredient, index) => (
-                            <Box key={index} display="flex" alignItems="center" gap={1} mb={1}>
-                                {item.category === "Kota" ? (
-                                    // For "Kota", show an input for string ingredients
-                                    <TextField
-                                        fullWidth
-                                        label={`Ingredient ${index + 1}`}
-                                        variant="outlined"
-                                        value={ingredient} // For Kota, ingredient is a string
-                                        onChange={(e) => handleIngredientChange(index, e.target.value, 'ingredient')}
-                                    />
-                                ) : (
-                                    // For other categories, show inputs for both ingredient and totalAmount
-                                    <Box display="flex" gap={1}>
+
+                        <Box sx={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
+                            {ingredients.map((ingredient, index) => (
+                                <Box
+                                    key={index}
+                                    sx={{
+                                        display: 'flex',
+                                        alignItems: 'center',
+                                        gap: '12px',
+                                        background: 'white',
+                                        padding: '12px',
+                                        borderRadius: '8px',
+                                        boxShadow: '0 2px 4px rgba(0,0,0,0.05)',
+                                    }}
+                                >
+                                    {item?.category === "Kota" ? (
                                         <TextField
                                             fullWidth
                                             label={`Ingredient ${index + 1}`}
-                                            variant="outlined"
-                                            value={ingredient.ingredient} // For other categories, ingredient is an object
+                                            value={ingredient}
                                             onChange={(e) => handleIngredientChange(index, e.target.value, 'ingredient')}
-                                        />
-                                        <TextField
-                                            fullWidth
-                                            label="Amount"
                                             variant="outlined"
-                                            value={ingredient.totalAmount} // For other categories, totalAmount is part of the object
-                                            onChange={(e) => handleIngredientChange(index, e.target.value, 'amount')}
+                                            size="small"
                                         />
-                                    </Box>
-                                )}
-                                <IconButton color="error" onClick={() => handleRemoveIngredient(index)}>
-                                    <DeleteIcon />
-                                </IconButton>
-                            </Box>
-                        ))}
-                        <Button
-                            variant="outlined"
-                            onClick={handleAddIngredient}
-                            startIcon={<AddIcon />}
-                            sx={{ marginBottom: 2 }}
-                        >
-                            Add Ingredient
-                        </Button>
+                                    ) : (
+                                        <>
+                                            <TextField
+                                                fullWidth
+                                                label={`Ingredient ${index + 1}`}
+                                                value={ingredient.ingredient}
+                                                onChange={(e) => handleIngredientChange(index, e.target.value, 'ingredient')}
+                                                variant="outlined"
+                                                size="small"
+                                            />
+                                            <TextField
+                                                label="Amount"
+                                                value={ingredient.totalAmount}
+                                                onChange={(e) => handleIngredientChange(index, e.target.value, 'amount')}
+                                                variant="outlined"
+                                                size="small"
+                                                sx={{ width: '150px' }}
+                                                InputProps={{
+                                                    startAdornment: <Typography sx={{ mr: 0.5 }}>R</Typography>
+                                                }}
+                                            />
+                                        </>
+                                    )}
+                                    <IconButton
+                                        onClick={() => handleRemoveIngredient(index)}
+                                        sx={{ color: '#FF6B6B' }}
+                                    >
+                                        <Delete />
+                                    </IconButton>
+                                </Box>
+                            ))}
+                        </Box>
                     </Box>
-                )}
-
-                {/* Footer */}
-                <Divider sx={{ my: 2 }} />
-                <Box display="flex" justifyContent="space-between" mt={3}>
-                    <Button
-                        variant="outlined"
-                        onClick={handleEdit}
-                        startIcon={<AddIcon color="green" />}
-                        sx={{ marginBottom: 2 }}
-                    >
-                        Update
-                    </Button>
-
-                    <Button
-                        variant="outlined"
-                        onClick={handleDelete}
-                        startIcon={<DeleteIcon />}
-                        sx={{ marginBottom: 2 }}
-                    >
-                        Delete
-                    </Button>
                 </Box>
-            </Box>
-        </Modal>
+            </DialogContent>
+
+            <DialogActions sx={{
+                padding: '16px 24px',
+                borderTop: '1px solid rgba(0, 0, 0, 0.1)',
+                gap: '12px'
+            }}>
+                <Button
+                    variant="outlined"
+                    onClick={handleDelete}
+                    startIcon={<Delete />}
+                    sx={{
+                        color: '#FF6B6B',
+                        borderColor: '#FF6B6B',
+                        '&:hover': {
+                            borderColor: '#FF6B6B',
+                            background: 'rgba(255, 107, 107, 0.1)'
+                        }
+                    }}
+                >
+                    Delete
+                </Button>
+                <Button
+                    variant="contained"
+                    onClick={handleEdit}
+                    startIcon={<Save />}
+                    sx={{
+                        background: 'linear-gradient(45deg, #FF6B6B, #FF8E53)',
+                        color: 'white',
+                        '&:hover': {
+                            background: 'linear-gradient(45deg, #FF8E53, #FF6B6B)',
+                        }
+                    }}
+                >
+                    Save Changes
+                </Button>
+            </DialogActions>
+        </Dialog>
     );
 };
 

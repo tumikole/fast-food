@@ -34,13 +34,12 @@ const PlaceAnOrder = ({ paymentMethod,
     loading,
     setLoading,
     setOrderNumber,
-    orderNumber
+    orderNumber,
+    setCart
 }) => {
 
     const navigate = useNavigate();
 
-    // Handle orderer information submission
-    // Handle orderer information submission
     const handleOrdererInformation = async (finalOrder, orderNumber) => {
         try {
             const response = await addOrder(
@@ -52,6 +51,7 @@ const PlaceAnOrder = ({ paymentMethod,
                 address,
                 notes
             );
+
 
 
             if (response.success) {
@@ -99,8 +99,9 @@ const PlaceAnOrder = ({ paymentMethod,
                 setOrderNumber(userOrderNumber);
                 const finalOrder = {
                     order: orderData,
-                    
                 };
+
+                console.log({finalOrder})
 
 
                 await handleOrdererInformation(finalOrder, orderNumber); // Save the orderer information
@@ -117,7 +118,8 @@ const PlaceAnOrder = ({ paymentMethod,
                 setPhoneNumber("")
                 setAddress("")
                 setNotes("")
-
+                localStorage.clear();
+                setCart([])
                 navigate("/order_tracking");
             } else if (result.isDenied) {
                 Swal.fire("Order not saved", "You can modify your details and try again.", "info");
