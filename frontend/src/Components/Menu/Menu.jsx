@@ -263,7 +263,6 @@ const Menu = ({ addToCart, cart }) => {
         <div className="menu-page">
             <Navbar cartLength={cart.length} />
             <Container maxWidth="lg" className="menu-container">
-                {/* <p style={{ color: "green" }}>{JSON.stringify(currentItem)}</p> */}
 
                 {!currentItem ? (
                     <Box display="flex" justifyContent="center" alignItems="center" flexDirection="column" height="50vh">
