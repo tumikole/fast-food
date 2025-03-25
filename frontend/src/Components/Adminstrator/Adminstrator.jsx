@@ -84,7 +84,6 @@ const Administrator = ({
     const [categoryList, setCategoriesList] = useState([]);
     const [filteredCategory, setFilteredCategory] = useState("All")
 
-
     const fetchAllMenuItems = async () => {
         const userData = await getAllMenuItems();
 
@@ -1121,7 +1120,7 @@ const Administrator = ({
                             </>
                         )}
                         {selectedTab === "Messages" && <Messaging userDetails={userDetails} />}
-                        {selectedTab === "Notifications" && <Notifications />}
+                        {selectedTab === "Notifications" && <Notifications user={user} />}
                         {selectedTab === "Orders" && (
 
                             <OrdersList user={user} />

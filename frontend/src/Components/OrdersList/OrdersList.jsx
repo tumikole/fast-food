@@ -73,7 +73,6 @@ const FoodOrdersList = ({ user }) => {
     setSelectedOrder(null); // Reset the selected order when closing the modal
   };
 
-  console.log({ filteredOrders })
   return (
     <Grid container spacing={2}>
       <Grid item xs={12}>

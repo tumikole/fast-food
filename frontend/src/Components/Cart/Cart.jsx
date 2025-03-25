@@ -14,8 +14,6 @@ const Cart = ({ cart = [], removeItem = () => { }, cartLength }) => {
     return cart.reduce((total, item) => total + item.totalAmount, 0);
   };
 
-  console.log({cartComp: cart})
-
   const handleSaveCartToLocastorage = _ => {
     localStorage.setItem('userOrdering', JSON.stringify(cart));
   };

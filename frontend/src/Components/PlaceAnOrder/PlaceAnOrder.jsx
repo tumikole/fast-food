@@ -101,9 +101,6 @@ const PlaceAnOrder = ({ paymentMethod,
                     order: orderData,
                 };
 
-                console.log({finalOrder})
-
-
                 await handleOrdererInformation(finalOrder, orderNumber); // Save the orderer information
                 setLoading(false); // Stop loading after saving information
                 Swal.fire({

@@ -97,7 +97,6 @@ const Menu = ({ addToCart, cart }) => {
     };
 
     const currentItem = groupedItems[activeCategory]?.[currentItemIndex];
-    console.log({ currentItem })
 
     const getNutritionColor = (nutrition) => {
         switch (nutrition?.toLowerCase()) {
@@ -194,8 +193,6 @@ const Menu = ({ addToCart, cart }) => {
                 totalAmount: kotaTotal,
                 basePrice: currentItem.totalAmount
             };
-
-            console.log({kotaToAdd})
 
             addToCart(kotaToAdd);
         } else {

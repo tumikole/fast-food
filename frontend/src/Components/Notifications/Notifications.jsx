@@ -46,7 +46,7 @@ const Notifications = ({ user, userId }) => {
 
     const handleAddNotification = async () => {
         if (!note.trim()) return;
-        await addNotification(note, user, userId);
+        await addNotification(note, user.username, user.id);
         setNote("");
     };
 
@@ -133,7 +133,7 @@ const Notifications = ({ user, userId }) => {
                                 </Typography>
 
                                 {
-                                    userId === notification.authorId
+                                    user.id === notification.authorId
                                         ?
                                         <IconButton
                                             edge="end"

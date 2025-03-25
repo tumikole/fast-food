@@ -105,7 +105,6 @@ const Main = () => {
 
     };
 
-console.log({cart})
     const handleAddUserSubmit = async () => {
         if (role !== "Customer") {
             if (!email || !password || !username) {
@@ -187,13 +186,11 @@ console.log({cart})
 
     // Update this to allow adding the same item multiple times to the cart
     const addToCart = (item) => {
-        console.log({item})
         setCart((prevCart) => [...prevCart, { ...item }]);
     };
 
     // Handle item removal by index
     const removeItem = (index) => {
-        console.log({index})
         setCart((prevCart) => prevCart.filter((item) => item.id !== index));
     };
 
