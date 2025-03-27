@@ -65,7 +65,7 @@
                 border-top: 1px solid rgba(255, 255, 255, 0.1);
 
                 .MuiButton-root {
-                    background: linear-gradient(45deg, #ffcc00, #ff9900);
+                    // background: linear-gradient(45deg, #ffcc00, #ff9900);
                     color: #000;
                     font-weight: 600;
                     padding: 0.5rem 1.5rem;
@@ -73,7 +73,7 @@
                     transition: all 0.3s ease;
 
                     &:hover {
-                        background: linear-gradient(45deg, #ff9900, #ffcc00);
+                        // background: linear-gradient(45deg, #ff9900, #ffcc00);
                         transform: translateY(-2px);
                     }
                 }
@@ -618,11 +618,11 @@
             }
 
             &.MuiButton-contained {
-                background: linear-gradient(45deg, #FF6B6B, #FF8E53);
+                // background: linear-gradient(45deg, #FF6B6B, #FF8E53);
                 box-shadow: 0 4px 15px rgba(255, 107, 107, 0.2);
 
                 &:hover {
-                    background: linear-gradient(45deg, #FF8E53, #FF6B6B);
+                    // background: linear-gradient(45deg, #FF8E53, #FF6B6B);
                 }
             }
         }
@@ -649,6 +649,16 @@
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
+        
+        .menu-title-customer {
+            text-align: center;
+            margin-bottom: 2rem;
+            color: #fff;
+            font-weight: 600;
+            background: linear-gradient(45deg, #1976d2b1, #1976d2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
 
         .category-navigation {
             display: flex;
@@ -668,8 +678,13 @@
                     transform: translateY(-2px);
                 }
                 
-                &.active {
+                &.active-main {
                     background: linear-gradient(45deg, #ffcc00, #ff9900);
+                    color: #000;
+                    border: none;
+                }
+                &.active-customer {
+                    background: linear-gradient(45deg, #1976d2b4, #1976d2);
                     color: #000;
                     border: none;
                 }
@@ -682,7 +697,7 @@
             position: relative;
             margin: 0 auto;
             max-width: 800px;
-            border: 5px solid #E74C3C;
+            // border: 5px solid #E74C3C;
 
             .nav-button {
                 position: absolute;

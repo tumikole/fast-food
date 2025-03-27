@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Card, CardContent, Typography, List, ListItem, Divider, Grid, Button, FormControl, InputLabel, Select, MenuItem, Box, Modal, Backdrop, Fade } from '@mui/material';
+import { Card, CardContent, Typography, List, ListItem, Divider, Grid, Button, FormControl, InputLabel, Select, MenuItem, Box, Modal, Backdrop, Fade, } from '@mui/material';
 import { getAllOrders, updateOrderChef } from '../../Supabase/PlaceAnOrder/PlaceAnOrder'; // Assuming this function exists
 import supabase from '../../Supabase/supabase.config'; // Import your supabase client
 
@@ -49,10 +49,10 @@ const FoodOrdersList = ({ user }) => {
   };
 
   // Function to handle button click and open modal with order details
-  // const handleSelectOrder = (order) => {
-  //   setSelectedOrder(order);
-  //   setOpenModal(true);
-  // };
+  const handleSelectOrder = (order) => {
+    setSelectedOrder(order);
+    setOpenModal(true);
+  };
 
   // Function to handle status change inside modal
   const handleModalStatusChange = async (event) => {
@@ -166,7 +166,12 @@ const FoodOrdersList = ({ user }) => {
                                       {item.ingredients.map((ingredient, index) => (
                                         <ListItem key={index} sx={{ pl: 1 }}>
                                           <Typography variant="body2">
-                                            • Item: {ingredient.ingredient} - <strong>Quantity: {ingredient.quantity}</strong>
+                                            • Item: {ingredient.ingredient}
+                                            <br />
+                                            • Price: {ingredient.totalAmount}
+                                            <br />
+                                            {item.category !== "Kota" &&
+                                              <strong>• Quantity: {ingredient.quantity}</strong>}
                                           </Typography>
                                         </ListItem>
                                       ))}
@@ -183,16 +188,51 @@ const FoodOrdersList = ({ user }) => {
                                   </Typography>
                                 }
                               </Box>
+                              {item.category === "Kota" &&
+                                <Box
+                                  sx={{
+                                    textAlign: "right",
+                                    background: 'white',
+                                    padding: '8px 16px',
+                                    borderRadius: '12px',
+                                    boxShadow: '0 2px 4px rgba(0, 0, 0, 0.05)',
+                                    transition: 'all 0.2s ease',
+                                    '&:hover': {
+                                      transform: 'translateY(-2px)',
+                                      boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)'
+                                    }
+                                  }}
+                                >
 
-                              <Typography fontWeight="bold" sx={{ color: "primary.main", alignSelf: "flex-end" }}>
-                                R{item.totalAmount}
-                              </Typography>
+                                  <Typography sx={{
+                                    color: '#FF6B6B',
+                                    fontWeight: '600'
+                                  }}>
+                                    R{item.totalAmount}
+                                  </Typography>
+                                </Box>}
                             </ListItem>
                           ))}
                         </List>
                       </Box>
                     )}
                   </CardContent>
+                  <Box sx={{
+                    background: 'linear-gradient(45deg, #FF6B6B, #FF8E53)',
+                    padding: '8px 16px',
+                    borderRadius: '20px',
+                    color: 'white',
+                    fontWeight: 'bold',
+                    boxShadow: '0 4px 10px rgba(0, 0, 0, 0.2)',
+                    ml: "1rem",
+                    mr: "1rem",
+                    mb: "1rem",
+                    textAlign: "center"
+                  }}
+                    onClick={() => handleSelectOrder(order)}
+                  >
+                    Select
+                  </Box>
                 </Card>
               ))}
             </List>
@@ -228,56 +268,72 @@ const FoodOrdersList = ({ user }) => {
           }}>
             {selectedOrder && (
               <>
-                <Typography variant="h4" gutterBottom>
+                <Typography variant="h5" gutterBottom sx={{ fontWeight: 'bold', color: 'text.primary' }}>
                   Order Number: {selectedOrder.order_number}
                 </Typography>
-                <Typography variant="h6" gutterBottom>
+
+                <Typography variant="h6" gutterBottom sx={{ color: 'text.secondary' }}>
                   {selectedOrder.name}
                 </Typography>
 
-                {/* Order details */}
                 {selectedOrder.order_details.order.map((item, index) => (
-                  <Box key={index} sx={{ marginBottom: 2 }}>
-                    <Typography variant="body1">
+                  <Box key={index} sx={{ marginBottom: 3, backgroundColor: 'background.paper', padding: 2, borderRadius: 1, boxShadow: 1 }}>
+                    <Typography variant="body1" sx={{ fontWeight: 'bold', color: 'primary.main' }}>
                       Item: {item.itemName} ({item.category})
                     </Typography>
-                    <Typography variant="body2">
+
+                    <Typography variant="body2" sx={{ color: 'text.secondary' }}>
                       Ingredients: {item.ingredients.join(', ')}
                     </Typography>
-                    <Typography variant="body2">
-                      Quantity: {item.quantity} | Price: R{Object.values(item.price)[0]}
+
+                    <Typography variant="body2" sx={{ color: 'text.secondary' }}>
+                      Quantity: {item.quantity}
                     </Typography>
                   </Box>
                 ))}
 
-                {/* Status Dropdown in Modal */}
-                <FormControl fullWidth sx={{ marginTop: 3 }}>
+                <FormControl fullWidth sx={{ marginTop: 3, backgroundColor: 'background.paper', borderRadius: 1, boxShadow: 1 }}>
                   <InputLabel>Status</InputLabel>
                   <Select
                     value={selectedOrder.order_status}
                     onChange={handleModalStatusChange}
                     label="Status"
+                    sx={{
+                      '& .MuiOutlinedInput-notchedOutline': {
+                        borderColor: 'divider',
+                      },
+                      '&:hover .MuiOutlinedInput-notchedOutline': {
+                        borderColor: 'primary.main',
+                      },
+                    }}
                   >
-                    <MenuItem value="Pending ">Pending</MenuItem>
+                    <MenuItem value="Pending">Pending</MenuItem>
                     <MenuItem value="Preparing">Preparing</MenuItem>
                     <MenuItem value="Waiting for pick up">Waiting for pick up</MenuItem>
                     <MenuItem value="Delivered">Delivered</MenuItem>
                     <MenuItem value="Shipped">Shipped</MenuItem>
-
                   </Select>
                 </FormControl>
 
-                {/* Close Modal Button */}
                 <Button
-                  variant="outlined"
-                  color="secondary"
+                  variant="contained"
+                  color="primary"
                   onClick={handleCloseModal}
-                  sx={{ marginTop: 2 }}
+                  sx={{
+                    marginTop: 2,
+                    borderRadius: 2,
+                    textTransform: 'none',
+                    boxShadow: 2,
+                    '&:hover': {
+                      backgroundColor: 'primary.dark',
+                    },
+                  }}
                 >
                   Close
                 </Button>
               </>
             )}
+
           </Box>
         </Fade>
       </Modal>

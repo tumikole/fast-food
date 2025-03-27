@@ -24,17 +24,12 @@ import {
     Remove as RemoveIcon,
 } from '@mui/icons-material';
 
-const Menu = ({ addToCart, cart }) => {
-    const [activeCategory, setActiveCategory] = useState("All");
+const Menu = ({ addToCart, cart, allCategoryList, groupedItems, allMenuItems, activeCategory, setActiveCategory, setAllCategoryList, setGroupedItems, setAllMenuItems }) => {
     const [currentItemIndex, setCurrentItemIndex] = useState(0);
     const [imageLoading, setImageLoading] = useState(false);
-    const [allMenuItems, setAllMenuItems] = useState([]);
-    const [allCategoryList, setAllCategoryList] = useState([]);
-    const [groupedItems, setGroupedItems] = useState({});
     const [quantities, setQuantities] = useState({});
     const [itemTotals, setItemTotals] = useState({});
 
-    // Fetch menu items from Supabase
     const fetchAllMenuItems = async () => {
         const dataList = await getAllMenuItems();
         setAllMenuItems(dataList);
@@ -56,6 +51,7 @@ const Menu = ({ addToCart, cart }) => {
             setActiveCategory(uniqueCategories[0]);
         }
     };
+
 
     useEffect(() => {
         if (allMenuItems.length === 0) {
@@ -114,7 +110,7 @@ const Menu = ({ addToCart, cart }) => {
             const key = `${itemId}-${ingredientName}`;
             const currentQty = prev[key] || 0;
             const newQty = action === 'increment' ? currentQty + 1 : Math.max(0, currentQty - 1);
-            
+
             const newQuantities = {
                 ...prev,
                 [key]: newQty
@@ -140,14 +136,14 @@ const Menu = ({ addToCart, cart }) => {
 
     const updateKotaQuantity = (itemId, action) => {
         const baseAmount = currentItem.totalAmount;
-        
+
         setQuantities(prev => {
             const key = `${itemId}-total`;
             const currentQty = prev[key] || 0;
             const newQty = action === 'increment' ? currentQty + 1 : Math.max(0, currentQty - 1);
-            
+
             const newTotal = baseAmount * newQty;
-            
+
             setItemTotals(prevTotals => ({
                 ...prevTotals,
                 [itemId]: newTotal
@@ -162,7 +158,7 @@ const Menu = ({ addToCart, cart }) => {
 
     const handleAddToCart = () => {
         // Check if any quantity is selected
-        const hasQuantity = currentItem.category === "Kota" 
+        const hasQuantity = currentItem.category === "Kota"
             ? (quantities[`${currentItem.id}-total`] || 0) > 0
             : currentItem.ingredients.some(ing => (quantities[`${currentItem.id}-${ing.ingredient}`] || 0) > 0);
 
@@ -172,7 +168,7 @@ const Menu = ({ addToCart, cart }) => {
 
         // Check if item with same name already exists in cart
         const existingItem = cart.find(item => item.itemName === currentItem.itemName);
-        
+
         if (existingItem) {
             alert(`${currentItem.itemName} is already in your cart!`);
             return;
@@ -181,7 +177,7 @@ const Menu = ({ addToCart, cart }) => {
         if (currentItem.category === "Kota") {
             const kotaQuantity = quantities[`${currentItem.id}-total`] || 0;
             const kotaTotal = currentItem.totalAmount * kotaQuantity;
-            
+
             const kotaToAdd = {
                 id: currentItem.id,
                 category: currentItem.category,
@@ -196,7 +192,7 @@ const Menu = ({ addToCart, cart }) => {
 
             addToCart(kotaToAdd);
         } else {
-            const selectedIngredients = currentItem.ingredients.filter(ing => 
+            const selectedIngredients = currentItem.ingredients.filter(ing =>
                 (quantities[`${currentItem.id}-${ing.ingredient}`] || 0) > 0
             );
 
@@ -218,7 +214,7 @@ const Menu = ({ addToCart, cart }) => {
 
             addToCart(itemToAdd);
         }
-        
+
         // Reset states after adding to cart
         setQuantities({});
         setItemTotals({});
@@ -228,7 +224,7 @@ const Menu = ({ addToCart, cart }) => {
         if (currentItem) {
             // Reset quantities when item changes
             setQuantities({});
-            
+
             if (currentItem.category !== "Kota") {
                 // Initialize quantities to 0 for each ingredient
                 const initialQuantities = {};
@@ -271,6 +267,9 @@ const Menu = ({ addToCart, cart }) => {
                         <Typography variant="h3" className="menu-title">
                             Our Menu
                         </Typography>
+                        <Typography variant="subtitle1" mb={4} color="#ff9900" className="menu-subtitle">
+                            Explore our delicious selection of South African street food, beverages, and sweet treats.
+                        </Typography>
 
                         <Box className="category-navigation">
                             {allCategoryList.map((category) => (
@@ -278,12 +277,12 @@ const Menu = ({ addToCart, cart }) => {
                                     key={category}
                                     label={category}
                                     onClick={() => handleCategoryChange(category)}
-                                    className={`category-chip ${activeCategory === category ? 'active' : ''}`}
+                                    className={`category-chip ${activeCategory === category ? 'active-main' : ''}`}
                                 />
                             ))}
                         </Box>
 
-                        <Box className="menu-carousel">
+                        <Box className="menu-carousel" border="5px solid #E74C3C">
                             <Fade in={true}>
                                 <Card className="menu-card">
                                     {imageLoading && (
@@ -545,21 +544,21 @@ const Menu = ({ addToCart, cart }) => {
                                         </Box>
                                     </CardContent>
                                     <CardActions className="card-actions">
-                                        <Box sx={{ 
+                                        <Box sx={{
                                             width: '100%',
                                             display: 'flex',
                                             justifyContent: 'space-between',
                                             alignItems: 'center',
                                             padding: '0 16px'
                                         }}>
-                                            <Typography 
-                                                variant="h6" 
-                                                sx={{ 
+                                            <Typography
+                                                variant="h6"
+                                                sx={{
                                                     fontWeight: 600,
                                                     color: '#FF6B6B'
                                                 }}
                                             >
-                                                Total: R{itemTotals[currentItem.id] || currentItem.totalAmount}
+                                                Total: R{itemTotals[currentItem.id] || 0}.00
                                             </Typography>
                                             <Button
                                                 variant="contained"

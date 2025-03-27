@@ -60,7 +60,17 @@ const Administrator = ({
     userCode,
     setUserCode,
     message,
-    setMessage
+    setMessage,
+    allCategoryList,
+    groupedItems,
+    setGroupedItems,
+    allMenuItems,
+    setAllMenuItems,
+    setAllCategoryList,
+    setActiveCategory,
+    activeCategory,
+    addToCart,
+    cart
 }) => {
 
     const [selectedTab, setSelectedTab] = useState("");
@@ -78,13 +88,12 @@ const Administrator = ({
     const [loading, setLoading] = useState(false);
     const [selectedUserPageTab, setSelectedUserPageTab] = useState("Users");
     const [isDropdownOpen, setIsDropdownOpen] = useState(false); // Initialize dropdown state
-    const [allMenuItems, setAllMenuItems] = useState([]);
     const [openEditDeleteModal, setOpenEditDeleteModal] = useState(false);
     const [selectedItem, setSelectedItem] = useState(null);
     const [categoryList, setCategoriesList] = useState([]);
     const [filteredCategory, setFilteredCategory] = useState("All")
 
-    const fetchAllMenuItems = async () => {
+    const fetchAllAdminMenuItems = async () => {
         const userData = await getAllMenuItems();
 
         if (userData) {
@@ -93,6 +102,28 @@ const Administrator = ({
             setCategoriesList(list);
         }
 
+    };
+
+    const fetchAllMenuItems = async () => {
+        const dataList = await getAllMenuItems();
+        setAllMenuItems(dataList);
+
+        // Create grouped items by category
+        const grouped = dataList.reduce((acc, item) => {
+            if (!acc[item.category]) {
+                acc[item.category] = [];
+            }
+            acc[item.category].push(item);
+            return acc;
+        }, {});
+        setGroupedItems(grouped);
+
+        const uniqueCategories = [...new Set(dataList.map(item => item.category))];
+        setAllCategoryList(uniqueCategories);
+
+        if (uniqueCategories.length > 0) {
+            setActiveCategory(uniqueCategories[0]);
+        }
     };
 
     const filterByCategory = async (item) => {
@@ -106,7 +137,7 @@ const Administrator = ({
 
         // Fetch all menu items once and filter them based on the category
         setLoading(true);
-        await fetchAllMenuItems();
+        await fetchAllAdminMenuItems();
 
         // Filter items based on category selection
         let dataItems;
@@ -229,7 +260,7 @@ const Administrator = ({
         navigate('/');
     };
     const handleGenerateCustomerAccessCode = () => {
-        const generateCode = uuidv4()
+        const generateCode = username.toLowerCase() + "_" + uuidv4().slice(0, 6)
         setUserCode(generateCode)
     }
 
@@ -247,6 +278,9 @@ const Administrator = ({
         }
     };
 
+    const getMenuItems = async () => {
+        await fetchAllMenuItems()
+    }
 
     useEffect(() => {
         const fetchUsers = async () => {
@@ -263,12 +297,16 @@ const Administrator = ({
                 setLoading(false);
             }
         };
-
-        if (allMenuItems.length === 0) {
-            fetchAllMenuItems()
+    
+        if(users.length === 0) {
+            fetchUsers();
         }
-        fetchUsers();
-    }, [selectedUsersTab, allMenuItems]);
+    
+        if (allMenuItems.length === 0) {
+            getMenuItems();
+        }
+    }, [selectedUsersTab, allMenuItems, users, getMenuItems]); 
+    
 
 
     if (userDetails && userDetails.role !== "Customer") {
@@ -1140,7 +1178,20 @@ const Administrator = ({
     } else if (userDetails && userDetails.role === "Customer") {
         return (
             <div className="administrator-container">
-                <AdminstratorClient userDetails={userDetails} handleSignOutClick={handleSignOutClick} />
+                <AdminstratorClient
+                    userDetails={userDetails}
+                    handleSignOutClick={handleSignOutClick}
+                    fetchAllMenuItems={fetchAllMenuItems}
+                    allCategoryList={allCategoryList}
+                    groupedItems={groupedItems}
+                    setGroupedItems={setGroupedItems}
+                    allMenuItems={allMenuItems}
+                    setAllMenuItems={setAllMenuItems}
+                    setActiveCategory={setActiveCategory}
+                    activeCategory={activeCategory}
+                    addToCart={addToCart}
+                    cart={cart}
+                />
             </div>
         )
     }

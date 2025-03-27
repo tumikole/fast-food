@@ -1,7 +1,7 @@
 import React from 'react';
 import { Typography, Button, Container, Box } from '@mui/material';
 
-const HeroComponent = () => {
+const HeroComponent = ({setSelectedTab}) => {
   return (
     <Box
       sx={{
@@ -17,7 +17,7 @@ const HeroComponent = () => {
     >
       <Container>
         <Typography variant="h2">Olieven’s Best Kotas</Typography>
-        <Button variant="contained" color="primary" sx={{ marginTop: 3 }}>
+        <Button variant="contained" color="primary" onClick={() => setSelectedTab("Menu")} sx={{ marginTop: 3 }}>
           Order Now
         </Button>
       </Container>

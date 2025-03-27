@@ -1,9 +1,11 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
-    Grid,
+    Grid, Box, Avatar, Typography
 } from "@mui/material";
 import Navbar from './Navbar';
 import HeroComponent from './HeroComponent';
+import MenuComponent from './MenuComponent';
+
 
 // Import necessary icons from MUI
 import HomeIcon from '@mui/icons-material/Home';
@@ -13,7 +15,21 @@ import NotificationsIcon from '@mui/icons-material/Notifications';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import SettingsIcon from '@mui/icons-material/Settings';
 
-const AdminstratorClient = ({ userDetails, handleSignOutClick }) => {
+const AdminstratorClient = ({
+    userDetails,
+    handleSignOutClick,
+    allCategoryList,
+    groupedItems,
+    setGroupedItems,
+    allMenuItems,
+    setAllMenuItems,
+    setAllCategoryList,
+    setActiveCategory,
+    activeCategory,
+    addToCart,
+    cart
+}) => {
+    const [selectedTab, setSelectedTab] = useState("Home")
 
     const clientAdministratorTabs = [
         { tab: "Home", icon: <HomeIcon /> },
@@ -26,34 +42,54 @@ const AdminstratorClient = ({ userDetails, handleSignOutClick }) => {
 
     return (
         <Grid>
-            {/* <Grid item xs={12}>
-                <Box className="user-profile" display="flex" flexDirection="column" alignItems="center">
-                    <Avatar sx={{ width: 60, height: 60, marginBottom: 2 }} />
-                    <Typography variant="h6" color="#1976d2" className="welcome-text" align="center">
-                        Hi {userDetails.username}, <br />Welcome to Kota and Grills client portal!
-                    </Typography>
-                </Box>
-            </Grid>
 
-            <Grid item xs={12}>
-                <Box className="user-profile" mt={2} textAlign="center">
-                    <Typography variant="h6" color="#1976d2" className="welcome-text">
-                        Role: {userDetails && userDetails.role}
-                    </Typography>
-                </Box>
-            </Grid> */}
+            {
+                selectedTab === "Home" &&
+                <Grid item xs={12}>
+                    <Grid item xs={12}>
+                        <Box className="user-profile" display="flex">
+                            <Avatar sx={{ width: 60, height: 60, marginBottom: 2 }} />
+                            <Typography variant="h6" color="#1976d2" className="welcome-text" align="left">
+                                Hi {userDetails.username}, <br />Welcome to Kota and Grills customer portal!
+                            </Typography>
+                        </Box>
+                    </Grid>
 
-            <Grid item xs={12}>
-                <HeroComponent />
-            </Grid>
+                    <Grid item xs={12}>
+                        <Box className="user-profile" mt={2} textAlign="left">
+                            <Typography variant="h6" color="#1976d2" textAlign="left" className="welcome-text">
+                                Role: {userDetails && userDetails.role}
+                            </Typography>
+                        </Box>
+                        <Box className="user-profile" mt={2} textAlign="left">
+                            <Typography variant="h6" color="#1976d2" textAlign="left" className="welcome-text">
+                                Auth: {userDetails && userDetails.auth}
+                            </Typography>
+                        </Box>
+                    </Grid>
+                    <HeroComponent setSelectedTab={setSelectedTab} />
+                </Grid>
+            }
 
-            {/* <Grid item xs={12}>
-                <MenuComponent />
-            </Grid> */}
+            {selectedTab === "Menu" &&
+                <Grid item xs={12}>
+                    <MenuComponent
+                        allCategoryList={allCategoryList}
+                        groupedItems={groupedItems}
+                        setActiveCategory={setActiveCategory}
+                        activeCategory={activeCategory}
+                        addToCart={addToCart}
+                        cart={cart}
+                        allMenuItems={allMenuItems}
+                        setAllCategoryList={setAllCategoryList}
+                        setGroupedItems={setGroupedItems}
+                        setAllMenuItems={setAllMenuItems}
+                    />
+                </Grid>
+            }
+            <Navbar clientAdministratorTabs={clientAdministratorTabs} handleSignOutClick={handleSignOutClick} setSelectedTab={setSelectedTab}
 
-
-            {/* Render tabs with icons */}
-            <Navbar clientAdministratorTabs={clientAdministratorTabs} handleSignOutClick={handleSignOutClick}/>
+            />
         </Grid>
     );
 };

@@ -65,6 +65,7 @@ export async function clientLogin(userCode) {
       email: data.email,
       authorized: data.active,
       role: data.role,
+      auth: data.client_auth_code
     }));
 
     localStorage.setItem('auth-token', JSON.stringify({

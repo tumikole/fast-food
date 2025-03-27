@@ -36,6 +36,11 @@ const Main = () => {
     const [loading, setLoading] = useState(false);
     const [orderNumber, setOrderNumber] = useState('');
     const [message, setMessage] = useState({});
+    const [allMenuItems, setAllMenuItems] = useState([]);
+    const [allCategoryList, setAllCategoryList] = useState([]);
+    const [groupedItems, setGroupedItems] = useState({});
+    const [activeCategory, setActiveCategory] = useState("All");
+
 
 
     const loginTabs = ["Login", "Forgot password", "Customer Login"];
@@ -200,8 +205,23 @@ const Main = () => {
                 <Route path="/" element={<LandingPage />} />
                 <Route path="/about" element={<About />} />
                 <Route path="/how_it_works" element={<HowItWorks />} />
-                <Route path="/menu" element={<Menu addToCart={addToCart} cart={cart} setCart={setCart} />} />
-                <Route path="/cart" element={<Cart cart={cart} removeItem={removeItem} cartLength={cart.length}/>} />
+                <Route path="/menu" element={
+                    <Menu
+                        addToCart={addToCart}
+                        cart={cart}
+                        setCart={setCart}
+                        allCategoryList={allCategoryList}
+                        groupedItems={groupedItems}
+                        allMenuItems={allMenuItems}
+                        activeCategory={activeCategory}
+                        setActiveCategory={setActiveCategory}
+                        setAllCategoryList={setAllCategoryList}
+                        setGroupedItems={setGroupedItems}
+                        setAllMenuItems={setAllMenuItems}
+                    />
+                }
+                />
+                <Route path="/cart" element={<Cart cart={cart} removeItem={removeItem} cartLength={cart.length} />} />
                 <Route path="/review" element={<Reviews />} />
                 <Route path="/faq" element={<FAQ />} />
                 <Route path="/place_an_order" element={
@@ -262,6 +282,16 @@ const Main = () => {
                             setUserCode={setUserCode}
                             message={message}
                             setMessage={setMessage}
+                            allCategoryList={allCategoryList}
+                            groupedItems={groupedItems}
+                            setGroupedItems={setGroupedItems}
+                            allMenuItems={allMenuItems}
+                            setAllMenuItems={setAllMenuItems}
+                            setAllCategoryList={setAllCategoryList}
+                            setActiveCategory={setActiveCategory}
+                            activeCategory={activeCategory}
+                            addToCart={addToCart}
+                            cart={cart}
                         />
                     }
                     />
