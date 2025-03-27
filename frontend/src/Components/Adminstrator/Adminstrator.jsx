@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { useNavigate } from 'react-router-dom';
 import {
     List,
@@ -93,20 +93,13 @@ const Administrator = ({
     const [categoryList, setCategoriesList] = useState([]);
     const [filteredCategory, setFilteredCategory] = useState("All")
 
-    const fetchAllAdminMenuItems = async () => {
-        const userData = await getAllMenuItems();
-
-        if (userData) {
-            setAllMenuItems(userData);
-            const list = [...new Set(userData.map(item => item.category))];
+    const fetchAllMenuItems = useCallback(async () => {
+        const dataList = await getAllMenuItems();
+        if (dataList) {
+            setAllMenuItems(dataList);
+            const list = [...new Set(dataList.map(item => item.category))];
             setCategoriesList(list);
         }
-
-    };
-
-    const fetchAllMenuItems = async () => {
-        const dataList = await getAllMenuItems();
-        setAllMenuItems(dataList);
 
         // Create grouped items by category
         const grouped = dataList.reduce((acc, item) => {
@@ -124,7 +117,7 @@ const Administrator = ({
         if (uniqueCategories.length > 0) {
             setActiveCategory(uniqueCategories[0]);
         }
-    };
+    }, [setActiveCategory, setAllCategoryList, setAllMenuItems, setGroupedItems]);
 
     const filterByCategory = async (item) => {
 
@@ -137,7 +130,7 @@ const Administrator = ({
 
         // Fetch all menu items once and filter them based on the category
         setLoading(true);
-        await fetchAllAdminMenuItems();
+        await fetchAllMenuItems();
 
         // Filter items based on category selection
         let dataItems;
@@ -278,9 +271,9 @@ const Administrator = ({
         }
     };
 
-    const getMenuItems = async () => {
+    const getMenuItems = useCallback(async () => {
         await fetchAllMenuItems()
-    }
+    }, [fetchAllMenuItems])
 
     useEffect(() => {
         const fetchUsers = async () => {
@@ -297,16 +290,13 @@ const Administrator = ({
                 setLoading(false);
             }
         };
-    
-        if(users.length === 0) {
-            fetchUsers();
-        }
-    
+        fetchUsers();
+
         if (allMenuItems.length === 0) {
             getMenuItems();
         }
-    }, [selectedUsersTab, allMenuItems, users, getMenuItems]); 
-    
+    }, [selectedUsersTab, allMenuItems.length, getMenuItems]);
+
 
 
     if (userDetails && userDetails.role !== "Customer") {

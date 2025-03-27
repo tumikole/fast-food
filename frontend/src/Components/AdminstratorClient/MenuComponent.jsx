@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { getAllMenuItems } from "../../Supabase/addMenuItems/addMenuItems";
 import {
   Container,
@@ -27,17 +27,17 @@ const MenuComponent = ({ addToCart, cart, allCategoryList, groupedItems, allMenu
   const [quantities, setQuantities] = useState({});
   const [itemTotals, setItemTotals] = useState({});
 
-  const fetchAllMenuItems = async () => {
+  const fetchAllMenuItems = useCallback(async () => {
     const dataList = await getAllMenuItems();
     setAllMenuItems(dataList);
 
     // Create grouped items by category
     const grouped = dataList.reduce((acc, item) => {
-      if (!acc[item.category]) {
-        acc[item.category] = [];
-      }
-      acc[item.category].push(item);
-      return acc;
+        if (!acc[item.category]) {
+            acc[item.category] = [];
+        }
+        acc[item.category].push(item);
+        return acc;
     }, {});
     setGroupedItems(grouped);
 
@@ -45,18 +45,16 @@ const MenuComponent = ({ addToCart, cart, allCategoryList, groupedItems, allMenu
     setAllCategoryList(uniqueCategories);
 
     if (uniqueCategories.length > 0) {
-      setActiveCategory(uniqueCategories[0]);
+        setActiveCategory(uniqueCategories[0]);
     }
-  };
+}, [setActiveCategory, setAllCategoryList, setAllMenuItems, setGroupedItems]);
 
 
   useEffect(() => {
     if (!allMenuItems || allMenuItems.length === 0) {
       fetchAllMenuItems();
     }
-  }, [allMenuItems]);
-
-  console.log({ allMenuItems })
+  }, [allMenuItems, fetchAllMenuItems]);
 
   const handleNext = () => {
     if (groupedItems[activeCategory]) {

@@ -10,8 +10,17 @@ module.exports = {
         buffer: require.resolve('buffer/'),
         crypto: require.resolve('crypto-browserify')
       }
-    }
-
+    },
+    module: {
+      rules: [
+        {
+          test: /\.js$/,
+          enforce: "pre",
+          loader: "source-map-loader",
+          exclude: [/node_modules\/boxicons/], // Ignore boxicons source maps
+        },
+      ],
+    },
     // More config options...
   };
   
