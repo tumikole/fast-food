@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import "./Menu.scss";
 import Navbar from "../Navbar/Navbar";
 import Footer from "../Footer/Footer";
@@ -30,7 +30,7 @@ const Menu = ({ addToCart, cart, allCategoryList, groupedItems, allMenuItems, ac
     const [quantities, setQuantities] = useState({});
     const [itemTotals, setItemTotals] = useState({});
 
-    const fetchAllMenuItems = async () => {
+    const fetchAllMenuItems = useCallback(async () => {
         const dataList = await getAllMenuItems();
         setAllMenuItems(dataList);
 
@@ -50,14 +50,14 @@ const Menu = ({ addToCart, cart, allCategoryList, groupedItems, allMenuItems, ac
         if (uniqueCategories.length > 0) {
             setActiveCategory(uniqueCategories[0]);
         }
-    };
+    }, [setActiveCategory, setAllCategoryList, setAllMenuItems, setGroupedItems]);
 
 
     useEffect(() => {
         if (allMenuItems.length === 0) {
             fetchAllMenuItems();
         }
-    }, [allMenuItems]);
+    }, [allMenuItems, fetchAllMenuItems]);
 
     const handleNext = () => {
         if (groupedItems[activeCategory]) {
