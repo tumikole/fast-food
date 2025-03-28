@@ -3,7 +3,10 @@ name: Auto Merge Main to Staging
 on:
   push:
     branches:
-      - main  # Runs this workflow when pushing to main
+      - main  # Runs when changes are pushed to 'main'
+
+permissions:
+  contents: write  # Ensure GitHub Actions can push to the repo
 
 jobs:
   merge:
@@ -14,13 +17,19 @@ jobs:
         with:
           fetch-depth: 0  # Ensures full git history is available
 
-      - name: Setup Git
+      - name: Set up Git
         run: |
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
 
+      - name: Fetch latest changes
+        run: |
+          git fetch origin staging
+
       - name: Merge main into staging
         run: |
           git checkout staging
-          git merge origin/main --no-edit
+          git merge origin/main --no-edit || echo "No new changes to merge"
           git push origin staging
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
