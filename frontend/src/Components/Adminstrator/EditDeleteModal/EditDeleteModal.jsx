@@ -269,7 +269,7 @@ const EditDeleteModal = ({ open, onClose, item, fetchAllMenuItems, setMessage, s
                                     color: 'white',
                                 }}
                             >
-                                Add Ingredient
+                                Add
                             </Button>
                         </Typography>
 
