@@ -40,13 +40,13 @@ import Notifications from "../Notifications/Notifications";
 import SettingsIcon from "@mui/icons-material/Settings";  // Import the Settings icon
 import './Administrator.scss';
 import Settings from "../Settings/Settings";
-// import { getAllUsers } from "../../Supabase/Login/AllUsers";
 import OrdersList from '../OrdersList/OrdersList'
 import { fetchClientsUsers, fetchUsers } from "../../Supabase/Login/AllUsers";
 import AdminstratorClient from "../AdminstratorClient/AdminstratorClient";
 import { addMenuItems, getAllMenuItems } from "../../Supabase/addMenuItems/addMenuItems";
 import EditDeleteModal from "./EditDeleteModal/EditDeleteModal";
 import Spinner from "../Spinner/Spinner";
+import VisibilityIcon from '@mui/icons-material/Visibility';
 
 const Administrator = ({
     handleAddUserSubmit,
@@ -70,7 +70,8 @@ const Administrator = ({
     setActiveCategory,
     activeCategory,
     addToCart,
-    cart
+    cart,
+    setCart
 }) => {
 
     const [selectedTab, setSelectedTab] = useState("");
@@ -292,10 +293,10 @@ const Administrator = ({
         };
         fetchUsers();
 
-        if (allMenuItems.length === 0) {
+        if (!allMenuItems || allMenuItems.length === 0) {
             getMenuItems();
         }
-    }, [selectedUsersTab, allMenuItems.length, getMenuItems]);
+    }, [selectedUsersTab,allMenuItems, getMenuItems]);
 
 
 
@@ -1110,8 +1111,6 @@ const Administrator = ({
                                                                         position: 'absolute',
                                                                         top: '16px',
                                                                         right: '16px',
-                                                                        background: 'rgba(255, 255, 255, 0.9)',
-                                                                        borderRadius: '50%',
                                                                         padding: '8px',
                                                                         cursor: 'pointer',
                                                                         transition: 'all 0.2s ease',
@@ -1121,11 +1120,20 @@ const Administrator = ({
                                                                         }
                                                                     }}
                                                                 >
-                                                                    <box-icon
-                                                                        name='low-vision'
-                                                                        color='#969DF8'
+                                                                    <button style={{
+                                                                        background: '#FF6B6B',
+                                                                        borderRadius: '10px',
+                                                                        color: "white",
+                                                                        border: "1px solid white"
+                                                                    }}
                                                                         onClick={() => handleViewItem(item)}
-                                                                    />
+                                                                    >
+                                                                        <VisibilityIcon /> View
+                                                                    </button>
+                                                                    {/* <box-icon
+                                                                            name='low-vision'
+                                                                            color='#969DF8'
+                                                                        /> */}
                                                                 </Box>
                                                             </Card>
                                                         ))}
@@ -1181,6 +1189,7 @@ const Administrator = ({
                     activeCategory={activeCategory}
                     addToCart={addToCart}
                     cart={cart}
+                    setCart={setCart}
                 />
             </div>
         )

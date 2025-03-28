@@ -321,10 +321,15 @@ const Menu = ({ addToCart, cart, allCategoryList, groupedItems, allMenuItems, ac
                                         <NavigateNext />
                                     </IconButton>
                                     <CardContent className="menu-content">
-                                        <Box className="item-header">
-                                            <Typography variant="h5" className="item-name">
+                                        <Box className="item-header" display="grid" gridTemplateColumns="80% 20%">
+                                            <Typography variant="h5" color="#ff9900" className="item-name">
                                                 {currentItem.itemName}
                                             </Typography>
+                                            <Box className="pagination-indicator">
+                                                <Typography textAlign="right">
+                                                    {currentItemIndex + 1} / {groupedItems[activeCategory]?.length}
+                                                </Typography>
+                                            </Box>
                                         </Box>
 
                                         <Box sx={{
@@ -339,7 +344,7 @@ const Menu = ({ addToCart, cart, allCategoryList, groupedItems, allMenuItems, ac
                                                 sx={{
                                                     mb: 2,
                                                     fontWeight: 600,
-                                                    color: '#1a1a1a'
+                                                    color:"#ff9900"
                                                 }}
                                             >
                                                 Ingredients
@@ -373,7 +378,7 @@ const Menu = ({ addToCart, cart, allCategoryList, groupedItems, allMenuItems, ac
                                                             >
                                                                 <Typography sx={{
                                                                     fontWeight: 500,
-                                                                    color: '#1a1a1a'
+                                                                    color:"#ff9900"
                                                                 }}>
                                                                     {singleIngredient}
                                                                 </Typography>
@@ -580,11 +585,6 @@ const Menu = ({ addToCart, cart, allCategoryList, groupedItems, allMenuItems, ac
                             </Fade>
                         </Box>
 
-                        <Box className="pagination-indicator">
-                            <Typography>
-                                {currentItemIndex + 1} / {groupedItems[activeCategory]?.length}
-                            </Typography>
-                        </Box>
                     </Box>
                 )}
             </Container>

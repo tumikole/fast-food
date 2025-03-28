@@ -14,6 +14,8 @@ import MessageIcon from '@mui/icons-material/Message';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import SettingsIcon from '@mui/icons-material/Settings';
+import OrderComponent from './OrderComponent';
+import OrderConfirmationComponent from './OrderConfirmationComponent';
 
 const AdminstratorClient = ({
     userDetails,
@@ -27,16 +29,18 @@ const AdminstratorClient = ({
     setActiveCategory,
     activeCategory,
     addToCart,
-    cart
+    cart,
+    setCart
 }) => {
     const [selectedTab, setSelectedTab] = useState("Home")
+    const storedOrder = localStorage.getItem('userOrdering');
 
     const clientAdministratorTabs = [
         { tab: "Home", icon: <HomeIcon /> },
         { tab: "Menu", icon: <FastfoodIcon /> },
         { tab: "Messages", icon: <MessageIcon /> },
         { tab: "Notifications", icon: <NotificationsIcon /> },
-        { tab: "Order Now", icon: <ShoppingCartIcon /> },
+        { tab: "Orders", icon: <ShoppingCartIcon /> },
         { tab: "Settings", icon: <SettingsIcon /> },
     ];
 
@@ -44,7 +48,7 @@ const AdminstratorClient = ({
         <Grid>
 
             {
-                selectedTab === "Home" &&
+                selectedTab === "Home" && storedOrder === null &&
                 <Grid item xs={12}>
                     <Grid item xs={12}>
                         <Box className="user-profile" display="flex">
@@ -71,7 +75,7 @@ const AdminstratorClient = ({
                 </Grid>
             }
 
-            {selectedTab === "Menu" &&
+            {selectedTab === "Menu" && storedOrder === null &&
                 <Grid item xs={12}>
                     <MenuComponent
                         allCategoryList={allCategoryList}
@@ -87,7 +91,26 @@ const AdminstratorClient = ({
                     />
                 </Grid>
             }
-            <Navbar clientAdministratorTabs={clientAdministratorTabs} handleSignOutClick={handleSignOutClick} setSelectedTab={setSelectedTab}
+
+            {
+                selectedTab === "Orders" && storedOrder === null &&
+                <Grid item xs={12}>
+                    <OrderComponent
+                        cart={cart}
+                        setCart={setCart}
+                    />
+                </Grid>
+            }
+
+{
+                storedOrder !== null  && selectedTab &&
+                <Grid item xs={12}>
+                    <OrderConfirmationComponent
+                    setCart={setCart}
+                    />
+                </Grid>
+            }
+            <Navbar clientAdministratorTabs={clientAdministratorTabs} handleSignOutClick={handleSignOutClick} setSelectedTab={setSelectedTab} cartLength={cart.length}
 
             />
         </Grid>

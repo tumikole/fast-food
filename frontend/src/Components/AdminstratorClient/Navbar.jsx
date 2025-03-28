@@ -1,17 +1,17 @@
 import React from 'react';
-import { Grid, Box } from '@mui/material';
+import { Grid, Box, Badge } from '@mui/material';
 
-const Navbar = ({ clientAdministratorTabs, handleSignOutClick, setSelectedTab }) => {
+const Navbar = ({ clientAdministratorTabs, handleSignOutClick, setSelectedTab, cartLength }) => {
   return (
     <Grid
       item
       xs={12}
       style={{
         position: 'absolute',
-        bottom: '1rem',
+        bottom: '0',
         left: '0',
         right: '0',
-        background: 'rgba(255, 255, 255, 0.1)', // semi-transparent white background
+        background: 'black', // semi-transparent white background
         backdropFilter: 'blur(10px)', // applies the frosted glass effect
         borderRadius: '10px', // rounded corners for a smoother glass effect
         padding: '1rem', // some padding inside the grid
@@ -31,7 +31,16 @@ const Navbar = ({ clientAdministratorTabs, handleSignOutClick, setSelectedTab })
             alignItems="center"
             onClick={() => setSelectedTab(tab.tab)}
           >
-            <Box color="white">{tab.icon}</Box>
+            {tab.tab === "Orders" ?
+              cartLength === 0 ?
+                <Box color="white">{tab.icon}</Box>
+                :
+                <Badge badgeContent={cartLength === 0 ? "" : cartLength} color="primary">
+                  <Box color="white">{tab.icon}</Box>
+                </Badge>
+              :
+              <Box color="white">{tab.icon}</Box>
+            }
           </Box>
         ))}
         <Box onClick={handleSignOutClick}>

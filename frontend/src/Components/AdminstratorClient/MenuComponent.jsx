@@ -19,6 +19,7 @@ import {
   NavigateBefore,
   Add as AddIcon,
   Remove as RemoveIcon,
+
 } from '@mui/icons-material';
 
 const MenuComponent = ({ addToCart, cart, allCategoryList, groupedItems, allMenuItems, activeCategory, setActiveCategory, setAllCategoryList, setGroupedItems, setAllMenuItems }) => {
@@ -33,11 +34,11 @@ const MenuComponent = ({ addToCart, cart, allCategoryList, groupedItems, allMenu
 
     // Create grouped items by category
     const grouped = dataList.reduce((acc, item) => {
-        if (!acc[item.category]) {
-            acc[item.category] = [];
-        }
-        acc[item.category].push(item);
-        return acc;
+      if (!acc[item.category]) {
+        acc[item.category] = [];
+      }
+      acc[item.category].push(item);
+      return acc;
     }, {});
     setGroupedItems(grouped);
 
@@ -45,9 +46,9 @@ const MenuComponent = ({ addToCart, cart, allCategoryList, groupedItems, allMenu
     setAllCategoryList(uniqueCategories);
 
     if (uniqueCategories.length > 0) {
-        setActiveCategory(uniqueCategories[0]);
+      setActiveCategory(uniqueCategories[0]);
     }
-}, [setActiveCategory, setAllCategoryList, setAllMenuItems, setGroupedItems]);
+  }, [setActiveCategory, setAllCategoryList, setAllMenuItems, setGroupedItems]);
 
 
   useEffect(() => {
@@ -279,7 +280,7 @@ const MenuComponent = ({ addToCart, cart, allCategoryList, groupedItems, allMenu
               ))}
             </Box>
 
-            <Box className="menu-carousel" border="5px solid #1976d2">
+            <Box className="menu-carousel-customer" border="5px solid #1976d2">
               <Fade in={true}>
                 <Card className="menu-card">
                   {imageLoading && (
@@ -318,16 +319,20 @@ const MenuComponent = ({ addToCart, cart, allCategoryList, groupedItems, allMenu
                     <NavigateNext />
                   </IconButton>
                   <CardContent className="menu-content">
-                    <Box className="item-header">
-                      <Typography variant="h5" className="item-name">
+                    <Box className="item-header" display="grid" gridTemplateColumns="80% 20%" >
+                      <Typography variant="h5" color="#1976d2" className="item-name">
                         {currentItem.itemName}
                       </Typography>
+                      <Box className="pagination-indicator">
+                        <Typography color="#1976d2" textAlign="right">
+                          {currentItemIndex + 1} / {groupedItems[activeCategory]?.length}
+                        </Typography>
+                      </Box>
                     </Box>
 
                     <Box sx={{
                       background: 'rgba(245, 247, 250, 0.95)',
                       borderRadius: '12px',
-                      padding: '16px',
                       mb: 2,
                       mt: 2
                     }}>
@@ -336,7 +341,7 @@ const MenuComponent = ({ addToCart, cart, allCategoryList, groupedItems, allMenu
                         sx={{
                           mb: 2,
                           fontWeight: 600,
-                          color: '#1976d2'
+                          color:"#1976d2"
                         }}
                       >
                         Ingredients
@@ -579,12 +584,6 @@ const MenuComponent = ({ addToCart, cart, allCategoryList, groupedItems, allMenu
                   </CardActions>
                 </Card>
               </Fade>
-            </Box>
-
-            <Box className="pagination-indicator">
-              <Typography color="#1976d2">
-                {currentItemIndex + 1} / {groupedItems[activeCategory]?.length}
-              </Typography>
             </Box>
           </Box>
         )}

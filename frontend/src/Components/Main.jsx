@@ -292,6 +292,7 @@ const Main = () => {
                             activeCategory={activeCategory}
                             addToCart={addToCart}
                             cart={cart}
+                            setCart={setCart}
                         />
                     }
                     />
